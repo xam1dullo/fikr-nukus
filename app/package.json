@@ -1,0 +1,19 @@
+{
+  "name": "fikr",
+  "private": true,
+  "description": "Patient feedback per staff QR — Nukus endocrinology center",
+  "main": "app.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --env-file=.env --watch app.js",
+    "hash": "node app.js hash",
+    "test": "node --test",
+    "cf:deploy": "npx wrangler deploy"
+  },
+  "dependencies": {
+    "mysql2": "^3.11.0"
+  }
+}

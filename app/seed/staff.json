@@ -1,0 +1,575 @@
+[
+ {
+  "name": "Bali‘mbetova Rayxan Toli‘baevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Ismaylova Gulmira Uzakbayevna",
+  "position": "Шифокор (врач)-мутахассис (эндокринолог)",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Sadirov Azamat Sunnetullayevich",
+  "position": "Рентгенолаборант",
+  "dept": "Консультативная поликлиника",
+  "template": "imaging",
+  "active": 1
+ },
+ {
+  "name": "Prniyazov Jenisbay",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "Диабетическая нефропатия",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Yusupov Sherbek Allambergenovich",
+  "position": "Шифокор-жарроҳ (врач-хирург) (барча хирургик мутахассисликлар)",
+  "dept": "Отделение тироидный хирургии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Kudaybergenova Gulistan Karimbayevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "Отделение детской эндокринологии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Bayniyazova Minara Abatniyazovna",
+  "position": "Массажчи",
+  "dept": "Физиотерапия",
+  "template": "doctor",
+  "active": 0
+ },
+ {
+  "name": "Turebekova Zibagul Mirzaliyevna",
+  "position": "Бўлим мудири",
+  "dept": "Отделение детской эндокринологии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Kartbaeva Bibijan Paraxatovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар); Шифокор (врач)-эндокринолог",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Saparniyazova Kalligul Xamdullayevna",
+  "position": "Шифокор (врач)-мутахассис (Невропатолог)",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Alevetdinova Nursulu Yakubovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар) эндокринолог",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Djuginisova Gulnara Saparbayevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "Отделение Диабетология",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Yerejepova Malika Polatovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Nurxanov Yerbol Baymuratovich",
+  "position": "Реаниматолог",
+  "dept": "Отделение реанимации и интенсивной терапии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Xalmuratova Aynura Xoshmuratovna",
+  "position": "Катталар эндокринологи",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Qallibekov Jumabek Altinbek Uli",
+  "position": "Реаниматолог",
+  "dept": "Отделение реанимации и интенсивной терапии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Yeshbayev Ilyas Baharamovich",
+  "position": "Массажчи",
+  "dept": "Физиотерапия",
+  "template": "doctor",
+  "active": 0
+ },
+ {
+  "name": "Sagatdinov Timur Gabitovich",
+  "position": "Массажчи",
+  "dept": "Физиотерапия",
+  "template": "doctor",
+  "active": 0
+ },
+ {
+  "name": "Kaypbekova Gulistan Konisbayevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Mambetnazarova Sayatxan Najimatdinovna",
+  "position": "Катталар офтальмологи",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Jiyemuratova Gulshad Muratbayevna",
+  "position": "Шифокор (врач)-эндокринолог",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Jumamuratova Nargiza Tleumuratovna",
+  "position": "Шифокор (врач)-нефролог)",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Bekniyazova Shiyringul Kadirbayevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Aynazarova Zinegul Aynazarovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар); Шифокор (врач)-мутахассис (эндокринолог)",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Raxmetova Tamara Rinatovna",
+  "position": "Бўлим мудири",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Abdikadirova Tursinay Shamshetovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Paluaniyazova Zamira Aytjanovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Seitnazarova Sarbinaz Maratovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Piyashova Gulayi‘m Xojamuratovna",
+  "position": "Массажчи",
+  "dept": "Физиотерапия",
+  "template": "doctor",
+  "active": 0
+ },
+ {
+  "name": "Djumabaeva Aysulíu Asanbaevna",
+  "position": "Шифокор (врач)-мутахассис (окулист)",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Pirniyazov Bekpulat Jenisbaevich",
+  "position": "Бўлим мудири",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Yesemuratova Zuxra Yesemuratovna",
+  "position": "Шифокор (врач)-эндокринолог",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Kazakova Guljamal G‘aibullayevna",
+  "position": "Тиббий рўйхатдан ўтказувчи",
+  "dept": "",
+  "template": "doctor",
+  "active": 0
+ },
+ {
+  "name": "Turdimuratov Amir Timurovich",
+  "position": "Шифокор (врач)-мутахассис (цитолог)( врач лаборант)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Amaniyazova Nazlimxan Kuatbayevna",
+  "position": "Тиббий рўйхатдан ўтказувчи",
+  "dept": "",
+  "template": "doctor",
+  "active": 0
+ },
+ {
+  "name": "Allanazarova Gulsanem Urazatdinovna",
+  "position": "Катталар эндокринологи",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Azirbayeva Dilfuza Muratovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Ramanova Lalagul Joldasbayevna",
+  "position": "Бош шифокор (врач) ўринбосари; Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Davletov Azamat Erkinbayevich",
+  "position": "Шифокор-жарроҳ (врач-хирург) (барча хирургик мутахассисликлар); Бўлим мудири (бошлиғи)",
+  "dept": "Отделение тироидный хирургии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Serikbayev Paraxat Xojagaliyevich",
+  "position": "Реаниматолог",
+  "dept": "Отделение реанимации и интенсивной терапии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Berdimambetova Gulzar Ibadullayevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Bekmurzayeva Elmira Bekpanovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Utarova Zulfiya Uzakbayevna",
+  "position": "Умумий амалиёт шифокори (врачи)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Xojekeeva Raisa Esetovna",
+  "position": "Катталар кардиологи",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Kurbanov Xamid Salayevich",
+  "position": "Шифокор-жарроҳ (врач-хирург) (барча хирургик мутахассисликлар); Шифокор-жарроҳ (тубиг кабинети)",
+  "dept": "Отделение реконструктивной пластической хирургии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Jiyenbayeva Sagida Sharafatdinovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Abdinasi‘rov Miyribek Abdimalik Uli‘",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Tleumuratov Yesemurat Genjemuratovich",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Karimov Islambek Yusupovich",
+  "position": "Шифокор-жарроҳ ((тубиг кабинети)",
+  "dept": "Отделение реконструктивной пластической хирургии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Ubbiyev Jenisbay Nuratdinovich",
+  "position": "Бош врач",
+  "dept": "",
+  "template": "doctor",
+  "active": 0
+ },
+ {
+  "name": "Qasimov Qairat Turamanovich",
+  "position": "Реаниматолог",
+  "dept": "Отделение реанимации и интенсивной терапии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Gaipova Gulbanu Ganiyevna",
+  "position": "Бўлим мудири (бошлиғи)",
+  "dept": "Отделение Диабетология",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Bekimbetova Ulbosin Yedilxanovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Reymnazarova Gulzar Kengesbay Qizi",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Mambetkarimova Xurliman Polatbaevna",
+  "position": "Шифокор (Эндокринолог шифокор услубчи)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Boksebayeva Aynura Nurgaliyevna",
+  "position": "Врач кардиолог",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Allamuratova Rano Polatovna",
+  "position": "Бўлим мудири; Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Kurbaniyazova Munira Omirbayevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Dosimbetova Gulbaxar Kenjebayevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Mambetkarimov Ubbiniyaz Mels Uli",
+  "position": "Реаниматолог",
+  "dept": "Отделение реанимации и интенсивной терапии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Paluashova Muxabbat Tursinovna",
+  "position": "Катталар эндокринологи; Бўлим мудири (бошлиғи)",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Berdimuratova Ra’no Ansatbaevna",
+  "position": "Бўлим мудири",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Echanova Gulbaxar Matjanovna",
+  "position": "Катталар эндокринологи",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 0
+ },
+ {
+  "name": "Yeshanova Gulbaxar Matjanovna",
+  "position": "Катталар эндокринологи",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Jaqsimuratov Ilham Minbay Uli",
+  "position": "Массажчи",
+  "dept": "Физиотерапия",
+  "template": "doctor",
+  "active": 0
+ },
+ {
+  "name": "Daniyarova Rayxan Joldasbayevna",
+  "position": "Шифокор (врач)-эндокринолог",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Pirniyazova Alfiya Nurniyazovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Allanova Roza Uzakbayevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "Отделение Диабетология",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Akimniyazova Aygul Aytbaevna",
+  "position": "Катталар эндокринологи; Болалар эндокринологи",
+  "dept": "Консультативная поликлиника",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Begdullayev Nokisbay Perdebayevich",
+  "position": "Бўлим мудири; Шифокор-жарроҳ (тубиг кабинети)",
+  "dept": "Отделение реконструктивной пластической хирургии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Primbetov Azamat Maxsetbayevich",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Yerniyazova Dilfuza Kadirniyazovna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Berdimuratov Dauletyar Baxtiyarovich",
+  "position": "Бўлим мудири; Реаниматолог",
+  "dept": "Отделение реанимации и интенсивной терапии",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Asemetdinova Baxitli Miltikbayevna",
+  "position": "Шифокор (врач)-мутахассис (жарроҳдан (врач-хирургдан) ташқари барча мутахассисликлар)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Yesemuratova Baxitgul Doshmuratovna",
+  "position": "Шифокор (врач)-мутахассис (диетолог)",
+  "dept": "",
+  "template": "doctor",
+  "active": 1
+ },
+ {
+  "name": "Registratura",
+  "position": "",
+  "dept": "",
+  "template": "registry",
+  "active": 1,
+  "kind": "point"
+ },
+ {
+  "name": "Kassa",
+  "position": "",
+  "dept": "",
+  "template": "cashier",
+  "active": 1,
+  "kind": "point"
+ },
+ {
+  "name": "Ambulatoriya poliklinikasi",
+  "position": "",
+  "dept": "",
+  "template": "clinic",
+  "active": 1,
+  "kind": "point"
+ },
+ {
+  "name": "Qon olish xonasi",
+  "position": "",
+  "dept": "",
+  "template": "nurse",
+  "active": 1,
+  "kind": "point"
+ },
+ {
+  "name": "UZI / MRT / Rentgen",
+  "position": "",
+  "dept": "",
+  "template": "imaging",
+  "active": 1,
+  "kind": "point"
+ },
+ {
+  "name": "Podiatr kabineti",
+  "position": "",
+  "dept": "",
+  "template": "podiatrist",
+  "active": 1,
+  "kind": "point"
+ }
+]

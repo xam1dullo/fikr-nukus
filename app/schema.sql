@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS staff (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, name TEXT NOT NULL, position TEXT NOT NULL DEFAULT '',
+  dept TEXT NOT NULL DEFAULT '', template TEXT NOT NULL, kind TEXT NOT NULL DEFAULT 'person', active INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS response (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, staff_id INTEGER NOT NULL, template TEXT NOT NULL, lang TEXT NOT NULL, answers TEXT NOT NULL,
+  score REAL, nps INTEGER, flags INTEGER NOT NULL DEFAULT 0, comment TEXT, phone TEXT, device TEXT NOT NULL,
+  dev_model TEXT NOT NULL DEFAULT '', dev_os TEXT NOT NULL DEFAULT '', dev_screen TEXT NOT NULL DEFAULT '', dev_id TEXT NOT NULL DEFAULT '',
+  day TEXT NOT NULL, created_at TEXT NOT NULL, UNIQUE (staff_id, device, day));
+CREATE INDEX IF NOT EXISTS by_staff ON response (staff_id, created_at);
+CREATE INDEX IF NOT EXISTS by_time ON response (created_at);

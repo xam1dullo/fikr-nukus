@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fikr — Nukus Endo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ds.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+/* page layout only — every value comes from ds.css tokens (see DESIGN.md) */
+body::before { content: ""; position: fixed; inset: 0 0 auto 0; height: 560px; z-index: -1; pointer-events: none;
+  background: radial-gradient(60% 100% at 15% 0%, color-mix(in srgb, var(--brand-100) 80%, transparent), transparent 70%); }
+
+.top { position: sticky; top: 0; z-index: var(--z-sticky); display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
+  padding: var(--sp-3) var(--gutter); background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(16px) saturate(1.4); border-bottom: 1px solid var(--border); }
+.logo { display: flex; align-items: center; gap: var(--sp-3); font-weight: 700; font-size: var(--fs-title); }
+.logo-mark { width: 32px; height: 32px; border-radius: var(--r-sm); background: var(--accent); color: var(--on-accent); display: grid; place-items: center; box-shadow: var(--sh-accent); }
+.logo small { display: block; font-size: var(--fs-caption); font-weight: 500; color: var(--text-3); line-height: 1.2; }
+
+.view { display: none; max-width: var(--container); margin: 0 auto; padding: var(--sp-8) var(--gutter) var(--sp-16); }
+.view.on { display: block; }
+
+/* ---------- patient ---------- */
+.patient-wrap { display: grid; grid-template-columns: 1fr 400px; gap: var(--sp-16); align-items: center; }
+.eyebrow { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.pitch h1 { margin: var(--sp-5) 0 var(--sp-4); }
+.pitch p { max-width: 46ch; }
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); margin-top: var(--sp-8); max-width: 520px; }
+.fact { padding: var(--sp-4); border-radius: var(--r-md); background: var(--surface); border: 1px solid var(--border); box-shadow: var(--sh-1); }
+.fact b { display: block; font-size: var(--fs-h3); }
+
+.phone { width: 400px; height: 800px; border-radius: 52px; padding: var(--sp-3); background: var(--surface-inverse); box-shadow: var(--sh-3); }
+.screen { height: 100%; border-radius: 40px; background: var(--surface); overflow: hidden; display: flex; flex-direction: column; }
+.screen-head { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-12) var(--sp-6) var(--sp-3); }
+.back.hide { visibility: hidden; }
+.progress { flex: 1; height: 6px; border-radius: var(--r-full); background: var(--surface-sunken); overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--accent); transition: width var(--dur-3) var(--ease-out); }
+.stepno { min-width: 32px; text-align: right; }
+.stage { flex: 1; overflow-y: auto; padding: var(--sp-3) var(--sp-6) var(--sp-6); display: flex; flex-direction: column; }
+.stage .q-sub { margin: var(--sp-2) 0 var(--sp-6); }
+.hosp { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-4); margin-bottom: var(--sp-6); border-radius: var(--r-lg); background: var(--accent-soft); }
+.hosp-ico { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: var(--r-sm); background: var(--accent); color: var(--on-accent); }
+.scale-hint { display: flex; justify-content: space-between; margin-top: var(--sp-3); }
+.chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-4); }
+.stage .field { margin-top: var(--sp-4); }
+.note { display: flex; gap: var(--sp-2); align-items: flex-start; margin-top: var(--sp-3); }
+.note svg { flex: none; margin-top: 2px; }
+.cta-bar { padding: var(--sp-4) var(--sp-6) var(--sp-6); border-top: 1px solid var(--border); background: var(--surface); }
+.done { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.ring { width: 96px; height: 96px; border-radius: var(--r-full); background: var(--accent-soft); display: grid; place-items: center; margin-bottom: var(--sp-6); }
+.ticket { width: 100%; margin-top: var(--sp-6); padding: var(--sp-4); border-radius: var(--r-md); border: 1px dashed var(--border-strong); }
+.ticket b { display: block; font-size: var(--fs-h2); letter-spacing: .04em; }
+
+/* ---------- admin ---------- */
+.admin-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap; margin-bottom: var(--sp-6); }
+.admin-head p { margin-top: var(--sp-1); }
+.period { padding: var(--sp-1); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.kpi .t-kpi { margin: var(--sp-2) 0 var(--sp-2); }
+.kpi .unit { font-size: var(--fs-title); font-weight: 600; color: var(--text-3); letter-spacing: 0; }
+.kpi.alert { background: linear-gradient(180deg, var(--danger-50), var(--surface) 70%); border-color: color-mix(in srgb, var(--danger-600) 18%, transparent); }
+.kpi.alert .t-kpi { color: var(--danger-600); }
+.grid2 { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.grid2.rev { grid-template-columns: 1fr 1.6fr; }
+.chart { display: block; width: 100%; height: 200px; }
+.chart .gl { stroke: var(--border); }
+.chart text { font-size: var(--fs-caption); fill: var(--text-3); font-family: var(--font); }
+.bars .row { display: grid; grid-template-columns: 1fr auto; gap: var(--sp-2) var(--sp-3); margin-bottom: var(--sp-4); }
+.bars .row:last-child { margin-bottom: 0; }
+.track { grid-column: 1 / -1; height: 8px; border-radius: var(--r-full); background: var(--surface-sunken); overflow: hidden; }
+.track i { display: block; height: 100%; width: 0; border-radius: inherit; transition: width var(--dur-4) var(--ease-out); }
+.inbox { display: grid; grid-template-columns: 340px 1fr; padding: 0; overflow: hidden; }
+.inbox-list { border-right: 1px solid var(--border); max-height: 560px; overflow-y: auto; }
+.inbox-tabs { position: sticky; top: 0; z-index: 1; padding: var(--sp-3) var(--sp-4); background: var(--surface); border-bottom: 1px solid var(--border); }
+.item-meta { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-1); }
+.item-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.detail { display: flex; flex-direction: column; min-height: 560px; padding: var(--sp-6); }
+.who { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-5); }
+.avatar { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: var(--r-sm); background: var(--surface-sunken); color: var(--text-2); font-weight: 700; }
+.quote { margin: 0 0 var(--sp-5); padding: var(--sp-5); border-radius: var(--r-md); background: var(--surface-sunken); }
+.mini-scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-2); margin-bottom: var(--sp-5); }
+.mini-scores div { padding: var(--sp-3); border: 1px solid var(--border); border-radius: var(--r-sm); }
+.mini-scores b { display: block; font-size: var(--fs-h3); }
+.reply-box { margin-top: auto; padding: var(--sp-1); border: 1px solid var(--border-strong); border-radius: var(--r-lg); }
+.reply-box .input { border: 0; box-shadow: none; }
+.reply-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: var(--sp-2); padding: var(--sp-2); }
+.replied { margin-top: auto; padding: var(--sp-4); border-radius: var(--r-md); background: var(--accent-soft); }
+
+/* ---------- poster ---------- */
+.poster-wrap { display: grid; grid-template-columns: auto 1fr; gap: var(--sp-12); align-items: start; }
+.poster { position: relative; width: 520px; aspect-ratio: 210 / 297; overflow: hidden; display: flex; flex-direction: column;
+  padding: var(--sp-10) var(--sp-10) var(--sp-8); background: var(--surface); border-radius: var(--r-xs); box-shadow: var(--sh-3); }
+.poster::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 46%; background: var(--accent); }
+.poster > * { position: relative; }
+.p-top { display: flex; justify-content: space-between; color: var(--on-accent); opacity: .9; letter-spacing: .08em; }
+.poster h2 { color: var(--on-accent); font-size: var(--fs-h1); line-height: 1.1; font-weight: 800; letter-spacing: -.02em; margin: var(--sp-6) 0 var(--sp-3); }
+.p-sub { color: color-mix(in srgb, var(--on-accent) 85%, transparent); max-width: 38ch; }
+.qr-card { width: 248px; margin: var(--sp-6) auto 0; padding: var(--sp-5); text-align: center; border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--sh-3), 0 0 0 1px var(--border); }
+.qr-card svg { display: block; width: 100%; height: auto; }
+.qr-card .scan { margin-top: var(--sp-3); color: var(--accent); letter-spacing: .08em; }
+.p-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); margin-top: auto; text-align: center; }
+.p-steps i { width: 32px; height: 32px; margin: 0 auto var(--sp-2); display: grid; place-items: center; border-radius: var(--r-sm); background: var(--accent-soft); color: var(--accent); font-style: normal; font-weight: 800; }
+.p-kaa { margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--border); text-align: center; }
+.poster-side p { max-width: 44ch; margin: var(--sp-2) 0 var(--sp-6); }
+.spec { display: grid; gap: var(--sp-2); max-width: 440px; margin-bottom: var(--sp-6); }
+.spec div { display: flex; justify-content: space-between; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-radius: var(--r-sm); background: var(--surface); border: 1px solid var(--border); }
+
+@media (max-width: 1020px) {
+  .patient-wrap, .poster-wrap, .grid2, .grid2.rev { grid-template-columns: 1fr; }
+  .pitch { text-align: center; }
+  .pitch p, .facts { margin-left: auto; margin-right: auto; }
+  .phone, .poster { margin: 0 auto; }
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+  .inbox { grid-template-columns: 1fr; }
+  .inbox-list { max-height: 360px; border-right: 0; border-bottom: 1px solid var(--border); }
+  .detail { min-height: 0; }
+}
+@media (max-width: 560px) {
+  .logo small { display: none; }
+  .seg-item { padding: 0 var(--sp-3); }
+  #v-patient { padding: 0; }
+  .pitch { display: none; }
+  .phone { width: 100%; height: calc(100dvh - 61px); min-height: 600px; padding: 0; border-radius: 0; background: none; box-shadow: none; }
+  .screen { border-radius: 0; }
+  .screen-head { padding-top: var(--sp-4); }
+  .mini-scores { grid-template-columns: repeat(2, 1fr); }
+  .poster { width: 100%; padding: var(--sp-8) var(--sp-6) var(--sp-5); }
+  .qr-card { width: 200px; }
+}
+@media print {
+  @page { size: A4; margin: 0; }
+  body { background: var(--surface); }
+  body::before, .top, .view:not(#v-poster), .poster-side, .toast { display: none !important; }
+  #v-poster { display: block !important; padding: 0; max-width: none; }
+  .poster-wrap { display: block; }
+  .poster { width: 210mm; height: 297mm; padding: 22mm 20mm 14mm; border-radius: 0; box-shadow: none; }
+  .poster h2 { font-size: 46px; } .p-sub { font-size: 20px; } .qr-card { width: 110mm; } .p-steps { font-size: 16px; } .p-kaa { font-size: 15px; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="logo">
+    <div class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div>Fikr<small>Nukus endokrinologiya markazi</small></div>
+  </div>
+  <nav class="seg" role="tablist" aria-label="Koʻrinish">
+    <span class="seg-pill" aria-hidden="true"></span>
+    <button class="seg-item" role="tab" aria-selected="true" data-view="patient">Bemor</button>
+    <button class="seg-item" role="tab" aria-selected="false" data-view="admin">Kabinet</button>
+    <button class="seg-item" role="tab" aria-selected="false" data-view="poster">Plakat</button>
+  </nav>
+</header>
+
+<!-- PATIENT -->
+<main id="v-patient" class="view on">
+  <div class="patient-wrap">
+    <section class="pitch">
+      <span class="badge badge-accent eyebrow reveal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>QR → 60 soniya</span>
+      <h1 class="t-display reveal">Bemor ovozi bosh shifokorga toʻgʻridan-toʻgʻri yetadi</h1>
+      <p class="t-body-lg c-2 reveal">Ilova oʻrnatish yoʻq, roʻyxatdan oʻtish yoʻq. Bemor QR kodni skanerlaydi, 4 ta savolga javob beradi va xohlasa shikoyat qoldiradi.</p>
+      <div class="facts">
+        <div class="fact reveal"><b class="num">3</b><span class="t-label c-3">til: ўзбек, oʻzbek, qaraqalpaq</span></div>
+        <div class="fact reveal"><b class="num">4</b><span class="t-label c-3">savol + izoh</span></div>
+        <div class="fact reveal"><b>Anonim</b><span class="t-label c-3">telefon ixtiyoriy</span></div>
+      </div>
+    </section>
+    <div class="phone reveal">
+      <div class="screen">
+        <div class="screen-head">
+          <button class="btn btn-ghost btn-icon back hide" id="back" aria-label="Orqaga"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+          <span class="stepno t-label c-3 num" id="stepno"></span>
+        </div>
+        <div class="stage" id="stage" aria-live="polite"></div>
+        <div class="cta-bar" id="ctabar"><button class="btn btn-primary btn-lg btn-block" id="cta"></button></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ADMIN -->
+<main id="v-admin" class="view">
+  <div class="admin-head">
+    <div><h1 class="t-h1">Xayrli kun, J. Ubbiyev</h1><p class="c-3">Bosh shifokor kabineti · oxirgi yangilanish 2 daqiqa oldin</p></div>
+    <div class="tabs tabs-inverse period" role="group" aria-label="Davr">
+      <button class="tab" aria-pressed="false">Bugun</button><button class="tab" aria-pressed="true">7 kun</button><button class="tab" aria-pressed="false">30 kun</button>
+    </div>
+  </div>
+  <div class="kpis">
+    <div class="card kpi"><div class="t-label c-3">Javoblar</div><div class="t-kpi" data-count="412">0</div><span class="delta delta-up">↑ 18%</span></div>
+    <div class="card kpi"><div class="t-label c-3">Oʻrtacha baho</div><div class="t-kpi"><span data-count="4.3" data-dec="1">0</span> <span class="unit">/ 5</span></div><span class="delta delta-up">↑ 0.2</span></div>
+    <div class="card kpi alert"><div class="t-label c-3">Javobsiz shikoyatlar</div><div class="t-kpi" id="openCount" data-count="3">0</div><span class="delta delta-down">1 tasi 24 soatdan oshgan</span></div>
+    <div class="card kpi"><div class="t-label c-3">Oʻrtacha javob vaqti</div><div class="t-kpi"><span data-count="5.4" data-dec="1">0</span> <span class="unit">soat</span></div><span class="delta delta-up">↓ 1.1 soat</span></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="card-head"><h3 class="t-title">Kunlik dinamika</h3><span class="t-caption c-3">ustun — javoblar · chiziq — oʻrtacha baho</span></div><svg class="chart" id="chart" viewBox="0 0 640 200" preserveAspectRatio="none" role="img" aria-label="7 kunlik baho grafigi"></svg></div>
+    <div class="card bars" id="qbars"><div class="card-head"><h3 class="t-title">Savollar kesimida</h3><span class="t-caption c-3">oʻrtacha</span></div></div>
+  </div>
+  <div class="grid2 rev">
+    <div class="card bars" id="dbars"><div class="card-head"><h3 class="t-title">Boʻlimlar reytingi</h3><span class="t-caption c-3">oʻrtacha</span></div></div>
+    <div class="card inbox">
+      <div class="inbox-list">
+        <div class="inbox-tabs tabs" role="group" aria-label="Filtr">
+          <button class="tab" aria-pressed="true" data-f="all">Barchasi</button><button class="tab" aria-pressed="false" data-f="complaint">Shikoyat</button><button class="tab" aria-pressed="false" data-f="open">Javobsiz</button>
+        </div>
+        <div id="items"></div>
+      </div>
+      <div class="detail" id="detail"></div>
+    </div>
+  </div>
+</main>
+
+<!-- POSTER -->
+<main id="v-poster" class="view">
+  <div class="poster-wrap">
+    <article class="poster" aria-label="A4 plakat">
+      <div class="p-top t-caption"><span>НУКУС ЭНДОКРИНОЛОГИЯ МАРКАЗИ</span><span>● АНОНИМ</span></div>
+      <h2>Ҳурматли беморлар!</h2>
+      <p class="p-sub">Хизмат сифатини яхшилаш учун QR-кодни сканерлаб, ўз фикр ёки шикоятингизни қолдиринг.</p>
+      <div class="qr-card"><div id="qr"></div><div class="scan t-label">СКАНЕРЛАНГ · 1 ДАҚИҚА</div></div>
+      <div class="p-steps t-caption c-2">
+        <div><i>1</i>Телефон камерасини очинг</div>
+        <div><i>2</i>QR-кодга йўналтиринг</div>
+        <div><i>3</i>4 та саволга жавоб беринг</div>
+      </div>
+      <p class="p-kaa t-caption c-3">Húrmetli nawqaslar! Xızmet sapasın jaqsılaw ushın QR-kodtı skanerlep, pikiriñizdi qaldırıñ.</p>
+    </article>
+    <aside class="poster-side">
+      <h2 class="t-h2">Chop etishga tayyor plakat</h2>
+      <p class="c-2">A4, ikki tilda. QR kod soʻrovnomaga olib boradi. Har boʻlim uchun alohida QR qilinsa, shikoyat qaysi qavatdan kelgani avtomatik koʻrinadi.</p>
+      <div class="spec">
+        <div><span class="c-3">Format</span><b>A4 · 210×297 mm</b></div>
+        <div><span class="c-3">QR oʻlchami</span><b>110 mm (~3 m dan oʻqiladi)</b></div>
+        <div><span class="c-3">Joylar</span><b>Navbat, kassa, lift, koridor</b></div>
+        <div><span class="c-3">Havola</span><b id="qrurl"></b></div>
+      </div>
+      <button class="btn btn-primary" onclick="window.print()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Chop etish / PDF</button>
+    </aside>
+  </div>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// ponytail: demo domain; swap for the center's own domain before printing posters
+const FEEDBACK_URL = 'https://fikr-nukus-endo.pages.dev/#patient';
+const motion = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const toast = (t) => { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2200); };
+const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+// kaa strings need native-speaker review
+const T = {
+  uzc: { name: 'Ўзбекча', tag: 'Кирилл', next: 'Давом этиш', send: 'Юбориш', restart: 'Бошидан', step: 'Савол',
+    langTitle: 'Фикрингиз биз учун муҳим', langSub: 'Тилни танланг. Сўровнома 1 дақиқа олади ва аноним.',
+    scale: ['Жуда ёмон', 'Ёмон', 'Ўртача', 'Яхши', 'Аъло'], low: 'Қониқмадим', high: 'Тўлиқ қониқдим',
+    q: ['Шифокорлар муомаласидан қониқдингизми?', 'Навбатда кутиш вақти сизни қониқтирдими?', 'Шифохона тозалиги сизни қониқтирадими?', 'Марказни яқинларингизга тавсия қиласизми?'],
+    deptTitle: 'Қайси бўлимда бўлдингиз?', depts: ['Қабулхона', 'Эндокринолог қабули', 'Лаборатория', 'Диабет бўлими', 'Стационар', 'Бошқа'],
+    cTitle: 'Яна нима демоқчисиз?', cSub: 'Ихтиёрий. Бош шифокор шахсан ўқийди.', kinds: { idea: 'Таклиф', complaint: 'Шикоят', thanks: 'Миннатдорчилик' },
+    ph: 'Масалан: 3-қаватдаги навбат жуда узун…', phone: 'Жавоб олиш учун телефон (ихтиёрий)', anon: 'Исм сўралмайди. Телефон фақат жавоб учун ишлатилади.',
+    doneT: 'Раҳмат!', doneS: 'Фикрингиз бош шифокорга юборилди. Шикоятлар 24 соат ичида кўриб чиқилади.', ticket: 'Мурожаат рақами' },
+  uzl: { name: 'Oʻzbekcha', tag: 'Lotin', next: 'Davom etish', send: 'Yuborish', restart: 'Boshidan', step: 'Savol',
+    langTitle: 'Fikringiz biz uchun muhim', langSub: 'Tilni tanlang. Soʻrovnoma 1 daqiqa oladi va anonim.',
+    scale: ['Juda yomon', 'Yomon', 'Oʻrtacha', 'Yaxshi', 'Aʼlo'], low: 'Qoniqmadim', high: 'Toʻliq qoniqdim',
+    q: ['Shifokorlar muomalasidan qoniqdingizmi?', 'Navbatda kutish vaqti sizni qoniqtirdimi?', 'Shifoxona tozaligi sizni qoniqtiradimi?', 'Markazni yaqinlaringizga tavsiya qilasizmi?'],
+    deptTitle: 'Qaysi boʻlimda boʻldingiz?', depts: ['Qabulxona', 'Endokrinolog qabuli', 'Laboratoriya', 'Diabet boʻlimi', 'Statsionar', 'Boshqa'],
+    cTitle: 'Yana nima demoqchisiz?', cSub: 'Ixtiyoriy. Bosh shifokor shaxsan oʻqiydi.', kinds: { idea: 'Taklif', complaint: 'Shikoyat', thanks: 'Minnatdorchilik' },
+    ph: 'Masalan: 3-qavatdagi navbat juda uzun…', phone: 'Javob olish uchun telefon (ixtiyoriy)', anon: 'Ism soʻralmaydi. Telefon faqat javob uchun ishlatiladi.',
+    doneT: 'Rahmat!', doneS: 'Fikringiz bosh shifokorga yuborildi. Shikoyatlar 24 soat ichida koʻrib chiqiladi.', ticket: 'Murojaat raqami' },
+  kaa: { name: 'Qaraqalpaqsha', tag: 'Latin', next: 'Dawam etiw', send: 'Jiberiw', restart: 'Basınan', step: 'Soraw',
+    langTitle: 'Pikiriñiz biz ushın áhmiyetli', langSub: 'Tildi tańlań. Sorawnama 1 minut aladı hám anonim.',
+    scale: ['Júdá jaman', 'Jaman', 'Ortasha', 'Jaqsı', 'Ájayıp'], low: 'Qanaatlanbadım', high: 'Tolıq qanaatlandım',
+    q: ['Shıpakerlerdiń múnásibetinen qanaatlandıńız ba?', 'Gezekte kútiw waqtı sizdi qanaatlandırdı ma?', 'Emlewxana tazalıǵı sizdi qanaatlandıra ma?', 'Oraydı jaqınlarıñızǵa usınıs etesiz be?'],
+    deptTitle: 'Qaysı bólimde boldıńız?', depts: ['Qabıllaw', 'Endokrinolog qabılı', 'Laboratoriya', 'Diabet bólimi', 'Stacionar', 'Basqa'],
+    cTitle: 'Jáne ne aytpaqshısız?', cSub: 'Ixtiyariy. Bas shıpaker ózi oqıydı.', kinds: { idea: 'Usınıs', complaint: 'Shaǵım', thanks: 'Raxmet' },
+    ph: 'Mısalı: 3-qabattaǵı gezek júdá uzın…', phone: 'Juwap alıw ushın telefon (ixtiyariy)', anon: 'Atıñız soralmaydı. Telefon tek juwap ushın.',
+    doneT: 'Raxmet!', doneS: 'Pikiriñiz bas shıpakerge jiberildi. Shaǵımlar 24 saat ishinde kórip shıǵıladı.', ticket: 'Múrájat nomeri' },
+};
+const RATE = [1, 2, 3, 4, 5].map((n) => `var(--rate-${n})`);
+const MOUTH = ['M14 30 Q20 23 26 30', 'M14 29 Q20 25 26 29', 'M14 28 L26 28', 'M14 26 Q20 31 26 26', 'M13 25 Q20 34 27 25'];
+const face = (i) => `<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="color-mix(in srgb, ${RATE[i]} 12%, white)" stroke="${RATE[i]}" stroke-width="2"/><circle cx="14.5" cy="16" r="2" fill="${RATE[i]}"/><circle cx="25.5" cy="16" r="2" fill="${RATE[i]}"/><path d="${MOUTH[i]}" stroke="${RATE[i]}" stroke-width="2.4" stroke-linecap="round"/></svg>`;
+const HOSP_ICO = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 12h4M12 10v4"/></svg>';
+const LOCK_ICO = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
+/* survey: 0 lang, 1-4 questions, 5 dept, 6 comment, 7 done */
+const S = { step: 0, lang: null, scores: [], dept: null, kind: null, text: '', phone: '' };
+const LAST = 7;
+const stage = $('#stage'), cta = $('#cta');
+
+function render(dir = 1) {
+  const t = T[S.lang || 'uzc'], st = S.step;
+  $('#back').classList.toggle('hide', st === 0 || st === LAST);
+  $('#bar').style.width = (Math.min(st, LAST - 1) / (LAST - 1)) * 100 + '%';
+  $('#stepno').textContent = st >= 1 && st <= 4 ? `${st}/4` : '';
+  $('#ctabar').style.display = st === LAST ? 'none' : '';
+  let h = '';
+  if (st === 0) {
+    h = `<div class="hosp"><div class="hosp-ico">${HOSP_ICO}</div><div><b class="t-title" style="display:block">Нукус эндокринология маркази</b><span class="t-caption c-accent">Rasmiy soʻrovnoma</span></div></div>
+      <h2 class="t-h2">${t.langTitle}</h2><p class="t-patient c-2 q-sub">${t.langSub}</p>
+      <div>${Object.entries(T).map(([k, v]) => `<button class="opt" data-lang="${k}" aria-pressed="${S.lang === k}"><span class="opt-dot"></span>${v.name}<span class="opt-meta">${v.tag}</span></button>`).join('')}</div>`;
+  } else if (st <= 4) {
+    const qi = st - 1, cur = S.scores[qi];
+    h = `<p class="t-label c-accent">${t.step} ${st}</p><h2 class="t-h2 q-sub" style="margin-top:var(--sp-2)">${t.q[qi]}</h2>
+      <div class="faces" role="group">${t.scale.map((l, i) => `<button class="face" style="--c:${RATE[i]}" data-score="${i + 1}" aria-pressed="${cur === i + 1}" aria-label="${i + 1} — ${l}">${face(i)}<span>${l}</span></button>`).join('')}</div>
+      <div class="scale-hint t-caption c-3"><span>${t.low}</span><span>${t.high}</span></div>`;
+  } else if (st === 5) {
+    h = `<h2 class="t-h2 q-sub">${t.deptTitle}</h2><div>${t.depts.map((d, i) => `<button class="opt" data-dept="${i}" aria-pressed="${S.dept === i}"><span class="opt-dot"></span>${d}</button>`).join('')}</div>`;
+  } else if (st === 6) {
+    h = `<h2 class="t-h2">${t.cTitle}</h2><p class="t-patient c-2 q-sub">${t.cSub}</p>
+      <div class="chips" role="group">${Object.entries(t.kinds).map(([k, v]) => `<button class="chip${k === 'complaint' ? ' chip-danger' : ''}" data-k="${k}" aria-pressed="${S.kind === k}">${v}</button>`).join('')}</div>
+      <textarea class="input t-patient" id="txt" rows="5" maxlength="1000" placeholder="${t.ph}" aria-label="${t.cTitle}">${esc(S.text)}</textarea>
+      <div class="field"><label class="field-label" for="tel">${t.phone}</label>
+      <input class="input t-patient num" id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+998 __ ___ __ __" value="${esc(S.phone)}"></div>
+      <p class="note t-caption c-3">${LOCK_ICO}${t.anon}</p>`;
+  } else {
+    const id = 'NK-' + (1000 + Math.floor(Math.random() * 9000));
+    h = `<div class="done"><div class="ring"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path id="tick" d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 class="t-h2">${t.doneT}</h2><p class="t-patient c-2" style="margin-top:var(--sp-2)">${t.doneS}</p>
+      <div class="ticket"><span class="t-caption c-3">${t.ticket}</span><b class="num">#${id}</b></div>
+      <button class="btn btn-ghost" style="margin-top:var(--sp-5)" id="restart">${t.restart}</button></div>`;
+  }
+  stage.innerHTML = h;
+  cta.textContent = st === 6 ? t.send : t.next;
+  syncCta();
+  if (!motion) return;
+  gsap.fromTo(stage.children, { opacity: 0, y: 12 * dir, filter: 'blur(4px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: .4, stagger: .05, ease: 'power3.out' });
+  if (st === LAST) {
+    const p = $('#tick'), L = p.getTotalLength();
+    gsap.fromTo(p, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: .6, delay: .25, ease: 'power2.out' });
+    gsap.from('.ring', { scale: .6, duration: .7, ease: 'back.out(2)' });
+  }
+}
+function syncCta() {
+  const st = S.step;
+  // complaint without text makes no sense; other kinds stay optional
+  cta.disabled = st === 0 ? !S.lang : st <= 4 ? !S.scores[st - 1] : st === 5 ? S.dept === null : st === 6 ? (S.kind === 'complaint' && !S.text.trim()) : false;
+}
+function go(d) { S.step = Math.max(0, Math.min(LAST, S.step + d)); render(d); }
+const press = (sel, b) => $$(sel, stage).forEach((x) => x.setAttribute('aria-pressed', x === b));
+
+stage.addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.lang) { S.lang = b.dataset.lang; press('.opt', b); setTimeout(() => S.step === 0 && go(1), 260); return; }
+  if (b.dataset.score) {
+    S.scores[S.step - 1] = +b.dataset.score; press('.face', b); syncCta();
+    if (motion) gsap.fromTo(b.querySelector('svg'), { rotate: -10 }, { rotate: 0, duration: .6, ease: 'elastic.out(1,.4)' });
+    const at = S.step; setTimeout(() => S.step === at && go(1), 400); // auto-advance: one tap per question
+    return;
+  }
+  if (b.dataset.dept) { S.dept = +b.dataset.dept; press('.opt', b); syncCta(); return; }
+  if (b.dataset.k) { S.kind = S.kind === b.dataset.k ? null : b.dataset.k; $$('.chip', stage).forEach((c) => c.setAttribute('aria-pressed', c.dataset.k === S.kind)); syncCta(); return; }
+  if (b.id === 'restart') { Object.assign(S, { step: 0, lang: null, scores: [], dept: null, kind: null, text: '', phone: '' }); render(-1); }
+});
+stage.addEventListener('input', (e) => { if (e.target.id === 'txt') S.text = e.target.value; if (e.target.id === 'tel') S.phone = e.target.value; syncCta(); });
+cta.addEventListener('click', () => { if (!cta.disabled) go(1); });
+$('#back').addEventListener('click', () => go(-1));
+render();
+
+/* admin — synthetic demo data */
+const DEPTS = ['Qabulxona', 'Endokrinolog qabuli', 'Laboratoriya', 'Diabet boʻlimi', 'Statsionar'];
+const ITEMS = [
+  { id: 'NK-4127', t: '09:42', dept: 2, kind: 'complaint', s: [2, 1, 3, 2], text: 'Qon topshirish uchun 2 soat navbatda turdim. Elektron navbat ishlamayapti, odamlar bir-biri bilan janjallashyapti.', phone: '+998 91 *** ** 14', open: true },
+  { id: 'NK-4126', t: '09:15', dept: 3, kind: 'thanks', s: [5, 4, 5, 5], text: 'Diabet boʻlimi shifokoriga katta rahmat, hammasini sabr bilan tushuntirib berdi.', open: false, reply: 'Rahmatingiz uchun tashakkur! Fikringizni shifokorga yetkazdik.' },
+  { id: 'NK-4125', t: 'Kecha', dept: 4, kind: 'complaint', s: [3, 3, 1, 2], text: 'Statsionar 2-qavat hojatxonasida suv yoʻq, sovun ham qoʻyilmagan.', open: true },
+  { id: 'NK-4124', t: 'Kecha', dept: 0, kind: 'idea', s: [4, 2, 4, 4], text: 'Qabulxonada navbat raqami koʻrsatiladigan ekran qoʻyilsa yaxshi boʻlardi.', open: true },
+  { id: 'NK-4123', t: '14 okt', dept: 1, kind: 'complaint', s: [1, 2, 4, 1], text: 'Shifokor telefonda gaplashib oʻtirdi, savollarimga toʻliq javob bermadi.', phone: '+998 93 *** ** 70', open: true },
+  { id: 'NK-4122', t: '14 okt', dept: 3, kind: 'thanks', s: [5, 5, 5, 5], text: 'Diabet maktabi mashgʻulotlari juda foydali boʻldi.', open: false, reply: 'Sizni yana kutamiz!' },
+];
+const QL = ['Muomala', 'Navbat', 'Tozalik', 'Tavsiya'];
+const KIND = { complaint: ['Shikoyat', 'danger'], idea: ['Taklif', 'info'], thanks: ['Rahmat', 'success'] };
+const rc = (v) => RATE[Math.max(0, Math.min(4, Math.round(v) - 1))];
+let sel = ITEMS[0].id, filt = 'all';
+
+const bars = (el, rows) => el.insertAdjacentHTML('beforeend', rows.map(([l, v]) =>
+  `<div class="row"><span class="c-2">${l}</span><b class="num">${v.toFixed(1)}</b><div class="track"><i style="background:${rc(v)}" data-w="${(v / 5) * 100}"></i></div></div>`).join(''));
+bars($('#qbars'), [['Shifokor muomalasi', 4.5], ['Navbat va kutish', 3.1], ['Tozalik', 4.0], ['Tavsiya qilish', 4.4]]);
+bars($('#dbars'), [['Diabet boʻlimi', 4.7], ['Endokrinolog qabuli', 4.3], ['Qabulxona', 3.9], ['Statsionar', 3.6], ['Laboratoriya', 2.9]]);
+
+(function chart() {
+  const days = ['Pay', 'Jum', 'Shan', 'Yak', 'Dush', 'Sesh', 'Chor'], cnt = [48, 61, 39, 22, 74, 88, 80], avg = [4.1, 4.2, 4.0, 4.4, 4.2, 4.3, 4.5];
+  const W = 640, H = 200, px = 32, top = 16, ih = H - top - 24, step = (W - px * 2) / (days.length - 1);
+  const x = (i) => px + i * step, yA = (v) => top + ih - ((v - 3) / 2) * ih;
+  let g = [3, 4, 5].map((v) => `<line class="gl" x1="${px}" x2="${W - px}" y1="${yA(v)}" y2="${yA(v)}"/><text x="0" y="${yA(v) + 4}">${v}.0</text>`).join('');
+  g += cnt.map((c, i) => `<rect class="cb" x="${x(i) - 10}" y="${top + ih - (c / 100) * ih}" width="20" height="${(c / 100) * ih}" rx="6" style="fill:var(--accent-soft-2)"/>`).join('');
+  const pts = avg.map((v, i) => [x(i), yA(v)]), d = pts.map((p, i) => (i ? 'L' : 'M') + p.join(' ')).join(' ');
+  g += `<path d="${d} L${x(6)} ${top + ih} L${px} ${top + ih}Z" fill="url(#gr)"/><path id="ln" d="${d}" fill="none" style="stroke:var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  g += pts.map((p) => `<circle cx="${p[0]}" cy="${p[1]}" r="4" style="fill:var(--surface);stroke:var(--accent)" stroke-width="2"/>`).join('');
+  g += days.map((dd, i) => `<text x="${x(i)}" y="${H - 4}" text-anchor="middle">${dd}</text>`).join('');
+  $('#chart').innerHTML = `<defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--accent);stop-opacity:.16"/><stop offset="1" style="stop-color:var(--accent);stop-opacity:0"/></linearGradient></defs>${g}`;
+})();
+
+function list() {
+  const rows = ITEMS.filter((i) => filt === 'all' || (filt === 'open' ? i.open : i.kind === filt));
+  $('#items').innerHTML = rows.map((i) => {
+    const a = i.s.reduce((x, y) => x + y) / 4, [kl, kc] = KIND[i.kind];
+    return `<button class="list-item" data-id="${i.id}" aria-current="${i.id === sel}"><div class="item-meta t-caption c-3"><span class="score num" style="background:${rc(a)}">${Math.round(a)}</span><span class="badge badge-${kc}${i.open ? ' badge-dot' : ''}">${kl}</span>${DEPTS[i.dept]}<span class="num" style="margin-left:auto">${i.t}</span></div><p class="item-text">${esc(i.text)}</p></button>`;
+  }).join('') || '<p class="c-3" style="padding:var(--sp-6)">Hammasiga javob berilgan ✓</p>';
+}
+function detail() {
+  const i = ITEMS.find((x) => x.id === sel); if (!i) return;
+  const [kl, kc] = KIND[i.kind];
+  $('#detail').innerHTML = `<div class="who"><div class="avatar">${i.phone ? '☎' : 'A'}</div><div><b class="num">${i.phone || 'Anonim bemor'}</b><div class="t-caption c-3 num">#${i.id} · ${DEPTS[i.dept]} · ${i.t}</div></div><span class="badge badge-${kc}" style="margin-left:auto">${kl}</span></div>
+    <blockquote class="quote t-body-lg">${esc(i.text)}</blockquote>
+    <div class="mini-scores">${i.s.map((v, k) => `<div class="t-caption c-3">${QL[k]}<b class="num" style="color:${RATE[v - 1]}">${v}/5</b></div>`).join('')}</div>
+    ${i.open ? `<div class="reply-box"><textarea class="input" id="reply" rows="3" aria-label="Javob" placeholder="${i.phone ? 'Javobingiz bemorga SMS orqali yuboriladi…' : 'Ichki izoh (anonim — bemorga yuborilmaydi)…'}"></textarea>
+      <div class="reply-actions"><button class="btn btn-secondary btn-sm" data-act="fwd">Boʻlim boshligʻiga</button><button class="btn btn-primary btn-sm" data-act="send">${i.phone ? 'Javob yuborish' : 'Hal qilindi'}</button></div></div>`
+      : `<div class="replied"><b class="t-caption c-accent" style="display:block;margin-bottom:var(--sp-1)">Javob berildi</b>${esc(i.reply || '')}</div>`}`;
+  if (motion) gsap.fromTo('#detail > *', { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .3, stagger: .04, ease: 'power2.out' });
+}
+$('#items').addEventListener('click', (e) => { const b = e.target.closest('.list-item'); if (!b) return; sel = b.dataset.id; list(); detail(); });
+$('#detail').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const i = ITEMS.find((x) => x.id === sel);
+  if (b.dataset.act === 'fwd') return toast(`${DEPTS[i.dept]} boshligʻiga yuborildi`);
+  i.open = false; i.reply = $('#reply').value.trim() || 'Hal qilindi.';
+  list(); detail(); toast(i.phone ? 'Javob yuborildi ✓' : 'Saqlandi ✓');
+  $('#openCount').textContent = ITEMS.filter((x) => x.open && x.kind === 'complaint').length;
+});
+$('.inbox-tabs').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return; filt = b.dataset.f;
+  $$('button', b.parentNode).forEach((x) => x.setAttribute('aria-pressed', x === b)); list();
+});
+$('.period').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) $$('button', b.parentNode).forEach((x) => x.setAttribute('aria-pressed', x === b)); });
+list(); detail();
+
+let adminSeen = false;
+function animateAdmin() {
+  if (adminSeen) return; adminSeen = true;
+  requestAnimationFrame(() => $$('.track i').forEach((i) => i.style.width = i.dataset.w + '%'));
+  $$('[data-count]').forEach((el) => {
+    const to = +el.dataset.count, dec = +(el.dataset.dec || 0);
+    if (!motion) return el.textContent = to.toFixed(dec);
+    const o = { v: 0 }; gsap.to(o, { v: to, duration: .7, ease: 'power3.out', onUpdate: () => el.textContent = o.v.toFixed(dec) });
+  });
+  if (!motion) return;
+  gsap.from('#v-admin .card', { opacity: 0, y: 12, duration: .4, stagger: .05, ease: 'power3.out' });
+  gsap.from('#chart .cb', { scaleY: 0, transformOrigin: '50% 100%', duration: .6, stagger: .05, ease: 'power3.out', delay: .15 });
+  const ln = $('#ln'), L = ln.getTotalLength();
+  gsap.fromTo(ln, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: .7, ease: 'power2.inOut', delay: .2 });
+}
+
+/* poster QR */
+const qr = qrcode(0, 'M'); qr.addData(FEEDBACK_URL); qr.make();
+$('#qr').innerHTML = qr.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
+$('#qrurl').textContent = FEEDBACK_URL.replace('https://', '');
+
+/* view switch */
+const pill = $('.seg-pill'), tabs = $$('.seg-item');
+function movePill(b, instant) {
+  const r = b.getBoundingClientRect(), p = b.parentNode.getBoundingClientRect();
+  gsap.to(pill, { x: r.left - p.left - 4, width: r.width, duration: instant || !motion ? 0 : .25, ease: 'power3.out' });
+}
+function show(name, instant) {
+  const b = tabs.find((t) => t.dataset.view === name) || tabs[0];
+  tabs.forEach((x) => x.setAttribute('aria-selected', x === b)); movePill(b, instant);
+  $$('.view').forEach((v) => v.classList.toggle('on', v.id === 'v-' + b.dataset.view));
+  if (b.dataset.view === 'admin') animateAdmin();
+  if (b.dataset.view === 'poster' && motion && !instant) gsap.from('.poster, .poster-side > *', { opacity: 0, y: 12, duration: .4, stagger: .05, ease: 'power3.out' });
+  history.replaceState(null, '', '#' + b.dataset.view);
+}
+tabs.forEach((b) => b.addEventListener('click', () => show(b.dataset.view)));
+addEventListener('resize', () => movePill(tabs.find((t) => t.getAttribute('aria-selected') === 'true'), true));
+addEventListener('hashchange', () => show(location.hash.slice(1), true));
+document.fonts.ready.then(() => show(location.hash.slice(1) || 'patient', true));
+if (motion) gsap.from('#v-patient .reveal', { opacity: 0, y: 16, filter: 'blur(6px)', duration: .7, stagger: .08, ease: 'power3.out' });
+</script>
+</body>
+</html>

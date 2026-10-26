@@ -1,0 +1,10 @@
+{
+  // Demo deployment on Cloudflare Workers + D1. Production for the center: app.js on the Uzbek cPanel host.
+  "name": "fikr-nukus",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-20",
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": true, "html_handling": "none" },
+  "d1_databases": [{ "binding": "DB", "database_name": "fikr-db", "database_id": "125fa383-1369-4f06-869f-db7359bf412b" }],
+  "vars": { "ADMIN_USER": "bosh", "ADMIN_NAME": "J. Ubbiyev", "ASSET_VERSION": "20261020-3" },
+  "observability": { "enabled": true }
+}

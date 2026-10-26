@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fikr Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ds.css">
+<style>
+/* board chrome only — product tokens live in ds.css */
+:root {
+  --board-bg: #0B100E;
+  --board-line: rgba(255, 255, 255, .08);
+  --board-text: var(--n-0);
+  --board-text-2: var(--n-300);
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+body { background: var(--board-bg); }
+.board { max-width: 1440px; margin: 0 auto; padding: var(--sp-16) var(--gutter) var(--sp-20); }
+.board-head { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--sp-6); flex-wrap: wrap; padding-bottom: var(--sp-10); border-bottom: 1px solid var(--board-line); margin-bottom: var(--sp-8); }
+.board-head h1 { color: var(--board-text); font-size: var(--fs-display); line-height: 1.05; font-weight: 800; letter-spacing: -.03em; }
+.board-head p { color: var(--board-text-2); max-width: 52ch; margin-top: var(--sp-3); font-size: var(--fs-body-lg); }
+.board-head code, .frame-body code { font-family: var(--mono); font-size: .9em; }
+.board-meta { display: grid; gap: var(--sp-1); font: 500 var(--fs-caption)/1.5 var(--mono); color: var(--board-text-2); text-align: right; }
+.toc { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-16); }
+.toc a { color: var(--board-text-2); text-decoration: none; font: 500 var(--fs-label)/1 var(--mono); padding: var(--sp-2) var(--sp-3); border: 1px solid var(--board-line); border-radius: var(--r-full);
+  transition-property: color, border-color; transition-duration: var(--dur-1); }
+.toc a:hover { color: var(--board-text); border-color: var(--n-600); }
+
+.frame { margin-bottom: var(--sp-20); scroll-margin-top: var(--sp-6); }
+.frame-label { display: flex; align-items: center; gap: var(--sp-4); margin-bottom: var(--sp-5); }
+.frame-label code { font: 500 var(--fs-label)/1 var(--mono); color: var(--brand-300); padding: var(--sp-2); border: 1px solid rgba(125, 200, 178, .3); border-radius: var(--r-xs); }
+.frame-label h2 { color: var(--board-text); font-size: 40px; line-height: 1.1; font-weight: 800; letter-spacing: -.03em; }
+.frame-body { background: var(--surface); border-radius: var(--r-xl); padding: var(--sp-10); }
+.sub { padding-top: var(--sp-10); margin-top: var(--sp-10); border-top: 1px solid var(--border); }
+.sub:first-child { padding-top: 0; margin-top: 0; border-top: 0; }
+.sub > h3 { margin-bottom: var(--sp-2); }
+.sub > .lead { color: var(--text-2); margin-bottom: var(--sp-6); max-width: 70ch; }
+.grid { display: grid; gap: var(--sp-3); }
+.g2 { grid-template-columns: repeat(2, 1fr); } .g3 { grid-template-columns: repeat(3, 1fr); }
+.box { padding: var(--sp-5); border-radius: var(--r-lg); background: var(--bg); }
+.box h4 { font-size: var(--fs-title); font-weight: 600; margin-bottom: var(--sp-2); }
+.box p, .box li { color: var(--text-2); }
+.box ul { margin: 0; padding-left: var(--sp-5); display: grid; gap: var(--sp-2); }
+.idx { font: 500 var(--fs-caption)/1 var(--mono); color: var(--accent); margin-bottom: var(--sp-3); display: block; }
+.mono { font-family: var(--mono); font-size: var(--fs-caption); color: var(--text-3); }
+.kicker { font-size: var(--fs-caption); font-weight: 600; color: var(--text-3); letter-spacing: .06em; text-transform: uppercase; margin: var(--sp-6) 0 var(--sp-3); }
+.kicker:first-of-type { margin-top: 0; }
+
+/* color */
+.ramp { display: grid; border-radius: var(--r-md); overflow: hidden; box-shadow: 0 0 0 1px var(--border); grid-auto-flow: column; grid-auto-columns: 1fr; }
+.sw { height: 112px; padding: var(--sp-3); display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; min-width: 0; }
+.sw b { font-size: var(--fs-label); font-weight: 600; }
+.sw span { font: 400 var(--fs-caption)/1.3 var(--mono); opacity: .85; }
+.ramp-title { display: flex; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; margin: var(--sp-6) 0 var(--sp-3); }
+.roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
+.role { display: flex; gap: var(--sp-3); align-items: center; padding: var(--sp-3); border: 1px solid var(--border); border-radius: var(--r-md); }
+.role i { width: 44px; height: 44px; border-radius: var(--r-sm); flex: none; box-shadow: inset 0 0 0 1px var(--border); }
+.role b { display: block; font: 500 var(--fs-label)/1.4 var(--mono); }
+.role span { font-size: var(--fs-caption); color: var(--text-3); }
+.states { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--sp-3); }
+.state { border-radius: var(--r-md); padding: var(--sp-4); min-height: 96px; display: flex; flex-direction: column; justify-content: space-between; font-size: var(--fs-label); font-weight: 600; }
+.state .mono { color: inherit; opacity: .85; }
+
+/* type */
+.type-row { display: grid; grid-template-columns: 240px 1fr; gap: var(--sp-6); align-items: baseline; padding: var(--sp-5) 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: 0; }
+.type-row .spec b { display: block; font-size: var(--fs-title); }
+
+/* foundations */
+.space-row { display: grid; grid-template-columns: 80px 48px 1fr; gap: var(--sp-4); align-items: center; padding: var(--sp-2) 0; }
+.space-row i { display: block; height: var(--sp-4); background: var(--brand-200); border-radius: 2px; box-shadow: inset 0 0 0 1px var(--brand-400); }
+.radius-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--sp-4); }
+.radius-grid div { aspect-ratio: 1; background: var(--accent-soft); border: 2px solid var(--brand-400); display: flex; align-items: flex-end; padding: var(--sp-3); }
+.shadow-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-6); padding: var(--sp-8); background: var(--bg); border-radius: var(--r-lg); }
+.shadow-grid div { height: 120px; background: var(--surface); border-radius: var(--r-lg); padding: var(--sp-4); display: flex; flex-direction: column; justify-content: flex-end; }
+.motion-row { display: grid; grid-template-columns: 160px 1fr; gap: var(--sp-4); align-items: center; padding: var(--sp-2) 0; }
+.motion-track { height: var(--sp-8); background: var(--bg); border-radius: var(--r-full); position: relative; overflow: hidden; }
+.motion-track i { position: absolute; top: var(--sp-1); left: var(--sp-1); width: var(--sp-6); height: var(--sp-6); border-radius: var(--r-full); background: var(--accent); }
+
+/* usage */
+.anatomy { position: relative; display: grid; place-items: center; min-height: 240px; padding: var(--sp-16) var(--sp-8); background-color: var(--bg); border-radius: var(--r-lg);
+  background-image: radial-gradient(var(--n-300) 1px, transparent 1px); background-size: var(--sp-4) var(--sp-4); }
+.callout { position: absolute; font: 500 var(--fs-caption)/1.3 var(--mono); color: var(--danger-600); display: flex; align-items: center; gap: var(--sp-2); }
+.callout::before { content: ""; width: var(--sp-5); height: 1px; background: currentColor; }
+.u-table { width: 100%; border-collapse: collapse; }
+.u-table th { text-align: left; font-size: var(--fs-label); color: var(--text-3); font-weight: 600; padding: 0 var(--sp-4) var(--sp-3) 0; border-bottom: 1px solid var(--border-strong); }
+.u-table td { padding: var(--sp-4) var(--sp-4) var(--sp-4) 0; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-2); }
+.u-table td:first-child { color: var(--text); font-weight: 600; white-space: nowrap; }
+.table-wrap { overflow-x: auto; }
+.do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); margin-top: var(--sp-6); }
+.do-dont div { padding: var(--sp-4); border-radius: var(--r-md); border-top: 3px solid; }
+.do-dont .do { background: var(--success-50); border-color: var(--success-600); }
+.do-dont .dont { background: var(--danger-50); border-color: var(--danger-600); }
+.do-dont b { font-size: var(--fs-label); display: block; margin-bottom: var(--sp-1); }
+
+/* components */
+.matrix-wrap { overflow-x: auto; }
+.matrix { display: grid; grid-template-columns: 120px repeat(4, minmax(140px, 1fr)); gap: var(--sp-4) var(--sp-3); align-items: center; }
+.matrix .h { font-size: var(--fs-caption); font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; }
+.row-wrap { display: flex; gap: var(--sp-3); align-items: center; flex-wrap: wrap; }
+.demo-phone { max-width: 400px; }
+
+@media (max-width: 1020px) {
+  .g3, .roles, .states, .shadow-grid { grid-template-columns: repeat(2, 1fr); }
+  .radius-grid { grid-template-columns: repeat(3, 1fr); }
+  .ramp { grid-auto-flow: row; grid-template-columns: repeat(5, 1fr); }
+  .frame-body { padding: var(--sp-6); }
+}
+@media (max-width: 560px) {
+  .g2, .g3, .roles, .states, .shadow-grid, .do-dont { grid-template-columns: 1fr; }
+  .type-row { grid-template-columns: 1fr; gap: var(--sp-2); }
+  .ramp { grid-template-columns: repeat(3, 1fr); }
+  .frame-label h2 { font-size: 28px; }
+  .frame-body { padding: var(--sp-4); border-radius: var(--r-lg); }
+  .board-meta { text-align: left; }
+  .motion-row { grid-template-columns: 1fr; gap: var(--sp-2); }
+}
+</style>
+</head>
+<body>
+<div class="board">
+
+  <header class="board-head">
+    <div>
+      <h1>Fikr Design System</h1>
+      <p>Tokens, rules and components for the Nukus endocrinology center's patient feedback product. Everything on this board renders live from <code>ds.css</code>.</p>
+    </div>
+    <div class="board-meta"><span>v1.0 · 2026-10-17</span><span>Light product theme</span><span>ds.css · DESIGN.md</span></div>
+  </header>
+
+  <nav class="toc" aria-label="Sections">
+    <a href="#ds00">DS-00 Overview</a><a href="#ds01">DS-01 Color</a><a href="#ds02">DS-02 Typography</a><a href="#ds03">DS-03 Foundations</a><a href="#ds04">DS-04 Component usage</a><a href="#ds05">DS-05 Components</a><a href="index.html">→ Product</a>
+  </nav>
+
+  <!-- DS-00 -->
+  <section class="frame" id="ds00">
+    <div class="frame-label"><code>DS-00</code><h2>Overview</h2></div>
+    <div class="frame-body">
+      <div class="sub">
+        <h3 class="t-h2">Design principles</h3>
+        <p class="lead t-body-lg">Two audiences: older patients in a corridor with 60 seconds of patience, and a chief doctor who needs to see what is on fire in 5 seconds.</p>
+        <div class="grid g3">
+          <div class="box"><span class="idx">01</span><h4>One tap per decision</h4><p>Ratings auto-advance. No screen asks for two things at once.</p></div>
+          <div class="box"><span class="idx">02</span><h4>Calm, not clinical</h4><p>Off-white surfaces, one teal accent. Red only means "a patient is unhappy".</p></div>
+          <div class="box"><span class="idx">03</span><h4>Numbers first</h4><p>The dashboard leads with KPIs and unanswered complaints; charts come second.</p></div>
+          <div class="box"><span class="idx">04</span><h4>Readable at arm's length</h4><p>Patient text ≥ 16px, actions ≥ 56px, contrast ≥ 4.5:1 everywhere.</p></div>
+          <div class="box"><span class="idx">05</span><h4>Promise only what we keep</h4><p>No "24 h" deadlines in copy until the center commits to them.</p></div>
+          <div class="box"><span class="idx">06</span><h4>Tokens or nothing</h4><p>A raw hex, px size or shadow outside <code>ds.css</code> is a bug.</p></div>
+        </div>
+      </div>
+      <div class="sub">
+        <h3 class="t-h3">General usage rules</h3>
+        <p class="lead">Applies to every screen in the product.</p>
+        <div class="grid g2">
+          <div class="box"><ul>
+            <li>Light theme only; dark is out of scope for v1.</li>
+            <li>One primary button per view.</li>
+            <li>Patient screens are mobile-first (360–430px).</li>
+            <li>Dashboard is desktop-first (≥ 1200px) but must work on a phone.</li>
+          </ul></div>
+          <div class="box"><ul>
+            <li>Motion explains change; <code>prefers-reduced-motion</code> turns it off.</li>
+            <li>Every changing number uses tabular figures.</li>
+            <li>Patient phone numbers are always masked in the dashboard.</li>
+            <li>Three scripts must fit at 360px: Ўзбекча, Oʻzbekcha, Qaraqalpaqsha.</li>
+          </ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DS-01 -->
+  <section class="frame" id="ds01">
+    <div class="frame-label"><code>DS-01</code><h2>Color</h2></div>
+    <div class="frame-body">
+      <div class="sub">
+        <h3 class="t-h2">Primitive palette</h3>
+        <p class="lead">Raw values. Only <code>:root</code> in <code>ds.css</code> references them; components use the semantic roles below.</p>
+        <div class="ramp-title" style="margin-top: 0"><b class="t-title">Brand · teal-green</b><span class="mono">--brand-50 … 900 · accent = 600</span></div>
+        <div class="ramp" data-ramp="brand" data-steps="50,100,200,300,400,500,600,700,800,900"></div>
+        <div class="ramp-title"><b class="t-title">Neutral · green-tinted gray</b><span class="mono">--n-0 … 900 · 400 decorative only</span></div>
+        <div class="ramp" data-ramp="n" data-steps="0,25,50,100,200,300,400,500,600,700,800,900"></div>
+        <div class="grid g2">
+          <div><div class="ramp-title"><b class="t-title">Status</b><span class="mono">-50 bg · -600 fg</span></div><div class="ramp" data-pairs="success,warning,danger,info"></div></div>
+          <div><div class="ramp-title"><b class="t-title">Rating scale 1–5</b><span class="mono">all ≥ 4.5:1 on white</span></div><div class="ramp" data-ramp="rate" data-steps="1,2,3,4,5"></div></div>
+        </div>
+      </div>
+      <div class="sub">
+        <h3 class="t-h2">Semantic roles</h3>
+        <p class="lead">What components are allowed to use. Change a role, and every screen follows.</p>
+        <p class="kicker">Backgrounds</p>
+        <div class="roles" data-roles="bg:page background|surface:cards, inputs, phone|surface-sunken:tracks, ghost buttons|surface-inverse:toast, selected chip|accent-soft:selected row / option|accent-soft-2:chart bars"></div>
+        <p class="kicker">Text</p>
+        <div class="roles" data-roles="text:headings, body|text-2:secondary · 6.8:1|text-3:captions, placeholders · 5.0:1|text-inverse:on dark / accent|accent:links, active · 5.6:1|accent-hover:text on accent-soft · 7.1:1"></div>
+        <p class="kicker">Borders</p>
+        <div class="roles" data-roles="border:cards, dividers · 8% ink|border-strong:inputs, options · 16% ink"></div>
+        <p class="kicker">Interactive states</p>
+        <div class="states">
+          <div class="state" style="background: var(--accent); color: var(--on-accent)">Default<span class="mono">--accent</span></div>
+          <div class="state" style="background: var(--accent-hover); color: var(--on-accent)">Hover<span class="mono">--accent-hover</span></div>
+          <div class="state" style="background: var(--accent-soft); color: var(--accent-hover); box-shadow: var(--focus-ring), inset 0 0 0 1px var(--accent)">Selected / focus<span class="mono">--focus-ring</span></div>
+          <div class="state" style="background: var(--success-50); color: var(--success-600)">Success<span class="mono">--success-600</span></div>
+          <div class="state" style="background: var(--warning-50); color: var(--warning-600)">Warning<span class="mono">--warning-600</span></div>
+          <div class="state" style="background: var(--danger-50); color: var(--danger-600)">Error<span class="mono">--danger-600</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DS-02 -->
+  <section class="frame" id="ds02">
+    <div class="frame-label"><code>DS-02</code><h2>Typography</h2></div>
+    <div class="frame-body">
+      <div class="sub">
+        <h3 class="t-h2">Type scale · Onest</h3>
+        <p class="lead">Eleven roles, nothing below 12px. Patient screens never go below 16px.</p>
+        <div class="type-row"><div class="spec"><b>Display</b><span class="mono">.t-display · 34→52/1.05 · 800</span></div><div class="t-display">Bemor ovozi muhim</div></div>
+        <div class="type-row"><div class="spec"><b>H1</b><span class="mono">.t-h1 · 30/1.2 · 700</span></div><div class="t-h1">Xayrli kun, J. Ubbiyev</div></div>
+        <div class="type-row"><div class="spec"><b>H2</b><span class="mono">.t-h2 · 24/1.2 · 700</span></div><div class="t-h2">Шифокорлар муомаласидан қониқдингизми?</div></div>
+        <div class="type-row"><div class="spec"><b>H3</b><span class="mono">.t-h3 · 18/1.35 · 600</span></div><div class="t-h3">Boʻlimlar reytingi</div></div>
+        <div class="type-row"><div class="spec"><b>KPI</b><span class="mono">.t-kpi · 34/1.1 · 700 · tnum</span></div><div class="t-kpi">412 · 4.3</div></div>
+        <div class="type-row"><div class="spec"><b>Title</b><span class="mono">.t-title · 15/1.4 · 600</span></div><div class="t-title">Kunlik dinamika</div></div>
+        <div class="type-row"><div class="spec"><b>Body large</b><span class="mono">.t-body-lg · 17/1.55</span></div><div class="t-body-lg">Ilova oʻrnatish yoʻq. Bemor QR kodni skanerlaydi va 4 ta savolga javob beradi.</div></div>
+        <div class="type-row"><div class="spec"><b>Patient body</b><span class="mono">.t-patient · 16/1.5 · minimum</span></div><div class="t-patient">Shıpakerlerdiń múnásibetinen qanaatlandıńız ba?</div></div>
+        <div class="type-row"><div class="spec"><b>Body</b><span class="mono">.t-body · 15/1.5</span></div><div class="t-body">Qon topshirish uchun 2 soat navbatda turdim. Elektron navbat ishlamayapti.</div></div>
+        <div class="type-row"><div class="spec"><b>Label</b><span class="mono">.t-label · 13/1.4 · 600</span></div><div class="t-label c-2">Javob olish uchun telefon (ixtiyoriy)</div></div>
+        <div class="type-row"><div class="spec"><b>Caption</b><span class="mono">.t-caption · 12/1.35 · 500</span></div><div class="t-caption c-3 num">#NK-4127 · Laboratoriya · 09:42</div></div>
+      </div>
+      <div class="sub">
+        <h3 class="t-h3">Writing rules</h3>
+        <p class="lead">Copy is part of the design. Patients read it standing up, under stress.</p>
+        <div class="grid g3">
+          <div class="box"><h4>Voice</h4><ul><li>Polite "siz / сиз" form.</li><li>One idea per sentence, one question per screen.</li><li>Dashboard: neutral, never shames staff.</li></ul></div>
+          <div class="box"><h4>Buttons &amp; states</h4><ul><li>Verbs: "Davom etish", "Yuborish", "Javob yuborish".</li><li>Empty states say what happened: "Hammasiga javob berilgan ✓".</li><li>Errors say how to fix, not just "Xato".</li></ul></div>
+          <div class="box"><h4>Scripts &amp; numbers</h4><ul><li>Latin Uzbek: oʻ gʻ (U+02BB), ʼ (U+02BC).</li><li>Karakalpak reviewed by a native speaker.</li><li>Tabular figures, 24h time, masked phones.</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DS-03 -->
+  <section class="frame" id="ds03">
+    <div class="frame-label"><code>DS-03</code><h2>Foundations</h2></div>
+    <div class="frame-body">
+      <div class="sub">
+        <h3 class="t-h2">Spacing · 4px grid</h3>
+        <p class="lead">The only allowed padding, margin and gap values. Space inside a group is smaller than space between groups.</p>
+        <div id="spacing"></div>
+      </div>
+      <div class="sub">
+        <h3 class="t-h2">Radius</h3>
+        <p class="lead">Concentric rule: outer = inner + padding (segmented track 14 = item 10 + 4).</p>
+        <div class="radius-grid" id="radius"></div>
+      </div>
+      <div class="sub">
+        <h3 class="t-h2">Elevation</h3>
+        <p class="lead">Borders separate, shadows lift. Shadows are transparent ink, never black.</p>
+        <div class="shadow-grid">
+          <div style="box-shadow: var(--sh-1); border: 1px solid var(--border)"><b class="t-title">--sh-1</b><span class="t-caption c-3">resting cards, secondary button</span></div>
+          <div style="box-shadow: var(--sh-2)"><b class="t-title">--sh-2</b><span class="t-caption c-3">raised, dropdowns</span></div>
+          <div style="box-shadow: var(--sh-3)"><b class="t-title">--sh-3</b><span class="t-caption c-3">phone, poster, toast</span></div>
+          <div style="box-shadow: var(--sh-accent); background: var(--accent); color: var(--on-accent)"><b class="t-title">--sh-accent</b><span class="t-caption">primary button only</span></div>
+        </div>
+      </div>
+      <div class="sub">
+        <h3 class="t-h2">Motion</h3>
+        <p class="lead">Hover a track to play it. Easing <code>--ease-out</code>; reduced motion sets every duration to 0.</p>
+        <div id="motion"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DS-04 -->
+  <section class="frame" id="ds04">
+    <div class="frame-label"><code>DS-04</code><h2>Component usage</h2></div>
+    <div class="frame-body">
+      <div class="sub">
+        <h3 class="t-h2">Anatomy</h3>
+        <p class="lead">Every interactive component = container + content + states.</p>
+        <div class="grid g2">
+          <div class="anatomy">
+            <button class="btn btn-primary btn-lg"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Davom etish</button>
+            <span class="callout" style="top: var(--sp-5); left: var(--sp-5)">container · --r-md · 56px</span>
+            <span class="callout" style="bottom: var(--sp-5); left: var(--sp-5)">icon 18 · gap --sp-2</span>
+            <span class="callout" style="bottom: var(--sp-5); right: var(--sp-5)">label · 16/700</span>
+          </div>
+          <div class="anatomy">
+            <div class="field" style="width: 100%; max-width: 320px">
+              <label class="field-label" for="an1">Telefon</label>
+              <input class="input num" id="an1" placeholder="+998 __ ___ __ __">
+              <span class="field-hint">Faqat javob uchun ishlatiladi</span>
+            </div>
+            <span class="callout" style="top: var(--sp-5); left: var(--sp-5)">label · always visible</span>
+            <span class="callout" style="bottom: var(--sp-5); left: var(--sp-5)">hint · format / privacy / fix</span>
+          </div>
+        </div>
+      </div>
+      <div class="sub">
+        <h3 class="t-h2">Behavior guidelines</h3>
+        <p class="lead">When to use what, and how it reacts.</p>
+        <div class="table-wrap"><table class="u-table">
+          <thead><tr><th>Component</th><th>Use when</th><th>Behavior</th></tr></thead>
+          <tbody>
+            <tr><td>Button</td><td>An action. Primary = the one thing to do on this view.</td><td>Hover darkens, press scales .96, disabled at 40% until the answer exists. Patient CTA: <code>lg</code>, full width, sticky bottom.</td></tr>
+            <tr><td>Text field</td><td>Free input: comment, phone, reply.</td><td>Label always visible. Error turns the border and hint red and explains the fix.</td></tr>
+            <tr><td>Badge</td><td>Status of an item: complaint, idea, thanks, new.</td><td>Not clickable. Dot = unread.</td></tr>
+            <tr><td>Chip</td><td>Choose one of 2–4 short options.</td><td>Tap again to deselect. Complaint chip turns danger.</td></tr>
+            <tr><td>Option row</td><td>Patient single choice with a longer label.</td><td>56px, full width. Language auto-advances.</td></tr>
+            <tr><td>Rating face</td><td>1–5 satisfaction.</td><td>Colored by rating scale, auto-advances after 400ms; back stays available.</td></tr>
+            <tr><td>Segmented nav</td><td>Switch top-level views (2–4).</td><td>Pill slides in 250ms.</td></tr>
+            <tr><td>Tabs</td><td>Filter content inside a card.</td><td>Instant swap, no animation.</td></tr>
+            <tr><td>List item</td><td>Inbox rows.</td><td>Current = soft fill + 3px accent bar. Preview clamps to 2 lines.</td></tr>
+            <tr><td>Toast</td><td>Confirm a finished action.</td><td>2.2s, <code>role="status"</code>. Never for errors that need action.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="do-dont">
+          <div class="do"><b>Do</b>Auto-advance after a rating; keep a back button.</div>
+          <div class="dont"><b>Don't</b>Make patients press "Next" after every face.</div>
+          <div class="do"><b>Do</b>Mask phones: <span class="num">+998 91 *** ** 14</span>.</div>
+          <div class="dont"><b>Don't</b>Use red for decoration or branding.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DS-05 -->
+  <section class="frame" id="ds05">
+    <div class="frame-label"><code>DS-05</code><h2>Components</h2></div>
+    <div class="frame-body">
+      <div class="sub">
+        <h3 class="t-h2">Buttons</h3>
+        <p class="lead">Four variants × four states. Real hover and press work as well.</p>
+        <div class="matrix-wrap"><div class="matrix">
+          <span></span><span class="h">Default</span><span class="h">Hover</span><span class="h">Focus</span><span class="h">Disabled</span>
+          <span class="t-label">Primary</span><button class="btn btn-primary">Yuborish</button><button class="btn btn-primary is-hover">Yuborish</button><button class="btn btn-primary is-focus">Yuborish</button><button class="btn btn-primary" disabled>Yuborish</button>
+          <span class="t-label">Secondary</span><button class="btn btn-secondary">Bekor qilish</button><button class="btn btn-secondary is-hover">Bekor qilish</button><button class="btn btn-secondary is-focus">Bekor qilish</button><button class="btn btn-secondary" disabled>Bekor qilish</button>
+          <span class="t-label">Ghost</span><button class="btn btn-ghost">Boʻlimga</button><button class="btn btn-ghost is-hover">Boʻlimga</button><button class="btn btn-ghost is-focus">Boʻlimga</button><button class="btn btn-ghost" disabled>Boʻlimga</button>
+          <span class="t-label">Danger</span><button class="btn btn-danger">Oʻchirish</button><button class="btn btn-danger is-hover">Oʻchirish</button><button class="btn btn-danger is-focus">Oʻchirish</button><button class="btn btn-danger" disabled>Oʻchirish</button>
+        </div></div>
+        <div class="row-wrap" style="margin-top: var(--sp-6)">
+          <button class="btn btn-primary btn-sm">Small · 36</button><button class="btn btn-primary">Medium · 44</button><button class="btn btn-primary btn-lg">Large · 56 (patient)</button>
+        </div>
+      </div>
+
+      <div class="sub">
+        <h3 class="t-h2">Text fields</h3>
+        <p class="lead">Label → input → hint. Six states.</p>
+        <div class="grid g3">
+          <div class="field"><label class="field-label">Default</label><input class="input" placeholder="+998 __ ___ __ __"><span class="field-hint">Ixtiyoriy</span></div>
+          <div class="field"><label class="field-label">Hover</label><input class="input is-hover" placeholder="+998 __ ___ __ __"><span class="field-hint">Ixtiyoriy</span></div>
+          <div class="field"><label class="field-label">Focus</label><input class="input is-focus" placeholder="+998 __ ___ __ __"><span class="field-hint">Ixtiyoriy</span></div>
+          <div class="field"><label class="field-label">Filled</label><input class="input num" value="+998 91 234 56 14"><span class="field-hint">Faqat javob uchun ishlatiladi</span></div>
+          <div class="field is-error"><label class="field-label">Error</label><input class="input num" value="+998 91 23"><span class="field-hint">Raqam toʻliq emas: 9 ta raqam kiriting</span></div>
+          <div class="field"><label class="field-label">Disabled</label><input class="input" value="Anonim bemor" disabled><span class="field-hint">Bemor raqam qoldirmagan</span></div>
+        </div>
+        <div class="field" style="margin-top: var(--sp-4)"><label class="field-label">Textarea</label><textarea class="input" rows="3" placeholder="Masalan: 3-qavatdagi navbat juda uzun…"></textarea></div>
+      </div>
+
+      <div class="sub">
+        <h3 class="t-h2">Status badges</h3>
+        <p class="lead">Status only, not clickable. Dot = new / unread.</p>
+        <div class="row-wrap">
+          <span class="badge badge-danger badge-dot">Shikoyat</span><span class="badge badge-danger">Shikoyat</span>
+          <span class="badge badge-info">Taklif</span><span class="badge badge-success">Rahmat</span>
+          <span class="badge badge-warning">24 soatdan oshgan</span><span class="badge badge-accent">Javob berildi</span><span class="badge badge-neutral">Laboratoriya</span>
+          <span class="delta delta-up">↑ 18%</span><span class="delta delta-down">↓ 0.3</span>
+          <span class="score" style="background: var(--rate-1)">1</span><span class="score" style="background: var(--rate-3)">3</span><span class="score" style="background: var(--rate-5)">5</span>
+        </div>
+      </div>
+
+      <div class="sub">
+        <h3 class="t-h2">Navigation</h3>
+        <p class="lead">Segmented control for views, tabs for filters, list items for the inbox.</p>
+        <div class="grid g3">
+          <div><p class="kicker" style="margin-top: 0">Segmented · selected / hover</p>
+            <div class="seg seg-static" style="display: inline-flex"><button class="seg-item" aria-selected="true">Bemor</button><button class="seg-item is-hover">Kabinet</button><button class="seg-item">Plakat</button></div></div>
+          <div><p class="kicker" style="margin-top: 0">Tabs · selected / hover / default / disabled</p>
+            <div class="tabs"><button class="tab" aria-pressed="true">Barchasi</button><button class="tab is-hover">Shikoyat</button><button class="tab">Javobsiz</button><button class="tab" disabled>Arxiv</button></div></div>
+          <div><p class="kicker" style="margin-top: 0">Tabs · inverse (period)</p>
+            <div class="tabs tabs-inverse"><button class="tab">Bugun</button><button class="tab" aria-pressed="true">7 kun</button><button class="tab">30 kun</button></div></div>
+        </div>
+        <div class="card" style="padding: 0; margin-top: var(--sp-6); max-width: 420px; overflow: hidden">
+          <button class="list-item" aria-current="true"><div class="row-wrap t-caption c-3" style="gap: var(--sp-2); margin-bottom: var(--sp-1)"><span class="score" style="background: var(--rate-2)">2</span><span class="badge badge-danger badge-dot">Shikoyat</span>Laboratoriya<span class="num" style="margin-left: auto">09:42</span></div><p>Current · Qon topshirish uchun 2 soat navbatda turdim.</p></button>
+          <button class="list-item is-hover"><div class="row-wrap t-caption c-3" style="gap: var(--sp-2); margin-bottom: var(--sp-1)"><span class="score" style="background: var(--rate-5)">5</span><span class="badge badge-success">Rahmat</span>Diabet boʻlimi<span class="num" style="margin-left: auto">09:15</span></div><p>Hover · Shifokorga katta rahmat.</p></button>
+          <button class="list-item"><div class="row-wrap t-caption c-3" style="gap: var(--sp-2); margin-bottom: var(--sp-1)"><span class="score" style="background: var(--rate-4)">4</span><span class="badge badge-info">Taklif</span>Qabulxona<span style="margin-left: auto">Kecha</span></div><p>Default · Navbat ekrani qoʻyilsa yaxshi boʻlardi.</p></button>
+        </div>
+      </div>
+
+      <div class="sub">
+        <h3 class="t-h2">Patient controls</h3>
+        <p class="lead">Large, single-purpose, ≥ 56px. Shown at real phone width.</p>
+        <div class="grid g2">
+          <div class="demo-phone">
+            <button class="opt"><span class="opt-dot"></span>Default<span class="opt-meta">Кирилл</span></button>
+            <button class="opt is-hover"><span class="opt-dot"></span>Hover<span class="opt-meta">Lotin</span></button>
+            <button class="opt" aria-pressed="true"><span class="opt-dot"></span>Selected<span class="opt-meta">Latin</span></button>
+          </div>
+          <div class="demo-phone">
+            <div class="faces" id="faces"></div>
+            <div class="row-wrap" style="margin-top: var(--sp-6); gap: var(--sp-2)">
+              <button class="chip">Taklif</button><button class="chip chip-danger" aria-pressed="true">Shikoyat</button><button class="chip is-hover">Rahmat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const css = getComputedStyle(document.documentElement);
+const v = (n) => css.getPropertyValue(n).trim();
+const lum = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+  .map((x) => x <= .04045 ? x / 12.92 : ((x + .055) / 1.055) ** 2.4)
+  .reduce((s, x, i) => s + x * [.2126, .7152, .0722][i], 0);
+const sw = (name, label) => { const hex = v(name).toUpperCase();
+  return `<div class="sw" style="background:var(${name});color:${lum(hex) > .3 ? 'var(--n-900)' : 'var(--n-0)'}"><b>${label}</b><span>${hex}</span></div>`; };
+
+document.querySelectorAll('[data-ramp]').forEach((el) => { el.innerHTML = el.dataset.steps.split(',').map((s) => sw(`--${el.dataset.ramp}-${s}`, s)).join(''); });
+document.querySelectorAll('[data-pairs]').forEach((el) => { el.innerHTML = el.dataset.pairs.split(',').map((p) => sw(`--${p}-50`, `${p} 50`) + sw(`--${p}-600`, '600')).join(''); });
+document.querySelectorAll('[data-roles]').forEach((el) => {
+  el.innerHTML = el.dataset.roles.split('|').map((r) => { const [k, use] = r.split(':');
+    return `<div class="role"><i style="background:var(--${k})"></i><div><b>--${k}</b><span>${use}</span></div></div>`; }).join('');
+});
+document.getElementById('spacing').innerHTML = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20]
+  .map((n) => `<div class="space-row"><span class="mono">--sp-${n}</span><span class="t-label num">${v('--sp-' + n)}</span><i style="width:var(--sp-${n})"></i></div>`).join('');
+document.getElementById('radius').innerHTML = ['xs', 'sm', 'md', 'lg', 'xl', 'full']
+  .map((r) => `<div style="border-radius:var(--r-${r})"><span class="mono" style="color:var(--accent-hover)">--r-${r}<br>${v('--r-' + r)}</span></div>`).join('');
+document.getElementById('motion').innerHTML = [1, 2, 3, 4]
+  .map((n) => `<div class="motion-row"><span class="mono">--dur-${n} · ${v('--dur-' + n)}</span><div class="motion-track" data-d="${n}"><i></i></div></div>`).join('');
+document.querySelectorAll('.motion-track').forEach((t) => {
+  const dot = t.querySelector('i');
+  dot.style.transition = `transform var(--dur-${t.dataset.d}) var(--ease-out)`;
+  t.addEventListener('mouseenter', () => dot.style.transform = `translateX(${t.clientWidth - 32}px)`);
+  t.addEventListener('mouseleave', () => dot.style.transform = '');
+});
+const MOUTH = ['M14 30 Q20 23 26 30', 'M14 29 Q20 25 26 29', 'M14 28 L26 28', 'M14 26 Q20 31 26 26', 'M13 25 Q20 34 27 25'];
+const LABELS = ['Juda yomon', 'Yomon', 'Oʻrtacha', 'Yaxshi', 'Aʼlo'];
+document.getElementById('faces').innerHTML = MOUTH.map((m, i) => { const c = `var(--rate-${i + 1})`;
+  return `<button class="face" style="--c:${c}" aria-pressed="${i === 3}"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="color-mix(in srgb, ${c} 12%, white)" stroke="${c}" stroke-width="2"/><circle cx="14.5" cy="16" r="2" fill="${c}"/><circle cx="25.5" cy="16" r="2" fill="${c}"/><path d="${m}" stroke="${c}" stroke-width="2.4" stroke-linecap="round"/></svg><span>${LABELS[i]}</span></button>`; }).join('');
+</script>
+</body>
+</html>

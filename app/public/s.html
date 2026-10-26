@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F4F6F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1110" media="(prefers-color-scheme: dark)">
+<meta name="format-detection" content="telephone=no">
+<title>Baholang · Nukus endokrinologiya</title>
+<link rel="preload" href="/a/f/onest-lat.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/a/ds.css?v={{V}}">
+<script src="/a/gsap.min.js?v={{V}}" defer></script>
+<style>
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+button, textarea { touch-action: manipulation; }
+body::before { content: ""; position: fixed; inset: 0 0 auto 0; height: 420px; z-index: -1; pointer-events: none;
+  background: radial-gradient(70% 100% at 20% 0%, color-mix(in srgb, var(--brand-100) 85%, transparent), transparent 70%); }
+.app { max-width: 480px; min-height: 100dvh; margin: 0 auto; display: flex; flex-direction: column;
+  padding: calc(var(--sp-3) + env(safe-area-inset-top)) calc(var(--sp-5) + env(safe-area-inset-right)) 0 calc(var(--sp-5) + env(safe-area-inset-left)); }
+
+/* top bar */
+.bar { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); min-height: var(--h-md); }
+.org { display: flex; align-items: center; gap: var(--sp-2); min-width: 0; }
+.org-mark { width: 28px; height: 28px; flex: none; border-radius: var(--r-xs); background: var(--accent); color: var(--on-accent); display: grid; place-items: center; box-shadow: var(--sh-accent); }
+.org span { line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.lang { position: relative; display: flex; flex: none; padding: var(--sp-1); border-radius: var(--r-full); background: var(--surface-sunken); border: 1px solid var(--border); }
+.lang-pill { position: absolute; top: var(--sp-1); bottom: var(--sp-1); left: 0; width: 0; border-radius: var(--r-full); background: var(--surface); box-shadow: var(--sh-1);
+  transition: transform var(--dur-2) var(--ease-out), width var(--dur-2) var(--ease-out); }
+.lang button { position: relative; min-height: 36px; min-width: 40px; padding: 0 var(--sp-3); border-radius: var(--r-full); font-size: var(--fs-label); font-weight: 700; color: var(--text-2);
+  transition: color var(--dur-1); }
+.lang button[aria-pressed="true"] { color: var(--text); }
+
+/* who is being rated — shrinks once the survey starts so the question gets the room */
+.who { display: flex; align-items: center; gap: var(--sp-4); margin: var(--sp-5) 0 var(--sp-4); padding: var(--sp-4); border-radius: var(--r-lg);
+  background: var(--surface); border: 1px solid var(--border); box-shadow: var(--sh-2);
+  transition-property: padding, gap, margin; transition-duration: var(--dur-3); transition-timing-function: var(--ease-out); }
+.ava { width: 56px; height: 56px; flex: none; border-radius: var(--r-md); display: grid; place-items: center; font-weight: 800; font-size: var(--fs-h3); letter-spacing: -.02em;
+  color: var(--on-accent); background: linear-gradient(135deg, var(--brand-500), var(--brand-700)); box-shadow: var(--sh-accent);
+  transition-property: width, height, border-radius, font-size; transition-duration: var(--dur-3); transition-timing-function: var(--ease-out); }
+.who-role { margin-bottom: var(--sp-1); }
+.who h1 { font-size: var(--fs-h3); line-height: 1.3; font-weight: 700; letter-spacing: -.01em; transition: font-size var(--dur-3) var(--ease-out); }
+.who.compact { padding: var(--sp-3); gap: var(--sp-3); margin: var(--sp-3) 0 var(--sp-3); }
+.who.compact .ava { width: 40px; height: 40px; border-radius: var(--r-sm); font-size: var(--fs-label); }
+.who.compact h1 { font-size: var(--fs-title); }
+.who.compact .who-role, .who.compact #dept { display: none; }
+
+/* progress: one segment per step, so "how much is left" is visible at a glance */
+.prog { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-4); }
+.prog[hidden] { display: none; }
+.back { width: var(--h-md); height: var(--h-md); flex: none; border-radius: var(--r-full); display: grid; place-items: center; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--sh-1);
+  transition-property: transform, opacity; transition-duration: var(--dur-1); transition-timing-function: var(--ease-out); }
+.back:active { transform: scale(.96); }
+.back.off { opacity: 0; pointer-events: none; }
+.segs { flex: 1; display: flex; gap: var(--sp-1); }
+.segs i { flex: 1; height: 6px; border-radius: var(--r-full); background: var(--surface-sunken); overflow: hidden; position: relative; }
+.segs i::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform var(--dur-3) var(--ease-out); }
+.segs i.ok::after { transform: scaleX(1); }
+.segs i.now::after { transform: scaleX(.35); opacity: .45; }
+.count { min-width: 40px; text-align: right; }
+
+.stage { flex: 1; padding: var(--sp-2) 0; }
+.q-kicker { margin-bottom: var(--sp-2); }
+.q-title { font-size: var(--fs-h2); line-height: 1.25; font-weight: 700; letter-spacing: -.02em; margin-bottom: var(--sp-6); }
+[hidden] { display: none !important; }
+.faces { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--sp-2); }
+.face { min-height: 104px; padding: var(--sp-3) 2px; }
+.face svg { width: 44px; height: 44px; }
+.face span { font-size: 13px; }
+.opts .opt { min-height: 60px; font-size: var(--fs-body-lg); }
+.nps { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--sp-2); }
+.nps button { grid-column: span 2; min-height: 56px; border-radius: var(--r-md); border: 1px solid var(--border-strong); background: var(--surface); font-size: var(--fs-h3); font-weight: 700;
+  font-variant-numeric: tabular-nums; transition-property: transform, background-color, border-color, color; transition-duration: var(--dur-1); transition-timing-function: var(--ease-out); }
+.nps button:nth-child(7) { grid-column: 2 / span 2; } /* second row of five sits centered under the first row of six */
+.nps button:active { transform: scale(.96); }
+.nps button[aria-pressed="true"] { background: var(--c); border-color: var(--c); color: var(--on-accent); }
+.scale-hint { display: flex; justify-content: space-between; margin-top: var(--sp-3); }
+.comment { min-height: 132px; font-size: var(--fs-patient); }
+.phone { margin-top: var(--sp-5); }
+.tel { display: flex; align-items: center; gap: var(--sp-2); min-height: 56px; padding: 0 var(--sp-4); }
+.tel:focus-within { border-color: var(--accent); box-shadow: var(--focus-ring); }
+.tel b { font-size: var(--fs-patient); font-weight: 600; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.tel input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--text); font: inherit; font-size: var(--fs-patient); letter-spacing: .02em; font-variant-numeric: tabular-nums; padding: var(--sp-3) 0; }
+.phone .field-hint { display: flex; gap: var(--sp-2); align-items: flex-start; }
+.phone .field-hint svg { flex: none; margin-top: 2px; }
+.note { display: flex; gap: var(--sp-2); align-items: flex-start; margin-top: var(--sp-3); }
+.note svg { flex: none; margin-top: 2px; }
+
+.cta { position: sticky; bottom: 0; margin: var(--sp-4) calc(-1 * var(--sp-5)) 0; padding: var(--sp-4) var(--sp-5) calc(var(--sp-4) + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, transparent, var(--bg) 30%); }
+.cta[hidden] { display: none; }
+.spin { width: 18px; height: 18px; border-radius: var(--r-full); border: 2.5px solid color-mix(in srgb, var(--on-accent) 35%, transparent); border-top-color: var(--on-accent); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#send:disabled { opacity: .85; cursor: progress; }
+
+.done { text-align: center; padding-top: var(--sp-6); }
+.ring { position: relative; width: 112px; height: 112px; margin: 0 auto var(--sp-6); border-radius: var(--r-full); background: var(--accent-soft); display: grid; place-items: center; }
+.ring .dot { position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px; border-radius: var(--r-full); background: var(--accent); opacity: 0; }
+.done p { max-width: 32ch; margin: var(--sp-2) auto 0; }
+.done .hint { display: flex; gap: var(--sp-2); align-items: center; justify-content: center; margin-top: var(--sp-8); }
+.foot { padding: var(--sp-4) 0 calc(var(--sp-4) + env(safe-area-inset-bottom)); text-align: center; }
+.cta:not([hidden]) + .foot { display: none; }
+@media (max-width: 359px) { .faces, .nps { gap: var(--sp-1); } .face svg { width: 36px; height: 36px; } .face span { font-size: var(--fs-caption); } .lang button { min-width: 36px; padding: 0 var(--sp-2); } }
+@media (max-height: 640px) { .who { margin: var(--sp-3) 0; } .q-title { margin-bottom: var(--sp-4); } .face { min-height: 92px; } }
+/* dark overrides for page rules; must come after them to win */
+@media (prefers-color-scheme: dark) {
+  body::before { opacity: .7; }
+  .ava { background: linear-gradient(135deg, #5BD0B1, #2A9D80); }
+  .face[aria-pressed="true"] span { color: var(--c); }
+  .who { border-color: rgba(233, 239, 236, .07); }
+  .lang-pill { background: #2C3936; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="bar">
+    <div class="org"><div class="org-mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span class="t-label" id="org"></span></div>
+    <div class="lang" role="group" aria-label="Til / Тил / Язык"><span class="lang-pill" aria-hidden="true"></span><button data-l="uz" lang="uz">UZ</button><button data-l="oz" lang="uz-Cyrl">ЎЗ</button><button data-l="qq" lang="kaa">QQ</button><button data-l="ru" lang="ru">RU</button></div>
+  </div>
+
+  <section class="who" id="who">
+    <div class="ava" id="ava" aria-hidden="true"></div>
+    <div><span class="badge badge-accent who-role" id="role"></span><h1 id="name"></h1><div class="t-caption c-3" id="dept"></div></div>
+  </section>
+
+  <div class="prog" id="prog">
+    <button class="back off" id="back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="segs" id="segs" aria-hidden="true"></div>
+    <span class="count t-label c-3 num" id="count"></span>
+  </div>
+
+  <main class="stage" id="stage" aria-live="polite"></main>
+
+  <div class="cta" id="cta" hidden><button class="btn btn-primary btn-lg btn-block" id="send"></button></div>
+  <p class="foot t-caption c-3" id="foot"></p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="/a/translit.js?v={{V}}"></script>
+<script>
+const D = /*DATA*/null;
+const T = {
+  uz: { org: 'Nukus endokrinologiya markazi', q: 'Savol', cq: 'Izoh', scale: ['Juda yomon', 'Yomon', 'Oʻrtacha', 'Yaxshi', 'Aʼlo'],
+    npsLow: 'Aslo', npsHigh: 'Albatta', cTitle: 'Yana nimani aytmoqchisiz?', cPh: 'Ixtiyoriy. Fikr, taklif yoki shikoyatingizni yozing…', send: 'Yuborish', sending: 'Yuborilmoqda…',
+    pLabel: 'Telefon raqamingiz', pHint: 'Ixtiyoriy. Bosh shifokor siz bilan bogʻlanishi uchun, raqamni faqat u koʻradi. Raqamsiz fikr anonim qoladi.',
+    pErr: 'Raqam toʻliq emas: 9 ta raqam kiriting yoki maydonni boʻsh qoldiring.', doneT: 'Rahmat!', doneS: 'Bahoyingiz bosh shifokorga yetkazildi. Bu xizmat sifatini yaxshilashga yordam beradi.',
+    dupT: 'Bugun baholagansiz', dupS: 'Bitta xodimni kuniga bir marta baholash mumkin. Rahmat!', err: 'Internet bilan muammo. Yana bosing.',
+    hint: 'Boshqa xodimni baholash uchun uning QR kodini skanerlang', foot: 'Fikringiz toʻliq maxfiy saqlanadi', back: 'Orqaga' },
+  qq: { org: 'Nókis endokrinologiya orayı', q: 'Soraw', cq: 'Pikir', scale: ['Júdá jaman', 'Jaman', 'Ortasha', 'Jaqsı', 'Ájayıp'],
+    npsLow: 'Hesh', npsHigh: 'Álbette', cTitle: 'Jáne ne aytpaqshısız?', cPh: 'Májbúriy emes. Pikir, usınıs yamasa shaǵımıńızdı jazıń…', send: 'Jiberiw', sending: 'Jiberilmekte…',
+    pLabel: 'Telefon nomerińiz', pHint: 'Májbúriy emes. Bas shıpaker siz benen baylanısıwı ushın, nomerdi tek ol kóredi. Nomersiz pikir anonim qaladı.',
+    pErr: 'Nomer tolıq emes: 9 san jazıń yamasa bos qaldırıń.', doneT: 'Raxmet!', doneS: 'Bahańız bas shıpakerge jetkerildi. Bul xızmet sapasın jaqsılawǵa járdem beredi.',
+    dupT: 'Búgin bahalaǵansız', dupS: 'Bir xızmetkerdi kúnine bir ret bahalawǵa boladı. Raxmet!', err: 'Internet penen mashqala. Qaytadan basıń.',
+    hint: 'Basqa xızmetkerdi bahalaw ushın onıń QR kodın skanerleń', foot: 'Pikirińiz tolıq jasırın saqlanadı', back: 'Artqa' },
+  ru: { org: 'Нукусский центр эндокринологии', q: 'Вопрос', cq: 'Комментарий', scale: ['Очень плохо', 'Плохо', 'Средне', 'Хорошо', 'Отлично'],
+    npsLow: 'Нет', npsHigh: 'Обязательно', cTitle: 'Хотите что-то добавить?', cPh: 'Необязательно. Напишите отзыв, предложение или жалобу…', send: 'Отправить', sending: 'Отправка…',
+    pLabel: 'Ваш номер телефона', pHint: 'Необязательно. Чтобы главный врач мог с вами связаться; номер видит только он. Без номера отзыв останется анонимным.',
+    pErr: 'Номер неполный: введите 9 цифр или оставьте поле пустым.', doneT: 'Спасибо!', doneS: 'Ваша оценка передана главному врачу и поможет улучшить качество услуг.',
+    dupT: 'Вы уже оценили сегодня', dupS: 'Одного сотрудника можно оценить раз в день. Спасибо!', err: 'Проблема с интернетом. Нажмите ещё раз.',
+    hint: 'Чтобы оценить другого сотрудника, отсканируйте его QR-код', foot: 'Ваш отзыв полностью конфиденциален', back: 'Назад' },
+};
+T.oz = Object.fromEntries(Object.entries(T.uz).map(([k, v]) => [k, Array.isArray(v) ? v.map(toCyr) : toCyr(v)]));
+const Q = D.survey.q, N = Q.length, KEY = 'fikr:' + D.code;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const motion = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+const G = () => (motion && window.gsap) || null; // page works fully without GSAP
+const buzz = (p) => { try { navigator.vibrate?.(p); } catch {} }; // Android only; iOS ignores it
+const RATE = [1, 2, 3, 4, 5].map((n) => `var(--rate-${n})`);
+const MOUTH = ['M14 30 Q20 23 26 30', 'M14 29 Q20 25 26 29', 'M14 28 L26 28', 'M14 26 Q20 31 26 26', 'M13 25 Q20 34 27 25'];
+const face = (i) => `<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="color-mix(in srgb, ${RATE[i]} 14%, var(--surface))" stroke="${RATE[i]}" stroke-width="2"/><circle cx="14.5" cy="16" r="2" fill="${RATE[i]}"/><circle cx="25.5" cy="16" r="2" fill="${RATE[i]}"/><path d="${MOUTH[i]}" stroke="${RATE[i]}" stroke-width="2.4" stroke-linecap="round"/></svg>`;
+const npsColor = (n) => (n <= 3 ? RATE[0] : n <= 6 ? RATE[1] : n <= 8 ? RATE[2] : RATE[4]);
+const LOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+const QR_ICO = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M8 8h3v3H8zM13 13h3v3h-3z"/></svg>';
+const toast = (t) => { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2600); };
+
+// Survives a reload or an in-app browser (Telegram, Instagram) killing the tab mid-survey.
+const store = {
+  load() { try { return JSON.parse(sessionStorage.getItem(KEY)) || null; } catch { return null; } },
+  save() { try { sessionStorage.setItem(KEY, JSON.stringify({ lang: S.lang, step: S.step, a: S.a, c: S.c, p: S.p })); } catch {} },
+  clear() { try { sessionStorage.removeItem(KEY); } catch {} },
+};
+const saved = store.load();
+const S = { lang: saved?.lang || ((navigator.language || '').startsWith('ru') ? 'ru' : 'uz'), step: Math.min(saved?.step || 0, N), a: saved?.a || {}, c: saved?.c || '', p: saved?.p || '', pErr: false, busy: false, done: null };
+
+function header() {
+  const t = T[S.lang];
+  document.documentElement.lang = { qq: 'kaa', oz: 'uz-Cyrl' }[S.lang] || S.lang;
+  $('#org').textContent = t.org;
+  $('#name').textContent = D.name;
+  $('#role').textContent = D.survey.label[S.lang];
+  $('#role').hidden = D.kind === 'point';
+  $('#dept').textContent = D.dept;
+  $('#ava').textContent = D.kind === 'point' ? '★' : D.name.split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+  $('#foot').textContent = t.foot;
+  $('#back').setAttribute('aria-label', t.back);
+  $$('.lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.l === S.lang));
+  pill();
+}
+function pill() {
+  const b = $(`.lang button[data-l="${S.lang}"]`);
+  $('.lang-pill').style.cssText = `width:${b.offsetWidth}px;transform:translateX(${b.offsetLeft}px)`;
+}
+
+function view() {
+  const t = T[S.lang], st = S.step, L = S.lang;
+  if (S.done) {
+    const dup = S.done === 'dup';
+    return `<div class="done"><div class="ring">${'<i class="dot"></i>'.repeat(10)}<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path id="tick" d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 class="t-h1">${dup ? t.dupT : t.doneT}</h2><p class="t-patient c-2">${dup ? t.dupS : t.doneS}</p>
+      <p class="hint t-caption c-3">${QR_ICO}${t.hint}</p></div>`;
+  }
+  if (st === N) {
+    return `<p class="q-kicker t-label c-accent">${t.cq}</p><h2 class="q-title">${t.cTitle}</h2>
+      <textarea class="input t-patient comment" id="c" maxlength="1000" enterkeyhint="done" placeholder="${t.cPh}" aria-label="${t.cTitle}">${esc(S.c)}</textarea>
+      <div class="field phone${S.pErr ? ' is-error' : ''}"><label class="field-label" for="p">${t.pLabel}</label>
+        <div class="input tel"><b aria-hidden="true">+998</b><input id="p" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="90 123 45 67" value="${esc(S.p)}" aria-describedby="pHint"></div>
+        <p class="field-hint" id="pHint" aria-live="polite">${LOCK}<span>${S.pErr ? t.pErr : t.pHint}</span></p></div>`;
+  }
+  const q = Q[st], cur = S.a[q.id];
+  let body;
+  if (q.t === 'scale') {
+    body = `<div class="faces" role="radiogroup" aria-label="${esc(q[L])}">${t.scale.map((l, i) => `<button class="face" role="radio" style="--c:${RATE[i]}" data-v="${i + 1}" aria-checked="${cur === i + 1}" aria-pressed="${cur === i + 1}" aria-label="${i + 1} — ${l}">${face(i)}<span>${l}</span></button>`).join('')}</div>`;
+  } else if (q.t === 'nps') {
+    body = `<div class="nps" role="radiogroup" aria-label="${esc(q[L])}">${Array.from({ length: 11 }, (_, n) => `<button role="radio" style="--c:${npsColor(n)}" data-v="${n}" aria-checked="${cur === n}" aria-pressed="${cur === n}">${n}</button>`).join('')}</div>
+      <div class="scale-hint t-caption c-3"><span>0 — ${t.npsLow}</span><span>10 — ${t.npsHigh}</span></div>`;
+  } else {
+    body = `<div class="opts" role="radiogroup" aria-label="${esc(q[L])}">${q.opts.map((o) => `<button class="opt" role="radio" data-v="${o}" aria-checked="${cur === o}" aria-pressed="${cur === o}"><span class="opt-dot"></span>${D.opt[o][L]}</button>`).join('')}</div>`;
+  }
+  return `<p class="q-kicker t-label c-accent">${t.q} ${st + 1}</p><h2 class="q-title">${esc(q[L])}</h2>${body}`;
+}
+
+function chrome() {
+  const t = T[S.lang], st = S.step;
+  $('#who').classList.toggle('compact', st > 0 || !!S.done);
+  $('#prog').hidden = !!S.done;
+  $('#back').classList.toggle('off', st === 0);
+  $('#segs').innerHTML = Array.from({ length: N + 1 }, (_, i) => `<i class="${i < st ? 'ok' : i === st ? 'now' : ''}"></i>`).join('');
+  $('#count').textContent = `${st + 1}/${N + 1}`;
+  $('#cta').hidden = st !== N || !!S.done;
+  if (!S.busy) $('#send').textContent = t.send;
+}
+
+let tl = null;
+function render(dir = 0) {
+  const stage = $('#stage'), g = G();
+  tl?.progress(1); // a tap during a transition finishes it instantly — never wait for an animation
+  const swap = () => { chrome(); stage.innerHTML = view(); };
+  if (!g || !dir) { swap(); enter(g, 0); return; }
+  // exit is quicker than enter, and both run along the direction of travel
+  tl = g.timeline().to(stage, { opacity: 0, x: -20 * dir, duration: .14, ease: 'power2.in' })
+    .add(() => { swap(); enter(g, dir); });
+}
+function enter(g, dir) {
+  if (!g) return;
+  const stage = $('#stage');
+  if (S.done) {
+    g.set(stage, { opacity: 1, x: 0 });
+    g.from('.ring', { scale: .5, duration: .7, ease: 'back.out(2.2)' });
+    const p = $('#tick'), len = p.getTotalLength();
+    g.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: .55, delay: .2, ease: 'power2.out' });
+    $$('.ring .dot').forEach((d, i) => {
+      const a = (i / 10) * Math.PI * 2;
+      g.fromTo(d, { x: 0, y: 0, opacity: 1, scale: 1 }, { x: Math.cos(a) * 84, y: Math.sin(a) * 84, opacity: 0, scale: .4, duration: .9, delay: .25, ease: 'power3.out' });
+    });
+    g.from('.done h2, .done p', { opacity: 0, y: 12, duration: .5, stagger: .08, delay: .3, ease: 'power3.out' });
+    return;
+  }
+  g.fromTo(stage, { opacity: 0, x: 24 * dir }, { opacity: 1, x: 0, duration: .32, ease: 'power3.out', clearProps: 'transform' });
+  g.from(stage.querySelectorAll('.face, .nps button, .opt'), { opacity: 0, y: 12, duration: .3, stagger: .03, delay: dir ? .04 : .1, ease: 'power2.out', clearProps: 'opacity,transform' });
+}
+
+// Each step is a history entry, so the phone's own Back button goes to the previous question instead of leaving the page.
+function go(d) {
+  const next = Math.max(0, Math.min(N, S.step + d));
+  if (next === S.step) return;
+  if (d > 0) { S.step = next; history.pushState({ step: next }, ''); store.save(); render(1); }
+  else history.back();
+}
+let ignorePop = false;
+addEventListener('popstate', (e) => {
+  if (ignorePop) { ignorePop = false; return; }
+  if (S.done) return;
+  const st = Math.max(0, Math.min(N, e.state?.step ?? 0));
+  const dir = st < S.step ? -1 : 1;
+  S.step = st; store.save(); render(dir);
+});
+
+$('#stage').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-v]'); if (!b || S.done) return;
+  const q = Q[S.step];
+  S.a[q.id] = q.t === 'scale' || q.t === 'nps' ? +b.dataset.v : b.dataset.v;
+  store.save(); buzz(8);
+  $$('button', b.parentNode).forEach((x) => { x.setAttribute('aria-pressed', x === b); x.setAttribute('aria-checked', x === b); });
+  const g = G();
+  if (g) g.fromTo(b.querySelector('svg') || b, { scale: .86 }, { scale: 1, duration: .5, ease: 'elastic.out(1,.45)', clearProps: 'transform' });
+  const at = S.step;
+  setTimeout(() => S.step === at && !S.done && go(1), 340); // one tap per question; the pause lets the choice register
+});
+$('#stage').addEventListener('input', (e) => {
+  if (e.target.id === 'c') { S.c = e.target.value; store.save(); }
+  if (e.target.id === 'p') { S.p = e.target.value = fmtPhone(e.target.value); store.save(); if (S.pErr) { S.pErr = false; phoneState(); } }
+});
+// "+998…" or 12 digits with the country code → keep the 9 local ones; shown as "90 123 45 67"
+const digits = (v) => { const d = v.replace(/\D/g, ''); return (d.startsWith('998') && (d.length > 9 || /^\s*\+/.test(v)) ? d.slice(3) : d).slice(0, 9); };
+const fmtPhone = (v) => digits(v).replace(/^(\d{2})(\d{0,3})(\d{0,2})(\d{0,2}).*/, (_, a, b, c, d) => [a, b, c, d].filter(Boolean).join(' ')) || digits(v);
+function phoneState() {
+  const f = $('.phone'); if (!f) return;
+  f.classList.toggle('is-error', S.pErr); $('#pHint span').textContent = S.pErr ? T[S.lang].pErr : T[S.lang].pHint;
+  if (S.pErr) { $('#p').focus(); buzz([30, 40, 30]); }
+}
+$('#back').addEventListener('click', () => go(-1));
+$('.lang').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b || b.dataset.l === S.lang) return;
+  S.lang = b.dataset.l; store.save(); buzz(5); header(); chrome(); $('#stage').innerHTML = view(); enter(G(), 0);
+});
+
+$('#send').addEventListener('click', async () => {
+  if (S.busy) return;
+  const t = T[S.lang], btn = $('#send'), n = digits(S.p).length;
+  if (n && n < 9) { S.pErr = true; return phoneState(); }
+  S.busy = true; btn.disabled = true; btn.innerHTML = `<span class="spin" aria-hidden="true"></span>${t.sending}`;
+  try {
+    const r = await fetch('/api/r/' + encodeURIComponent(D.code), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lang: S.lang, a: S.a, c: S.c, p: digits(S.p), dev: await device() }) });
+    if (r.status === 201 || r.status === 409) {
+      S.done = r.status === 409 ? 'dup' : 'ok';
+      store.clear(); buzz([12, 60, 18]);
+      // drop the question entries so Back after "Rahmat" leaves the page instead of stepping through answered questions
+      if (S.step > 0) { ignorePop = true; history.go(-S.step); }
+      S.step = 0; render(1);
+    } else if (r.status === 422) { S.pErr = true; phoneState(); }
+    else if (r.status === 400) { S.step = 0; S.a = {}; store.clear(); history.replaceState({ step: 0 }, ''); render(-1); }
+    else throw new Error(r.status);
+  } catch { toast(t.err); buzz([30, 40, 30]); }
+  S.busy = false; btn.disabled = false; btn.textContent = T[S.lang].send;
+});
+
+// Android Chrome only reveals the phone model through client hints; give it 300ms, never block sending
+async function device() {
+  const d = { w: screen.width, h: screen.height };
+  try {
+    const h = await Promise.race([navigator.userAgentData?.getHighEntropyValues(['model', 'platformVersion']), new Promise((r) => setTimeout(r, 300))]);
+    if (h) Object.assign(d, { model: h.model, platformVersion: h.platformVersion });
+  } catch {}
+  return d;
+}
+
+history.replaceState({ step: 0 }, '');
+for (let i = 1; i <= S.step; i++) history.pushState({ step: i }, ''); // a restored survey keeps working Back
+header();
+document.fonts?.ready.then(pill);
+addEventListener('resize', pill);
+document.addEventListener('DOMContentLoaded', () => {
+  chrome(); $('#stage').innerHTML = view(); enter(G(), 0);
+  const g = G(); if (g) g.from('.bar, .who, .prog', { opacity: 0, y: 14, duration: .5, stagger: .06, ease: 'power3.out', clearProps: 'transform' });
+});
+</script>
+</body>
+</html>
