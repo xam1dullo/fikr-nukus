@@ -1,0 +1,10 @@
+---
+# cPanel → Git Version Control → Deploy HEAD Commit runs these. DEPLOYPATH = the subdomain's Document Root (cPanel → Domains).
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/azama430/public_html/fikr.endork.uz
+    - /bin/mkdir -p $DEPLOYPATH/a $DEPLOYPATH/seed
+    - /bin/cp php/index.php php/surveys.php php/surveys.json php/.htaccess $DEPLOYPATH/
+    - /bin/cp -R app/public/. $DEPLOYPATH/a/
+    - /bin/cp app/seed/staff.json $DEPLOYPATH/seed/
+    - /bin/rm -f $DEPLOYPATH/.migrated

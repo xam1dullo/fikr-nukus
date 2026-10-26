@@ -1,0 +1,25 @@
+# php -- BEGIN cPanel-generated handler, do not edit
+# Kept here because every deploy overwrites this file: without it the subdomain falls back to PHP 7.4.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php83 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+
+Options -Indexes
+DirectoryIndex index.php
+AddType text/javascript .js
+AddType font/woff2 .woff2
+
+RewriteEngine On
+# real files under /a/ (except the .html templates) are served by Apache; everything else, incl. surveys.*, seed/, dot-files, goes to index.php
+RewriteCond %{REQUEST_URI} !\.html$ [NC]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^a/ - [END,E=FIKR_STATIC:1]
+RewriteRule ^ index.php [END]
+
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=2592000, immutable" env=FIKR_STATIC
+  Header set X-Content-Type-Options "nosniff" env=FIKR_STATIC
+  Header set Referrer-Policy "same-origin" env=FIKR_STATIC
+  Header set X-Frame-Options "DENY" env=FIKR_STATIC
+</IfModule>
