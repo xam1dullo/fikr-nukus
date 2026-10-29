@@ -4,7 +4,10 @@
   const D = {
     '0 dan yuqori boʻlsa, yaxshi': ['Выше 0 — хорошо', '0 den joqarı bolsa, jaqsı'],
     '1–{d} {m} bilan solishtirilgan': ['по сравнению с 1–{d} {m}', '1–{d} {m} menen salıstırılǵan'],
+    '3 ta banner': ['3 баннера', '3 banner'],
     'A4, har biri alohida sahifada. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.': ['A4, каждый на отдельной странице. При печати включите «Масштаб 100%» и «Фоновая графика».', 'A4, hár biri bólek betde. Basıp shıǵarıwda “Масштаб 100%” hám “Фоновая графика” qosılǵan bolsın.'],
+    'A4 varaqda 3 ta banner: chiziq boʻyicha qirqing. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.': ['3 баннера на листе A4: разрежьте по пунктиру. При печати включите «Масштаб 100%» и «Фоновая графика».', 'A4 betinde 3 banner: sızıq boyınsha qırqıń. Basıp shıǵarıwda “Масштаб 100%” hám “Фоновая графика” qosılǵan bolsın.'],
+    'Bitta A4 plakat': ['Один плакат A4', 'Bir A4 plakat'],
     'Avval boʻlim nomini yozing': ['Сначала введите название отделения', 'Aldın bólim atın jazıń'],
     'Avval eskilari': ['Сначала старые', 'Aldın eskileri'],
     'Avval past baholar': ['Сначала низкие оценки', 'Aldın tómen bahalar'],

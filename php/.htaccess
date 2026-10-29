@@ -1,0 +1,50 @@
+# Fikr — Apache 2.4 + PHP 8.3 (cPanel). Real files under /a/ (except .html) are served by Apache; everything else goes to index.php.
+Options -Indexes -MultiViews
+DirectoryIndex index.php
+
+AddType font/woff2 .woff2
+AddType text/javascript .js
+
+# Blocked files (403). Checked before rewriting, so never list *.html here: /a/s.html must reach index.php (→ 404).
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+<FilesMatch "(?i)^(?!(index|hash)\.php$).*\.(php\d?|phtml|phar)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "(?i)(^config.*\.php|\.md|^surveys\.json|^staff\.json)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # AutoSSL / ACME domain validation
+  RewriteRule ^\.well-known/ - [L]
+  # other dot-files/dirs and seed/
+  RewriteRule (^|/)\. - [F]
+  RewriteRule ^seed(/|$) - [F]
+
+  RewriteCond %{REQUEST_URI} !\.html$ [NC]
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^a/. - [E=FIKR_STATIC:1,L]
+
+  RewriteRule ^index\.php$ - [L]
+  # hash.php is only present while uploaded by hand (see php/README.md)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^hash\.php$ - [L]
+
+  RewriteRule ^ index.php [L,QSA]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+  <If "%{REQUEST_URI} =~ m#^/a/#">
+    Header set Cache-Control "public, max-age=2592000, immutable" env=FIKR_STATIC
+    Header set X-Content-Type-Options "nosniff" env=FIKR_STATIC
+    Header set Referrer-Policy "same-origin" env=FIKR_STATIC
+    Header set X-Frame-Options "DENY" env=FIKR_STATIC
+  </If>
+</IfModule>

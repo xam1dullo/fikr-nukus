@@ -170,6 +170,38 @@ dialog form { display: grid; gap: var(--sp-4); }
 .poster .pz-hi { stroke: var(--sky); } .poster .pz-fill { fill: var(--sky); stroke: var(--sky); }
 .pz-thanks { position: absolute; left: 0; right: 30mm; top: 278.6mm; margin: 0; text-align: center; color: var(--blue); font: 400 7.4mm/1.15 Pacifico, "Segoe Script", cursive; }
 .pz-url { position: absolute; left: 0; right: 30mm; top: 291.4mm; margin: 0; text-align: center; font-size: 2.4mm; color: #7A87A8; letter-spacing: .02em; }
+/* three 190×85mm banners per A4, cut along the dashed lines: text left, real QR centre, photo right, navy strip of four promises */
+.fmt { display: inline-flex; margin-top: var(--sp-3); }
+.sheet { position: relative; width: 210mm; height: 297mm; box-sizing: border-box; padding: 10mm; display: flex; flex-direction: column; background: #fff; box-shadow: var(--sh-3); }
+.bn { --navy: #082B72; --blue: #1479F8; --sky: #6FB0FF; --ink: #0E1E45;
+  position: relative; flex: none; width: 190mm; height: 85mm; overflow: hidden; border-radius: 3mm; background: linear-gradient(115deg, #fff 45%, #EAF3FF); color: var(--ink); font-family: var(--font); }
+.cut { height: 0; border-top: .35mm dashed #9DB0D3; margin: 5.45mm -6mm; position: relative; flex: none; }
+.cut::before { content: "✂"; position: absolute; left: -1mm; top: -2.4mm; font-size: 3.4mm; color: #9DB0D3; line-height: 1; }
+.bn-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.bn-photo { position: absolute; left: 121mm; top: 0; width: 69mm; height: 72mm; object-fit: cover; object-position: center 22%; }
+.bn-col { position: absolute; left: 7mm; top: 6.5mm; width: 68mm; }
+.bn-mark { display: flex; align-items: center; gap: 2.2mm; color: var(--blue); font-size: 2.6mm; font-weight: 700; letter-spacing: .25mm; text-transform: uppercase; }
+.bn-mark svg { width: 7.5mm; height: 7.5mm; flex: none; }
+.bn-title { margin: 2.6mm 0 0; font-family: Oswald, var(--font); font-weight: 700; text-transform: uppercase; line-height: 1.02; color: var(--navy); font-size: 7mm; letter-spacing: .1mm; }
+.bn-title em { display: block; white-space: nowrap; font-style: normal; color: var(--blue); font-size: 9.6mm; line-height: 1.04; }
+.bn-pulse { display: block; width: 60mm; height: 3.6mm; margin: 2mm 0 1.8mm; color: var(--blue); }
+.bn-pulse svg { width: 100%; height: 100%; }
+.bn-sub { margin: 0; font-size: 3.15mm; line-height: 1.38; font-weight: 600; }
+.bn-qr { position: absolute; left: 78mm; top: 5mm; width: 45mm; }
+.bn-tab { display: flex; align-items: center; gap: 1.6mm; padding: 1.5mm 2.4mm; border-radius: 2.4mm 2.4mm 0 0; background: var(--navy); color: #fff; font-size: 2.35mm; font-weight: 600; line-height: 1.2; }
+.bn-tab svg { width: 3.4mm; height: 5mm; flex: none; }
+.bn-card { background: #fff; border: .6mm solid var(--blue); border-radius: 0 0 4mm 4mm; padding: 2.4mm 2.6mm 2mm; }
+.bn-code svg { display: block; width: 100%; height: auto; }
+.bn-name { margin-top: 1.8mm; padding-top: 1.5mm; border-top: .25mm dashed #B9CBEF; }
+.bn-name b { display: block; font-size: 2.9mm; line-height: 1.18; font-weight: 700; color: var(--navy); }
+.bn-name span { display: block; margin-top: .5mm; font-size: 2.2mm; line-height: 1.25; color: #3A4A70; }
+.bn-band { position: absolute; left: 0; right: 0; bottom: 0; height: 13mm; margin: 0; padding: 0 3mm; list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center;
+  background: linear-gradient(90deg, #06225E, var(--navy) 60%, #0D3A93); }
+.bn-band li { display: flex; align-items: center; justify-content: center; gap: 1.8mm; padding: 0 1.5mm; color: #fff; height: 7.5mm; }
+.bn-band li + li { border-left: .25mm solid rgba(255, 255, 255, .28); }
+.bn-band svg { width: 6.8mm; height: 6.8mm; flex: none; }
+.bn-band b { font-family: Oswald, var(--font); font-weight: 600; font-size: 2.7mm; line-height: 1.08; letter-spacing: .1mm; text-transform: uppercase; }
+.bn .pz-hi { stroke: var(--sky); } .bn .pz-fill { fill: var(--sky); stroke: var(--sky); }
 @media print {
   @page { size: A4; margin: 0; }
   body { background: var(--surface); }
@@ -178,6 +210,8 @@ dialog form { display: grid; gap: var(--sp-4); }
   .posters { display: block; }
   .poster { box-shadow: none; break-after: page; zoom: 1 !important; }
   .poster:last-child { break-after: auto; }
+  .sheet { box-shadow: none; break-after: page; zoom: 1 !important; }
+  .sheet:last-child { break-after: auto; }
   /* blurred shadows turn into grey boxes in Chrome's PDF output */
   .pz-card { box-shadow: none; } .pz-mark { box-shadow: none; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -933,10 +967,14 @@ function edit(s) {
 const PHOTO_BY = [[/нефр|nefr/i, 'nephro'], [/диабетолог|diabetolog/i, 'diabetology'], [/детск|болалар|bolalar|педиатр|pediatr/i, 'pediatric'],
   [/реаним|интенсив|reanim/i, 'icu'], [/тиро|щитовид|tiroid|qalqon/i, 'thyroid'], [/пластич|реконструк|plastik|тубиг|tubig|шифокор-жарроҳ|врач-хирург\)|jarroh(?!dan)/i, 'surgery'],
   [/физио|fizio/i, 'physio'], [/кардио|kardio/i, 'cardio'], [/офтальм|окулист|oftalm|okulist/i, 'eye'], [/невр|nevr/i, 'neuro'],
-  [/диет|diet/i, 'diet'], [/цитолог|лаборант|sitolog|laborant/i, 'lab']];
+  [/диет|diet/i, 'diet'], [/цитолог|лаборант|sitolog|laborant/i, 'lab'],
+  // heads before specialties, so "Бўлим мудири; …эндокринолог" shows the head of department
+  [/мудир|бош врач|бош шифокор|ўринбосар|заведующ|главный врач|mudir|bosh shifokor/i, 'head'], [/эндокрин|endokrin/i, 'endo'],
+  [/умумий амалиёт|общей практики|umumiy amaliyot/i, 'gp'], [/рўйхатдан ўтказувчи|регистратор|roʻyxatga oluvchi/i, '/registry']];
 function posterPhoto(s) {
   if (s.template !== 'doctor') return s.template;
-  for (const text of [s.dept, s.position]) { const hit = PHOTO_BY.find(([re]) => re.test(text || '')); if (hit) return 'd/' + hit[1]; }
+  // a leading "/" points at a survey photo instead of a department one (a medical registrar on the doctor survey)
+  for (const text of [s.dept, s.position]) { const hit = PHOTO_BY.find(([re]) => re.test(text || '')); if (hit) return hit[1][0] === '/' ? hit[1].slice(1) : 'd/' + hit[1]; }
   return 'doctor';
 }
 const POSTER_ICONS = {
@@ -968,16 +1006,41 @@ const posterArt = (id, photo) => `<svg class="pz-art" viewBox="0 0 210 297" aria
   <path d="M146 297C170 292 192 283 210 271V297Z" fill="#3D8BFF"/><path d="M166 297C183 293 198 287 210 279V297Z" fill="#1D5FE0"/>
   <path d="M46 289.6C74 287.8 104 287.8 132 289.6" fill="none" stroke="#3D8BFF" stroke-width=".5" stroke-linecap="round"/>
 </svg>`;
+// banner art in mm (viewBox = one 190×85 banner): swooshes behind the photo, then the white curve that frames its left edge
+const bannerArt = (id) => `<svg class="bn-art" viewBox="0 0 190 85" preserveAspectRatio="none" aria-hidden="true">
+  <defs><pattern id="bnd${id}" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".42" fill="#1479F8" fill-opacity=".4"/></pattern></defs>
+  <rect x="62" y="3" width="13" height="8" fill="url(#bnd${id})"/><path d="M0 60C24 54 52 55 78 63V72H0Z" fill="#DCEBFF"/>
+</svg>`;
+const bannerFront = (id) => `<svg class="bn-art" viewBox="0 0 190 85" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M121 0H133C125 18 122 40 124 72H121Z" fill="#fff"/>
+  <path d="M133 0C125 18 122 40 124 72" fill="none" stroke="#1479F8" stroke-width=".9"/><path d="M138 0C131 15 128 33 129 52" fill="none" stroke="#6FB0FF" stroke-width=".5" opacity=".8"/>
+  <path d="M0 72H190V66C160 73 130 69 100 70C60 71 28 68 0 63Z" fill="#1479F8"/>
+</svg>`;
+const CROSS = (id) => `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="bnp${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4F9BFF"/><stop offset="1" stop-color="#1479F8"/></linearGradient></defs><circle cx="12" cy="12" r="11.4" fill="#EAF3FF"/><path d="M9.6 5h4.8v4.6H19v4.8h-4.6V19H9.6v-4.6H5V9.6h4.6z" fill="url(#bnp${id})"/></svg>`;
 async function printView(ids) {
   STATS = STATS || await api('stats?month=' + month());
   const want = new Set(String(ids).split(',').map(Number)), list = STATS.staff.filter((s) => want.has(s.id) && s.active);
   // level Q survives a crease or a smudge on a printed sheet better than M
   const qr = (url) => { const q = qrcode(0, 'Q'); q.addData(url); q.make(); return q.createSvgTag({ cellSize: 8, margin: 0, scalable: true }); };
-  const P = I18N.poster(L);
+  const P = I18N.poster(L), fmt = new URLSearchParams(location.hash.split('?')[1] || '').get('f') === 'a4' ? 'a4' : 'bn';
+  const base = location.hash.split('?')[0];
+  // like the center's poster, only the last word ("BAHOLANG!") is the big blue line
+  const titleOf = (s) => { const [l1, l2] = P.title[s.template] || P.title.doctor, cut = l2.lastIndexOf(' '); return cut < 0 ? [l1, l2] : [`${l1} ${l2.slice(0, cut)}`, l2.slice(cut + 1)]; };
+  const sheets = [];
+  for (let i = 0; i < list.length; i += 3) sheets.push(list.slice(i, i + 3));
+  const banner = (s) => { const url = `${ME.base}/s/${s.code}`, [head, accent] = titleOf(s), label = ME.templates[s.template]?.[L] || ME.templates[s.template]?.uz || '';
+    return `<article class="bn" lang="${I18N.HTML_LANG[L]}">${bannerArt(s.id)}<img class="bn-photo" src="/a/p/${posterPhoto(s)}.jpg?v={{V}}" alt="">${bannerFront(s.id)}
+      <div class="bn-col"><div class="bn-mark">${CROSS(s.id)}<span>${esc(label)}</span></div><h2 class="bn-title">${esc(head)}<em>${esc(accent)}</em></h2>
+        <i class="bn-pulse">${POSTER_ICONS.pulse}</i><p class="bn-sub">${esc(P.sub1)}<br>${esc(P.sub2)}</p></div>
+      <div class="bn-qr"><div class="bn-tab">${POSTER_ICONS.phone}<span>${esc(P.scan)}</span></div>
+        <div class="bn-card"><div class="bn-code">${qr(url)}</div><div class="bn-name"><b>${esc(s.kind === 'point' ? label : s.name)}</b>${s.kind === 'point' && !s.dept ? '' : `<span>${esc(s.dept || label)}</span>`}</div></div></div>
+      <ul class="bn-band">${P.features.map(([ic, h]) => `<li>${POSTER_ICONS[ic]}<b>${esc(h)}</b></li>`).join('')}</ul></article>`; };
   app.innerHTML = `<div class="head noprint"><div><a class="back" href="#/people">${ICON.back}${t('Xodimlar')}</a><h1 class="t-h1">${t('QR plakatlar ({n})', { n: list.length })}</h1>
-      <p class="c-3">${t('A4, har biri alohida sahifada. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.')}</p></div>
+      <p class="c-3">${fmt === 'bn' ? t('A4 varaqda 3 ta banner: chiziq boʻyicha qirqing. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.') : t('A4, har biri alohida sahifada. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.')}</p>
+      <div class="tabs fmt" role="group">${[['bn', '3 ta banner'], ['a4', 'Bitta A4 plakat']].map(([k, l]) => `<a class="tab" href="${base}${k === 'a4' ? '?f=a4' : ''}" aria-pressed="${fmt === k}">${t(l)}</a>`).join('')}</div></div>
       <button class="btn btn-primary" id="doPrint">${t('Chop etish yoki PDF')}</button></div>
-    <div class="posters">${list.map((s) => { const url = `${ME.base}/s/${s.code}`, [l1, l2] = P.title[s.template] || P.title.doctor;
+    ${fmt === 'bn' ? `<div class="posters">${sheets.map((g) => `<section class="sheet">${g.map(banner).join('<i class="cut" aria-hidden="true"></i>')}</section>`).join('')}</div>`
+    : `<div class="posters">${list.map((s) => { const url = `${ME.base}/s/${s.code}`, [l1, l2] = P.title[s.template] || P.title.doctor;
       // like the center's poster, only the last word ("BAHOLANG!") is the big blue line
       const cut = l2.lastIndexOf(' '), head = cut < 0 ? l1 : `${l1} ${l2.slice(0, cut)}`, accent = l2.slice(cut + 1); return `<article class="poster" lang="${I18N.HTML_LANG[L]}">${posterArt(s.id, posterPhoto(s))}
       <div class="pz-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="pzp${s.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4F9BFF"/><stop offset="1" stop-color="#1D5FE0"/></linearGradient></defs><path d="M9 2.5h6v6.5h6.5v6H15v6.5H9V15H2.5V9H9z" fill="url(#pzp${s.id})" stroke="#fff" stroke-width=".5" stroke-linejoin="round"/></svg></div>
@@ -988,8 +1051,16 @@ async function printView(ids) {
           ${s.kind === 'point' ? '' : `<div class="pz-name"><b>${esc(s.name)}</b>${s.dept ? `<span>${esc(s.dept)}</span>` : ''}</div>`}</div></div></div>
       <ul class="pz-band">${P.features.map(([ic, h]) => `<li>${POSTER_ICONS[ic]}<b>${esc(h)}</b></li>`).join('')}</ul>
       <p class="pz-thanks">${esc(P.thanks)}</p>
-      <p class="pz-url">${esc(url.replace(/^https?:\/\//, ''))}</p></article>`; }).join('')}</div>`;
+      <p class="pz-url">${esc(url.replace(/^https?:\/\//, ''))}</p></article>`; }).join('')}</div>`}`;
   $('#doPrint').addEventListener('click', () => print());
+  // banners: a long accent word or a long name shrinks to fit its column instead of spilling into the QR / the band
+  $$('.bn').forEach((b) => {
+    const em = $('.bn-title em', b), col = $('.bn-col', b);
+    for (let f = 9.6; em.scrollWidth > col.clientWidth && f > 6; f -= .4) em.style.fontSize = f - .4 + 'mm';
+    const name = $('.bn-name', b), card = $('.bn-card', b), lim = () => card.getBoundingClientRect().bottom > $('.bn-band', b).getBoundingClientRect().top - 2;
+    for (let f = 2.9; lim() && f > 2.1; f -= .2) $('b', name).style.fontSize = f - .2 + 'mm';
+    for (let w = 45; lim() && w > 36; w -= 1) $('.bn-qr', b).style.width = w - 1 + 'mm';
+  });
   // a long title or a two-line department can push the card into the wave (top ≈ 236mm): shrink that sheet's QR, never below 66mm
   const mm = 96 / 25.4;
   $$('.poster').forEach((p) => {
@@ -1005,7 +1076,7 @@ async function printView(ids) {
 function fitPosters() {
   const box = $('.posters'); if (!box) return;
   const z = Math.min(1, box.clientWidth / (210 * 96 / 25.4));
-  box.querySelectorAll('.poster').forEach((p) => { p.style.zoom = z; });
+  box.querySelectorAll('.poster, .sheet').forEach((p) => { p.style.zoom = z; });
 }
 addEventListener('resize', fitPosters);
 

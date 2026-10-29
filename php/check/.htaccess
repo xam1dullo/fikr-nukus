@@ -1,0 +1,5 @@
+# Temporary diagnostics folder: opt out of the site's rewrite-to-index.php and *.php deny rules. Delete the folder after use.
+RewriteEngine Off
+<Files "check.php">
+  Require all granted
+</Files>
