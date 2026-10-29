@@ -50,6 +50,8 @@ Survey text change: edit `app/surveys.js`, run `node app/export-surveys.js`, com
 
 ## Troubleshooting
 
+- Login says "wrong password", or anything else looks off → upload the `php/check/` folder into `public_html/fikr.endork.uz/`, open `https://fikr.endork.uz/check/check.php` (PHP version, files, config, hash format, DB, a login test; no secrets shown), then **delete the folder**.
+
 - 500 → cPanel → Errors, or `error_log` in the docroot.
 - "config" error → `/home/azama430/fikr-config.php` missing, unreadable or not `return [...]`.
 - Tables missing / schema changed → delete `.migrated` in the docroot; migrations re-run on the next request.
