@@ -170,6 +170,38 @@ dialog form { display: grid; gap: var(--sp-4); }
 .poster .pz-hi { stroke: var(--sky); } .poster .pz-fill { fill: var(--sky); stroke: var(--sky); }
 .pz-thanks { position: absolute; left: 0; right: 30mm; top: 278.6mm; margin: 0; text-align: center; color: var(--blue); font: 400 7.4mm/1.15 Pacifico, "Segoe Script", cursive; }
 .pz-url { position: absolute; left: 0; right: 30mm; top: 291.4mm; margin: 0; text-align: center; font-size: 2.4mm; color: #7A87A8; letter-spacing: .02em; }
+/* three 190×85mm banners per A4, cut along the dashed lines: text left, real QR centre, photo right, navy strip of four promises */
+.fmt { display: inline-flex; margin-top: var(--sp-3); }
+.sheet { position: relative; width: 210mm; height: 297mm; box-sizing: border-box; padding: 10mm; display: flex; flex-direction: column; background: #fff; box-shadow: var(--sh-3); }
+.bn { --navy: #082B72; --blue: #1479F8; --sky: #6FB0FF; --ink: #0E1E45;
+  position: relative; flex: none; width: 190mm; height: 85mm; overflow: hidden; border-radius: 3mm; background: linear-gradient(115deg, #fff 45%, #EAF3FF); color: var(--ink); font-family: var(--font); }
+.cut { height: 0; border-top: .35mm dashed #9DB0D3; margin: 5.45mm -6mm; position: relative; flex: none; }
+.cut::before { content: "✂"; position: absolute; left: -1mm; top: -2.4mm; font-size: 3.4mm; color: #9DB0D3; line-height: 1; }
+.bn-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.bn-photo { position: absolute; left: 121mm; top: 0; width: 69mm; height: 72mm; object-fit: cover; object-position: center 22%; }
+.bn-col { position: absolute; left: 7mm; top: 6.5mm; width: 68mm; }
+.bn-mark { display: flex; align-items: center; gap: 2.2mm; color: var(--blue); font-size: 2.6mm; font-weight: 700; letter-spacing: .25mm; text-transform: uppercase; }
+.bn-mark svg { width: 7.5mm; height: 7.5mm; flex: none; }
+.bn-title { margin: 2.6mm 0 0; font-family: Oswald, var(--font); font-weight: 700; text-transform: uppercase; line-height: 1.02; color: var(--navy); font-size: 7mm; letter-spacing: .1mm; }
+.bn-title em { display: block; white-space: nowrap; font-style: normal; color: var(--blue); font-size: 9.6mm; line-height: 1.04; }
+.bn-pulse { display: block; width: 60mm; height: 3.6mm; margin: 2mm 0 1.8mm; color: var(--blue); }
+.bn-pulse svg { width: 100%; height: 100%; }
+.bn-sub { margin: 0; font-size: 3.15mm; line-height: 1.38; font-weight: 600; }
+.bn-qr { position: absolute; left: 78mm; top: 5mm; width: 45mm; }
+.bn-tab { display: flex; align-items: center; gap: 1.6mm; padding: 1.5mm 2.4mm; border-radius: 2.4mm 2.4mm 0 0; background: var(--navy); color: #fff; font-size: 2.35mm; font-weight: 600; line-height: 1.2; }
+.bn-tab svg { width: 3.4mm; height: 5mm; flex: none; }
+.bn-card { background: #fff; border: .6mm solid var(--blue); border-radius: 0 0 4mm 4mm; padding: 2.4mm 2.6mm 2mm; }
+.bn-code svg { display: block; width: 100%; height: auto; }
+.bn-name { margin-top: 1.8mm; padding-top: 1.5mm; border-top: .25mm dashed #B9CBEF; }
+.bn-name b { display: block; font-size: 2.9mm; line-height: 1.18; font-weight: 700; color: var(--navy); }
+.bn-name span { display: block; margin-top: .5mm; font-size: 2.2mm; line-height: 1.25; color: #3A4A70; }
+.bn-band { position: absolute; left: 0; right: 0; bottom: 0; height: 13mm; margin: 0; padding: 0 3mm; list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center;
+  background: linear-gradient(90deg, #06225E, var(--navy) 60%, #0D3A93); }
+.bn-band li { display: flex; align-items: center; justify-content: center; gap: 1.8mm; padding: 0 1.5mm; color: #fff; height: 7.5mm; }
+.bn-band li + li { border-left: .25mm solid rgba(255, 255, 255, .28); }
+.bn-band svg { width: 6.8mm; height: 6.8mm; flex: none; }
+.bn-band b { font-family: Oswald, var(--font); font-weight: 600; font-size: 2.7mm; line-height: 1.08; letter-spacing: .1mm; text-transform: uppercase; }
+.bn .pz-hi { stroke: var(--sky); } .bn .pz-fill { fill: var(--sky); stroke: var(--sky); }
 @media print {
   @page { size: A4; margin: 0; }
   body { background: var(--surface); }
@@ -178,6 +210,8 @@ dialog form { display: grid; gap: var(--sp-4); }
   .posters { display: block; }
   .poster { box-shadow: none; break-after: page; zoom: 1 !important; }
   .poster:last-child { break-after: auto; }
+  .sheet { box-shadow: none; break-after: page; zoom: 1 !important; }
+  .sheet:last-child { break-after: auto; }
   /* blurred shadows turn into grey boxes in Chrome's PDF output */
   .pz-card { box-shadow: none; } .pz-mark { box-shadow: none; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -306,6 +340,16 @@ body.bulk-on .toast { bottom: calc(var(--sp-6) + 72px); }
 [data-theme="dark"] .seg-pill { background: #2C3936; }
 dialog { background: var(--surface); color: var(--text); }
 [data-theme="dark"] dialog::backdrop { background: rgba(0, 0, 0, .6); }
+.st { display: grid; gap: var(--sp-5); }
+.st-card h2 { margin-bottom: var(--sp-1); }
+.st-card > p { margin-bottom: var(--sp-4); max-width: 70ch; }
+.st-grid { display: grid; grid-template-columns: 2.75rem 1fr; gap: var(--sp-2) var(--sp-3); align-items: center; }
+.st-grid label { font-size: var(--fs-label); font-weight: 700; color: var(--text-2); }
+.st-sel { max-width: 360px; margin-bottom: var(--sp-4); }
+.st-items { display: grid; gap: var(--sp-4); }
+.st-item { margin: 0; padding: var(--sp-4); border: 1px solid var(--border); border-radius: var(--r-md); min-width: 0; }
+.st-item legend { display: flex; align-items: center; gap: var(--sp-2); padding: 0 var(--sp-2); font-weight: 700; }
+.st .row-actions { margin-top: var(--sp-4); }
 .theme-btn { width: var(--h-sm); height: var(--h-sm); display: grid; place-items: center; border-radius: var(--r-sm); color: var(--text-2); }
 .theme-btn:hover { background: var(--surface-sunken); color: var(--text); }
 .theme-btn .moon, [data-theme="dark"] .theme-btn .sun { display: block; }
@@ -314,18 +358,18 @@ dialog { background: var(--surface); color: var(--text); }
 </head>
 <body>
 <header class="top" id="top">
-  <div class="logo"><div class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div>Fikr<small data-t="Nukus endokrinologiya markazi"></small></div></div>
+  <div class="logo"><div class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div>Fikr<small id="orgName"></small></div></div>
   <nav class="seg" id="nav" data-t-aria-label="Boʻlimlar"><span class="seg-pill" aria-hidden="true"></span>
-    <a class="seg-item" href="#/" data-r="" data-t="Umumiy"></a><a class="seg-item" href="#/comments" data-r="comments" data-t="Izohlar"></a><a class="seg-item" href="#/people" data-r="people" data-t="Xodimlar"></a>
+    <a class="seg-item" href="#/" data-r="" data-t="Umumiy"></a><a class="seg-item" href="#/comments" data-r="comments" data-t="Izohlar"></a><a class="seg-item" href="#/people" data-r="people" data-t="Xodimlar"></a><a class="seg-item" href="#/settings" data-r="settings" data-t="Sozlamalar"></a>
   </nav>
   <div class="top-end"><div class="mon" role="group" data-t-aria-label="Oy"><button type="button" id="mPrev" data-t-aria-label="Oldingi oy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><span id="mLabel" aria-live="polite"></span><button type="button" id="mNext" data-t-aria-label="Keyingi oy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button></div><input type="hidden" id="month">
-  <select class="lang-sel" id="lang" data-t-aria-label="Til"><option value="uz" lang="uz">UZ</option><option value="oz" lang="uz-Cyrl">ЎЗ</option><option value="qq" lang="kaa">QQ</option><option value="ru" lang="ru">RU</option></select>
+  <select class="lang-sel" id="lang" data-t-aria-label="Til"><option value="uz" lang="uz">UZ</option><option value="oz" lang="uz-Cyrl">ЎЗ</option><option value="qq" lang="kaa">QQ</option><option value="qc" lang="kaa-Cyrl">ҚҚ</option><option value="ru" lang="ru">RU</option></select>
   <button class="theme-btn" id="theme" type="button"><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
   <button class="btn btn-ghost btn-sm" id="logout" data-t="Chiqish"></button></div>
 </header>
 <script>try { if (!localStorage.getItem("fikr-auth")) document.getElementById("top").hidden = true; } catch { document.getElementById("top").hidden = true; }</script>
 <main class="wrap" id="app"><div class="skel" aria-hidden="true"></div></main>
-<script>document.getElementById("app").classList.toggle("wide", !/^#\/(comments|print)/.test(location.hash));</script>
+<script>document.getElementById("app").classList.toggle("wide", !/^#\/(comments|print|settings)/.test(location.hash));</script>
 
 <dialog id="dlg" aria-labelledby="dlgTitle"><form method="dialog" id="form">
   <h2 class="t-h3" id="dlgTitle"></h2>
@@ -378,7 +422,10 @@ function dayLabel(day) {
   return day === ME.today ? t('Bugun') : day === y ? t('Kecha') : I18N.date(L, +day.slice(8), +day.slice(5, 7));
 }
 const when = (ts, short) => (short && ts.slice(0, 10) !== ME.today ? dayLabel(ts.slice(0, 10)) : `${dayLabel(ts.slice(0, 10))}, ${ts.slice(11, 16)}`);
-const LANGN = () => ({ uz: t('Oʻzbekcha (lotin)'), oz: t('Oʻzbekcha (kirill)'), qq: t('Qoraqalpoqcha'), ru: t('Ruscha') });
+const LANGN = () => ({ uz: t('Oʻzbekcha (lotin)'), oz: t('Oʻzbekcha (kirill)'), qq: t('Qoraqalpoqcha'), qc: t('Qoraqalpoqcha (kirill)'), ru: t('Ruscha') });
+// hospital name from Settings; injected into the page so the login screen shows it too
+let ORG = /*ORG*/null;
+const orgName = () => ORG?.[L] || t('Nukus endokrinologiya markazi');
 const devText = (r) => [r.dev_model && r.dev_model !== 'Nomaʼlum' ? r.dev_model : t('Nomaʼlum qurilma'), r.dev_os, r.dev_screen && t('ekran {s}', { s: r.dev_screen })].filter(Boolean).join(', ')
   + '. ' + t('Qurilma belgisi: {id}', { id: r.dev_id });
 
@@ -395,6 +442,7 @@ function applyStatic() {
   $$('[data-t]').forEach((el) => { el.textContent = t(el.dataset.t); });
   $$('[data-t-aria-label]').forEach((el) => el.setAttribute('aria-label', t(el.dataset.tAriaLabel)));
   $('#lang').value = L;
+  $('#orgName').textContent = orgName();
   syncTheme();
   if (ME) {
     $('#f-template').innerHTML = Object.keys(ME.templates).map((k) => `<option value="${k}">${esc(tpl(k))}</option>`).join('');
@@ -417,8 +465,8 @@ async function api(p, opt = {}) {
 function login() {
   try { localStorage.removeItem('fikr-auth'); } catch {}
   $('#top').hidden = true;
-  app.innerHTML = `<div class="card login"><div class="login-lang tabs" role="group" aria-label="${esc(t('Til'))}">${['uz', 'oz', 'qq', 'ru'].map((k) => `<button type="button" class="tab" data-l="${k}" aria-pressed="${k === L}">${{ uz: 'UZ', oz: 'ЎЗ', qq: 'QQ', ru: 'RU' }[k]}</button>`).join('')}</div>
-    <h1 class="t-h2">${t('Bosh shifokor kabineti')}</h1><p class="c-3 login-sub">${t('Nukus endokrinologiya markazi')}</p>
+  app.innerHTML = `<div class="card login"><div class="login-lang tabs" role="group" aria-label="${esc(t('Til'))}">${I18N.LANGS.map((k) => `<button type="button" class="tab" data-l="${k}" aria-pressed="${k === L}">${I18N.LABEL[k]}</button>`).join('')}</div>
+    <h1 class="t-h2">${t('Bosh shifokor kabineti')}</h1><p class="c-3 login-sub">${esc(orgName())}</p>
     <form id="lf"><div class="field"><label class="field-label" for="u">${t('Login')}</label><input class="input" id="u" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
     <div class="field"><label class="field-label" for="p">${t('Parol')}</label><input class="input" id="p" name="password" type="password" autocomplete="current-password" required></div>
     <div class="err" id="lerr" role="alert"></div><button class="btn btn-primary btn-block" id="lbtn">${t('Kirish')}</button></form></div>`;
@@ -437,6 +485,7 @@ function login() {
 
 async function boot() {
   ME = await api('me');
+  ORG = ME.org || null;
   applyStatic();
   $('#top').hidden = false;
   try { localStorage.setItem('fikr-auth', '1'); } catch {}
@@ -444,17 +493,17 @@ async function boot() {
 }
 
 /* ---------- routing, scroll memory ---------- */
-const TITLES = { comments: 'Izohlar', people: 'Xodimlar', print: 'QR plakatlar', staff: 'Xodim' };
+const TITLES = { comments: 'Izohlar', people: 'Xodimlar', print: 'QR plakatlar', staff: 'Xodim', settings: 'Sozlamalar' };
 function route() {
   const [name, arg] = location.hash.slice(2).split('?')[0].split('/');
   const cur = name === 'print' ? 'people' : name === 'staff' ? '' : name || '';
   $$('#nav .seg-item').forEach((a) => { a.setAttribute('aria-selected', a.dataset.r === cur); if (a.dataset.r === cur) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   movePill();
   document.body.classList.remove('bulk-on');
-  app.classList.toggle('wide', name !== 'comments' && name !== 'print');
+  app.classList.toggle('wide', !['comments', 'print', 'settings'].includes(name));
   app.setAttribute('aria-busy', 'true');
   document.title = t(TITLES[name] || 'Umumiy') + ' — Fikr';
-  const views = { staff: () => staffView(arg), comments, people, print: () => printView(arg) };
+  const views = { staff: () => staffView(arg), comments, people, print: () => printView(arg), settings };
   const target = goTop ? 0 : scrollMemory()[location.hash.split('?')[0] || '#/'] || 0;
   goTop = false;
   (views[name] || dashboard)()
@@ -799,7 +848,8 @@ async function people() {
   const picked = new Set();
 
   app.innerHTML = `<div class="pp-title"><div><h1 class="t-h1">${t('Xodimlar va QR kodlar')}</h1><p class="c-3" id="ppsum"></p></div>
-        <button class="btn btn-primary" id="add">${ICON.plus}${t('Xodim qoʻshish')}</button></div>
+        <div class="row-actions"><a class="btn btn-secondary" href="#/print/${list.filter((s) => s.active).map((s) => s.id).join(',')}?f=x3">${t('Barcha QR kodlar (3 variant)')}</a>
+        <button class="btn btn-primary" id="add">${ICON.plus}${t('Xodim qoʻshish')}</button></div></div>
     <div id="ppsent" aria-hidden="true"></div><section class="pp-head" id="pph" aria-label="${esc(t('Qidiruv va filtrlar'))}">
       <div class="pp-tools">${searchBox(t('Ism, lavozim yoki boʻlim'))}
         <select class="input pp-sel" id="fd" aria-label="${esc(t('Boʻlim'))}"><option value="">${t('Barcha boʻlimlar')}</option>${depts.map((d) => `<option value="${esc(d)}">${esc(d)}</option>`).join('')}</select>
@@ -933,11 +983,23 @@ function edit(s) {
 const PHOTO_BY = [[/нефр|nefr/i, 'nephro'], [/диабетолог|diabetolog/i, 'diabetology'], [/детск|болалар|bolalar|педиатр|pediatr/i, 'pediatric'],
   [/реаним|интенсив|reanim/i, 'icu'], [/тиро|щитовид|tiroid|qalqon/i, 'thyroid'], [/пластич|реконструк|plastik|тубиг|tubig|шифокор-жарроҳ|врач-хирург\)|jarroh(?!dan)/i, 'surgery'],
   [/физио|fizio/i, 'physio'], [/кардио|kardio/i, 'cardio'], [/офтальм|окулист|oftalm|okulist/i, 'eye'], [/невр|nevr/i, 'neuro'],
-  [/диет|diet/i, 'diet'], [/цитолог|лаборант|sitolog|laborant/i, 'lab']];
+  [/диет|diet/i, 'diet'], [/цитолог|лаборант|sitolog|laborant/i, 'lab'],
+  // heads before specialties, so "Бўлим мудири; …эндокринолог" shows the head of department
+  [/мудир|бош врач|бош шифокор|ўринбосар|заведующ|главный врач|mudir|bosh shifokor/i, 'head'], [/эндокрин|endokrin/i, 'endo'],
+  [/умумий амалиёт|общей практики|umumiy amaliyot/i, 'gp'], [/рўйхатдан ўтказувчи|регистратор|roʻyxatga oluvchi/i, '/registry']];
 function posterPhoto(s) {
   if (s.template !== 'doctor') return s.template;
-  for (const text of [s.dept, s.position]) { const hit = PHOTO_BY.find(([re]) => re.test(text || '')); if (hit) return 'd/' + hit[1]; }
+  // a leading "/" points at a survey photo instead of a department one (a medical registrar on the doctor survey)
+  for (const text of [s.dept, s.position]) { const hit = PHOTO_BY.find(([re]) => re.test(text || '')); if (hit) return hit[1][0] === '/' ? hit[1].slice(1) : 'd/' + hit[1]; }
   return 'doctor';
+}
+// "1 person, 3 variants" sheet: the person's own photo plus two other doctor photos; identical files count once
+// ponytail: other surveys have one photo each, so their 3 banners repeat it until more photos exist
+const SAME_PHOTO = { 'd/gp': 'doctor', 'd/head': 'doctor', 'd/diabetology': 'd/endo' };
+function posterPhotos(s) {
+  const own = posterPhoto(s), seen = new Set(), out = [];
+  for (const p of s.template === 'doctor' ? [own, 'doctor', 'd/endo', 'd/cardio'] : [own]) { const k = SAME_PHOTO[p] || p; if (!seen.has(k)) { seen.add(k); out.push(p); } }
+  return [0, 1, 2].map((v) => out[v % out.length]);
 }
 const POSTER_ICONS = {
   shield: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M24 5l15 6v11c0 10-6.5 17.5-15 21C15.5 39.5 9 32 9 22V11z"/><path d="M17 24l5 5 9-10" class="pz-hi"/></svg>',
@@ -968,16 +1030,43 @@ const posterArt = (id, photo) => `<svg class="pz-art" viewBox="0 0 210 297" aria
   <path d="M146 297C170 292 192 283 210 271V297Z" fill="#3D8BFF"/><path d="M166 297C183 293 198 287 210 279V297Z" fill="#1D5FE0"/>
   <path d="M46 289.6C74 287.8 104 287.8 132 289.6" fill="none" stroke="#3D8BFF" stroke-width=".5" stroke-linecap="round"/>
 </svg>`;
+// banner art in mm (viewBox = one 190×85 banner): swooshes behind the photo, then the white curve that frames its left edge
+const bannerArt = (id) => `<svg class="bn-art" viewBox="0 0 190 85" preserveAspectRatio="none" aria-hidden="true">
+  <defs><pattern id="bnd${id}" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".42" fill="#1479F8" fill-opacity=".4"/></pattern></defs>
+  <rect x="62" y="3" width="13" height="8" fill="url(#bnd${id})"/><path d="M0 60C24 54 52 55 78 63V72H0Z" fill="#DCEBFF"/>
+</svg>`;
+const bannerFront = (id) => `<svg class="bn-art" viewBox="0 0 190 85" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M121 0H133C125 18 122 40 124 72H121Z" fill="#fff"/>
+  <path d="M133 0C125 18 122 40 124 72" fill="none" stroke="#1479F8" stroke-width=".9"/><path d="M138 0C131 15 128 33 129 52" fill="none" stroke="#6FB0FF" stroke-width=".5" opacity=".8"/>
+  <path d="M0 72H190V66C160 73 130 69 100 70C60 71 28 68 0 63Z" fill="#1479F8"/>
+</svg>`;
+const CROSS = (id) => `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="bnp${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4F9BFF"/><stop offset="1" stop-color="#1479F8"/></linearGradient></defs><circle cx="12" cy="12" r="11.4" fill="#EAF3FF"/><path d="M9.6 5h4.8v4.6H19v4.8h-4.6V19H9.6v-4.6H5V9.6h4.6z" fill="url(#bnp${id})"/></svg>`;
 async function printView(ids) {
   STATS = STATS || await api('stats?month=' + month());
   const want = new Set(String(ids).split(',').map(Number)), list = STATS.staff.filter((s) => want.has(s.id) && s.active);
   // level Q survives a crease or a smudge on a printed sheet better than M
   const qr = (url) => { const q = qrcode(0, 'Q'); q.addData(url); q.make(); return q.createSvgTag({ cellSize: 8, margin: 0, scalable: true }); };
-  const P = I18N.poster(L);
+  const P = I18N.poster(L), f = new URLSearchParams(location.hash.split('?')[1] || '').get('f'), fmt = f === 'a4' || f === 'x3' ? f : 'bn';
+  const base = location.hash.split('?')[0];
+  // like the center's poster, only the last word ("BAHOLANG!") is the big blue line
+  const titleOf = (s) => { const [l1, l2] = P.title[s.template] || P.title.doctor, cut = l2.lastIndexOf(' '); return cut < 0 ? [l1, l2] : [`${l1} ${l2.slice(0, cut)}`, l2.slice(cut + 1)]; };
+  const sheets = [];
+  for (let i = 0; i < list.length; i += 3) sheets.push(list.slice(i, i + 3));
+  // v = variant on the "1 person, 3 variants" sheet; svg ids get it too, since one person then appears three times
+  const banner = (s, v = 0) => { const url = `${ME.base}/s/${s.code}`, [head, accent] = titleOf(s), label = ME.templates[s.template]?.[L] || ME.templates[s.template]?.uz || '', id = v ? `${s.id}v${v}` : s.id;
+    return `<article class="bn" lang="${I18N.HTML_LANG[L]}">${bannerArt(id)}<img class="bn-photo" src="/a/p/${v ? posterPhotos(s)[v] : posterPhoto(s)}.jpg?v={{V}}" alt="">${bannerFront(id)}
+      <div class="bn-col"><div class="bn-mark">${CROSS(id)}<span>${esc(label)}</span></div><h2 class="bn-title">${esc(head)}<em>${esc(accent)}</em></h2>
+        <i class="bn-pulse">${POSTER_ICONS.pulse}</i><p class="bn-sub">${esc(P.sub1)}<br>${esc(P.sub2)}</p></div>
+      <div class="bn-qr"><div class="bn-tab">${POSTER_ICONS.phone}<span>${esc(P.scan)}</span></div>
+        <div class="bn-card"><div class="bn-code">${qr(url)}</div><div class="bn-name"><b>${esc(s.kind === 'point' ? label : s.name)}</b>${s.kind === 'point' && !s.dept ? '' : `<span>${esc(s.dept || label)}</span>`}</div></div></div>
+      <ul class="bn-band">${P.features.map(([ic, h]) => `<li>${POSTER_ICONS[ic]}<b>${esc(h)}</b></li>`).join('')}</ul></article>`; };
   app.innerHTML = `<div class="head noprint"><div><a class="back" href="#/people">${ICON.back}${t('Xodimlar')}</a><h1 class="t-h1">${t('QR plakatlar ({n})', { n: list.length })}</h1>
-      <p class="c-3">${t('A4, har biri alohida sahifada. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.')}</p></div>
+      <p class="c-3">${fmt === 'x3' ? t('Har bir xodimga bitta A4 varaq: uning 3 xil banneri. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.') : fmt === 'bn' ? t('A4 varaqda 3 ta banner: chiziq boʻyicha qirqing. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.') : t('A4, har biri alohida sahifada. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.')}</p>
+      <div class="tabs fmt" role="group">${[['bn', '3 ta banner'], ['x3', '1 kishi, 3 variant'], ['a4', 'Bitta A4 plakat']].map(([k, l]) => `<a class="tab" href="${base}${k === 'bn' ? '' : '?f=' + k}" aria-pressed="${fmt === k}">${t(l)}</a>`).join('')}</div></div>
       <button class="btn btn-primary" id="doPrint">${t('Chop etish yoki PDF')}</button></div>
-    <div class="posters">${list.map((s) => { const url = `${ME.base}/s/${s.code}`, [l1, l2] = P.title[s.template] || P.title.doctor;
+    ${fmt === 'x3' ? `<div class="posters">${list.map((s) => `<section class="sheet">${[0, 1, 2].map((v) => banner(s, v)).join('<i class="cut" aria-hidden="true"></i>')}</section>`).join('')}</div>`
+    : fmt === 'bn' ? `<div class="posters">${sheets.map((g) => `<section class="sheet">${g.map((s) => banner(s)).join('<i class="cut" aria-hidden="true"></i>')}</section>`).join('')}</div>`
+    : `<div class="posters">${list.map((s) => { const url = `${ME.base}/s/${s.code}`, [l1, l2] = P.title[s.template] || P.title.doctor;
       // like the center's poster, only the last word ("BAHOLANG!") is the big blue line
       const cut = l2.lastIndexOf(' '), head = cut < 0 ? l1 : `${l1} ${l2.slice(0, cut)}`, accent = l2.slice(cut + 1); return `<article class="poster" lang="${I18N.HTML_LANG[L]}">${posterArt(s.id, posterPhoto(s))}
       <div class="pz-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="pzp${s.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4F9BFF"/><stop offset="1" stop-color="#1D5FE0"/></linearGradient></defs><path d="M9 2.5h6v6.5h6.5v6H15v6.5H9V15H2.5V9H9z" fill="url(#pzp${s.id})" stroke="#fff" stroke-width=".5" stroke-linejoin="round"/></svg></div>
@@ -988,8 +1077,16 @@ async function printView(ids) {
           ${s.kind === 'point' ? '' : `<div class="pz-name"><b>${esc(s.name)}</b>${s.dept ? `<span>${esc(s.dept)}</span>` : ''}</div>`}</div></div></div>
       <ul class="pz-band">${P.features.map(([ic, h]) => `<li>${POSTER_ICONS[ic]}<b>${esc(h)}</b></li>`).join('')}</ul>
       <p class="pz-thanks">${esc(P.thanks)}</p>
-      <p class="pz-url">${esc(url.replace(/^https?:\/\//, ''))}</p></article>`; }).join('')}</div>`;
+      <p class="pz-url">${esc(url.replace(/^https?:\/\//, ''))}</p></article>`; }).join('')}</div>`}`;
   $('#doPrint').addEventListener('click', () => print());
+  // banners: a long accent word or a long name shrinks to fit its column instead of spilling into the QR / the band
+  $$('.bn').forEach((b) => {
+    const em = $('.bn-title em', b), col = $('.bn-col', b);
+    for (let f = 9.6; em.scrollWidth > col.clientWidth && f > 6; f -= .4) em.style.fontSize = f - .4 + 'mm';
+    const name = $('.bn-name', b), card = $('.bn-card', b), lim = () => card.getBoundingClientRect().bottom > $('.bn-band', b).getBoundingClientRect().top - 2;
+    for (let f = 2.9; lim() && f > 2.1; f -= .2) $('b', name).style.fontSize = f - .2 + 'mm';
+    for (let w = 45; lim() && w > 36; w -= 1) $('.bn-qr', b).style.width = w - 1 + 'mm';
+  });
   // a long title or a two-line department can push the card into the wave (top ≈ 236mm): shrink that sheet's QR, never below 66mm
   const mm = 96 / 25.4;
   $$('.poster').forEach((p) => {
@@ -1005,9 +1102,72 @@ async function printView(ids) {
 function fitPosters() {
   const box = $('.posters'); if (!box) return;
   const z = Math.min(1, box.clientWidth / (210 * 96 / 25.4));
-  box.querySelectorAll('.poster').forEach((p) => { p.style.zoom = z; });
+  box.querySelectorAll('.poster, .sheet').forEach((p) => { p.style.zoom = z; });
 }
 addEventListener('resize', fitPosters);
+
+/* ---------- settings: hospital name and survey wording ---------- */
+const QTYPE = { scale: '1–5 baho', yn: 'Ha / Yoʻq', choice: 'Tanlov', nps: '0–10 tavsiya' };
+// one row per language; typing Latin refills its Cyrillic twin, which stays editable for the odd word translit gets wrong
+const langRows = (id, cur, def, max) => `<div class="st-grid">${I18N.LANGS.map((l) => `<label for="${id}-${l}" title="${esc(LANGN()[l])}">${I18N.LABEL[l]}</label>
+  <input class="input" id="${id}-${l}" data-l="${l}" lang="${I18N.HTML_LANG[l]}" maxlength="${max}" value="${esc(cur?.[l] ?? '')}" placeholder="${esc(def?.[l] ?? '')}" autocomplete="off">`).join('')}</div>`;
+// only what differs from the default is stored, so a later default fix still reaches untouched texts
+const readRows = (box, def) => Object.fromEntries($$('input[data-l]', box).map((i) => [i.dataset.l, i.value.trim()]).filter(([l, v]) => v && v !== def?.[l]));
+const CYR_OF = { uz: ['oz', toCyr], qq: ['qc', toCyrQQ] };
+function autoCyr(e) {
+  const [to, f] = CYR_OF[e.target.dataset?.l] || []; if (!to) return;
+  const twin = $(`input[data-l="${to}"]`, e.target.closest('.st-grid')); if (twin) twin.value = f(e.target.value);
+}
+app.addEventListener('input', autoCyr);
+
+async function settings() {
+  const S = await api('settings');
+  const ORG_DEF = Object.fromEntries(I18N.LANGS.map((l) => [l, I18N.t(l, 'Nukus endokrinologiya markazi')]));
+  const keys = Object.keys(S.surveys);
+  let cur = keys.includes(settings.k) ? settings.k : keys[0];
+  const lbl = (k) => S.surveys[k].label[L] || S.surveys[k].label.uz;
+  app.innerHTML = `<div class="pp-title"><div><h1 class="t-h1">${t('Sozlamalar')}</h1></div></div>
+    <div class="st">
+      <section class="card st-card" id="orgBox"><h2 class="t-h3">${t('Shifoxona nomi')}</h2><p class="c-3">${t('Bemor sahifasining yuqorisida va kabinet sarlavhasida koʻrinadi.')}</p>
+        ${langRows('org', { ...ORG_DEF, ...S.org }, ORG_DEF, 160)}
+        <div class="row-actions"><button class="btn btn-primary" id="orgSave">${t('Saqlash')}</button></div></section>
+      <section class="card st-card"><h2 class="t-h3">${t('Savollar')}</h2>
+        <p class="c-3">${t('Savol matnini oʻzgartirish mumkin. Savol turi va javob variantlari oʻzgarmaydi, shuning uchun eski statistika saqlanadi.')} ${t('Lotin yozuvini oʻzgartirsangiz, kirill avtomatik yoziladi. Kerak boʻlsa, uni qoʻlda tuzating.')} ${t('Boʻsh qoldirilgan maydon asl matnni oladi.')}</p>
+        <select class="input st-sel" id="stTpl" aria-label="${esc(t('Soʻrovnoma'))}">${keys.map((k) => `<option value="${k}">${esc(lbl(k))}</option>`).join('')}</select>
+        <div id="stQ"></div>
+        <div class="row-actions"><button class="btn btn-secondary" id="qReset">${t('Asl holiga qaytarish')}</button><button class="btn btn-primary" id="qSave">${t('Saqlash')}</button></div></section>
+    </div>`;
+  const drawQ = () => {
+    const sv = S.surveys[cur], df = S.defaults[cur];
+    $('#stTpl').value = cur; settings.k = cur;
+    $('#stQ').innerHTML = `<div class="st-items"><fieldset class="st-item" data-k="label"><legend>${t('Soʻrovnoma nomi')}</legend>${langRows('lbl', sv.label, df.label, 80)}</fieldset>
+      ${sv.q.map((q, i) => `<fieldset class="st-item" data-q="${q.id}"><legend>${t('Savol {n}', { n: i + 1 })}<span class="badge badge-neutral">${t(QTYPE[q.t] || q.t)}</span></legend>${langRows('q' + i, q, df.q[i], 300)}</fieldset>`).join('')}</div>`;
+  };
+  drawQ();
+  $('#stTpl').addEventListener('change', (e) => { cur = e.target.value; drawQ(); });
+  const busy = async (btn, fn) => { btn.disabled = true; try { await fn(); } catch { toast(t('Saqlab boʻlmadi. Internetni tekshiring.')); } btn.disabled = false; };
+  $('#orgSave').addEventListener('click', (e) => busy(e.currentTarget, async () => {
+    const org = readRows($('#orgBox'), ORG_DEF);
+    await api('settings', { method: 'PUT', body: { org } });
+    ORG = Object.keys(org).length ? { ...ORG_DEF, ...org } : null; applyStatic(); toast(t('Saqlandi'));
+  }));
+  async function reload() {
+    Object.assign(S, await api('settings'));
+    ME.templates[cur] = S.surveys[cur].label;
+    $(`#stTpl option[value="${cur}"]`).textContent = lbl(cur);
+    drawQ();
+  }
+  $('#qSave').addEventListener('click', (e) => busy(e.currentTarget, async () => {
+    const df = S.defaults[cur], text = { label: readRows($('[data-k="label"]'), df.label), q: {} };
+    df.q.forEach((q) => { const m = readRows($(`[data-q="${q.id}"]`), q); if (Object.keys(m).length) text.q[q.id] = m; });
+    await api('settings', { method: 'PUT', body: { template: cur, text } });
+    await reload(); toast(t('Saqlandi'));
+  }));
+  $('#qReset').addEventListener('click', (e) => {
+    if (!confirm(t('Shu soʻrovnoma savollari asl matnga qaytarilsinmi?'))) return;
+    busy(e.currentTarget, async () => { await api('settings', { method: 'PUT', body: { template: cur, reset: true } }); await reload(); toast(t('Qaytarildi')); });
+  });
+}
 
 /* ---------- header controls ---------- */
 function setMonth(m) {

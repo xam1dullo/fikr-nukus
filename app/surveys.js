@@ -3,10 +3,10 @@
 // t: scale = 1–5, yn = yes/no(/partly), choice = one of opts, nps = 0–10. bad = the answer that counts as a red flag.
 // qq (Karakalpak) strings need a native speaker's review before posters go up.
 
-const { toCyr } = require('./public/translit');
+const { toCyr, toCyrQQ } = require('./public/translit');
 
-// uz = Uzbek Latin, oz = Uzbek Cyrillic (the gov.uz code), qq = Karakalpak, ru = Russian
-const LANGS = ['uz', 'oz', 'qq', 'ru'];
+// uz = Uzbek Latin, oz = Uzbek Cyrillic (the gov.uz code), qq = Karakalpak Latin, qc = Karakalpak Cyrillic, ru = Russian
+const LANGS = ['uz', 'oz', 'qq', 'qc', 'ru'];
 const yn = (id, uz, qq, ru, extra = {}) => ({ id, t: 'yn', opts: ['yes', 'no'], uz, qq, ru, ...extra });
 const yn3 = (id, uz, qq, ru) => ({ id, t: 'yn', opts: ['yes', 'partly', 'no'], uz, qq, ru });
 const sc = (id, uz, qq, ru) => ({ id, t: 'scale', uz, qq, ru });
@@ -102,9 +102,10 @@ const OPT = {
   uzi: { uz: 'UZI', qq: 'UZI', ru: 'УЗИ' }, mrt: { uz: 'MRT', qq: 'MRT', ru: 'МРТ' }, xray: { uz: 'Rentgen', qq: 'Rentgen', ru: 'Рентген' },
 };
 
-// Uzbek Cyrillic is derived, never hand-written, so it can't drift from the Latin source.
-for (const s of Object.values(SURVEYS)) { s.label.oz = toCyr(s.label.uz); for (const q of s.q) q.oz = toCyr(q.uz); }
-for (const o of Object.values(OPT)) o.oz = toCyr(o.uz);
+// Cyrillic is derived, never hand-written, so it can't drift from the Latin source.
+const cyr = (o) => { o.oz = toCyr(o.uz); o.qc = toCyrQQ(o.qq); };
+for (const s of Object.values(SURVEYS)) { cyr(s.label); s.q.forEach(cyr); }
+Object.values(OPT).forEach(cyr);
 
 // Validates one submission against its template. Returns null on any invalid or missing answer.
 function grade(key, raw) {

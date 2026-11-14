@@ -1,0 +1,566 @@
+{
+ "SURVEYS": {
+  "doctor": {
+   "label": {
+    "uz": "Shifokor",
+    "qq": "Shıpaker",
+    "ru": "Врач",
+    "oz": "Шифокор",
+    "qc": "Шыпакер"
+   },
+   "q": [
+    {
+     "id": "attention",
+     "t": "scale",
+     "uz": "Shifokorning shikoyatlaringizga eʼtibori",
+     "qq": "Shıpakerdiń shaǵımlarıńızǵa itibarı",
+     "ru": "Внимательность к жалобам",
+     "oz": "Шифокорнинг шикоятларингизга эътибори",
+     "qc": "Шыпакердиң шағымларыңызға итибары"
+    },
+    {
+     "id": "explain",
+     "t": "scale",
+     "uz": "Diagnoz va davolashni tushuntirish darajasi",
+     "qq": "Diagnoz hám emlewdi túsindiriw dárejesi",
+     "ru": "Понятность объяснения диагноза и лечения",
+     "oz": "Диагноз ва даволашни тушунтириш даражаси",
+     "qc": "Диагноз ҳәм емлеўди түсиндириў дәрежеси"
+    },
+    {
+     "id": "polite",
+     "t": "scale",
+     "uz": "Xushmuomalalik va hurmat",
+     "qq": "Sıpayılıq hám húrmet",
+     "ru": "Вежливость и уважение",
+     "oz": "Хушмуомалалик ва ҳурмат",
+     "qc": "Сыпайылық ҳәм ҳүрмет"
+    },
+    {
+     "id": "time",
+     "t": "yn",
+     "opts": [
+      "yes",
+      "no"
+     ],
+     "uz": "Shifokor sizga yetarli vaqt ajratdimi?",
+     "qq": "Shıpaker sizge jeterli waqıt ajırattı ma?",
+     "ru": "Уделил ли врач достаточно времени?",
+     "oz": "Шифокор сизга етарли вақт ажратдими?",
+     "qc": "Шыпакер сизге жетерли ўақыт ажыратты ма?"
+    },
+    {
+     "id": "supplement",
+     "t": "yn",
+     "opts": [
+      "yes",
+      "no"
+     ],
+     "uz": "Shifokor BAD, aniq dori yoki maʼlum dorixonani tavsiya qildimi?",
+     "qq": "Shıpaker BAD, belgili dári yamasa belgili dárixananı usınıs etti me?",
+     "ru": "Рекомендовал ли врач БАДы, конкретный препарат или аптеку?",
+     "bad": "yes",
+     "oz": "Шифокор БАД, аниқ дори ёки маълум дорихонани тавсия қилдими?",
+     "qc": "Шыпакер БАД, белгили дәри ямаса белгили дәрихананы усыныс етти ме?"
+    },
+    {
+     "id": "nps",
+     "t": "nps",
+     "uz": "Ushbu shifokorni boshqalarga tavsiya qilasizmi?",
+     "qq": "Bul shıpakerdi basqalarǵa usınıs etesiz be?",
+     "ru": "Насколько готовы рекомендовать врача?",
+     "oz": "Ушбу шифокорни бошқаларга тавсия қиласизми?",
+     "qc": "Бул шыпакерди басқаларға усыныс етесиз бе?"
+    }
+   ]
+  },
+  "podiatrist": {
+   "label": {
+    "uz": "Podiatr",
+    "qq": "Podiatr",
+    "ru": "Подиатр",
+    "oz": "Подиатр",
+    "qc": "Подиатр"
+   },
+   "q": [
+    {
+     "id": "polite",
+     "t": "scale",
+     "uz": "Muloyimlik va munosabat",
+     "qq": "Sıpayılıq hám múnásibet",
+     "ru": "Вежливость и отношение",
+     "oz": "Мулойимлик ва муносабат",
+     "qc": "Сыпайылық ҳәм мүнәсибет"
+    },
+    {
+     "id": "explain",
+     "t": "scale",
+     "uz": "Diagnoz va davolash rejasini tushuntirish",
+     "qq": "Diagnoz hám emlew rejesin túsindiriw",
+     "ru": "Объяснение диагноза и плана лечения",
+     "oz": "Диагноз ва даволаш режасини тушунтириш",
+     "qc": "Диагноз ҳәм емлеў режесин түсиндириў"
+    },
+    {
+     "id": "accuracy",
+     "t": "scale",
+     "uz": "Muolajadagi aniqlik va professionallik",
+     "qq": "Proceduradaǵı anıqlıq hám kásiplik",
+     "ru": "Аккуратность и профессионализм",
+     "oz": "Муолажадаги аниқлик ва профессионаллик",
+     "qc": "Процедурадағы анықлық ҳәм кәсиплик"
+    },
+    {
+     "id": "comfort",
+     "t": "scale",
+     "uz": "Muolaja qulayligi",
+     "qq": "Proceduranıń qolaylıǵı",
+     "ru": "Комфорт процедуры",
+     "oz": "Муолажа қулайлиги",
+     "qc": "Процедураның қолайлығы"
+    },
+    {
+     "id": "advice",
+     "t": "yn",
+     "opts": [
+      "yes",
+      "no"
+     ],
+     "uz": "Oyoq parvarishi boʻyicha tavsiyalar berildimi?",
+     "qq": "Ayaq kútimi boyınsha usınıslar berildi me?",
+     "ru": "Даны ли рекомендации по уходу за стопами?",
+     "oz": "Оёқ парвариши бўйича тавсиялар берилдими?",
+     "qc": "Аяқ күтими бойынша усыныслар берилди ме?"
+    },
+    {
+     "id": "nps",
+     "t": "nps",
+     "uz": "Podiatrni tavsiya qilasizmi?",
+     "qq": "Podiatrdı usınıs etesiz be?",
+     "ru": "Насколько готовы рекомендовать подиатра?",
+     "oz": "Подиатрни тавсия қиласизми?",
+     "qc": "Подиатрды усыныс етесиз бе?"
+    }
+   ]
+  },
+  "imaging": {
+   "label": {
+    "uz": "UZI / MRT / Rentgen",
+    "qq": "UZI / MRT / Rentgen",
+    "ru": "УЗИ / МРТ / Рентген",
+    "oz": "УЗИ / МРТ / Рентген",
+    "qc": "УЗИ / МРТ / Рентген"
+   },
+   "q": [
+    {
+     "id": "service",
+     "t": "choice",
+     "opts": [
+      "uzi",
+      "mrt",
+      "xray"
+     ],
+     "uz": "Xizmat turi",
+     "qq": "Xızmet túri",
+     "ru": "Вид исследования",
+     "oz": "Хизмат тури",
+     "qc": "Хызмет түри"
+    },
+    {
+     "id": "polite",
+     "t": "scale",
+     "uz": "Muloyimlik va munosabat",
+     "qq": "Sıpayılıq hám múnásibet",
+     "ru": "Вежливость и отношение врача",
+     "oz": "Мулойимлик ва муносабат",
+     "qc": "Сыпайылық ҳәм мүнәсибет"
+    },
+    {
+     "id": "explain",
+     "t": "scale",
+     "uz": "Tekshiruv jarayonini tushuntirish",
+     "qq": "Tekseriw barısın túsindiriw",
+     "ru": "Объяснение хода исследования",
+     "oz": "Текширув жараёнини тушунтириш",
+     "qc": "Тексериў барысын түсиндириў"
+    },
+    {
+     "id": "accuracy",
+     "t": "scale",
+     "uz": "Aniqlik va professionallik",
+     "qq": "Anıqlıq hám kásiplik",
+     "ru": "Аккуратность и профессионализм",
+     "oz": "Аниқлик ва профессионаллик",
+     "qc": "Анықлық ҳәм кәсиплик"
+    },
+    {
+     "id": "comfort",
+     "t": "scale",
+     "uz": "Jarayon va xona qulayligi",
+     "qq": "Procedura hám bólmeniń qolaylıǵı",
+     "ru": "Комфорт процедуры и помещения",
+     "oz": "Жараён ва хона қулайлиги",
+     "qc": "Процедура ҳәм бөлмениң қолайлығы"
+    },
+    {
+     "id": "results",
+     "t": "yn",
+     "opts": [
+      "yes",
+      "no"
+     ],
+     "uz": "Natijalarni oʻz vaqtida oldingizmi?",
+     "qq": "Nátiyjelerdi óz waqtında aldıńız ba?",
+     "ru": "Получили ли результаты вовремя?",
+     "oz": "Натижаларни ўз вақтида олдингизми?",
+     "qc": "Нәтийжелерди өз ўақтында алдыңыз ба?"
+    },
+    {
+     "id": "nps",
+     "t": "nps",
+     "uz": "Ushbu shifokorni tavsiya qilasizmi?",
+     "qq": "Bul shıpakerdi usınıs etesiz be?",
+     "ru": "Насколько готовы рекомендовать врача?",
+     "oz": "Ушбу шифокорни тавсия қиласизми?",
+     "qc": "Бул шыпакерди усыныс етесиз бе?"
+    }
+   ]
+  },
+  "nurse": {
+   "label": {
+    "uz": "Qon olish hamshirasi",
+    "qq": "Qan alıw hámshiresi",
+    "ru": "Медсестра (забор крови)",
+    "oz": "Қон олиш ҳамшираси",
+    "qc": "Қан алыў ҳәмширеси"
+   },
+   "q": [
+    {
+     "id": "polite",
+     "t": "scale",
+     "uz": "Hamshiraning muloyimligi va munosabati",
+     "qq": "Hámshireniń sıpayılıǵı hám múnásibeti",
+     "ru": "Вежливость и отношение медсестры",
+     "oz": "Ҳамширанинг мулойимлиги ва муносабати",
+     "qc": "Ҳәмширениң сыпайылығы ҳәм мүнәсибети"
+    },
+    {
+     "id": "accuracy",
+     "t": "scale",
+     "uz": "Qon olishdagi aniqlik va professionallik",
+     "qq": "Qan alıwdaǵı anıqlıq hám kásiplik",
+     "ru": "Аккуратность и профессионализм",
+     "oz": "Қон олишдаги аниқлик ва профессионаллик",
+     "qc": "Қан алыўдағы анықлық ҳәм кәсиплик"
+    },
+    {
+     "id": "clean",
+     "t": "scale",
+     "uz": "Tozalik va sterillik",
+     "qq": "Tazalıq hám sterillik",
+     "ru": "Чистота и стерильность",
+     "oz": "Тозалик ва стериллик",
+     "qc": "Тазалық ҳәм стериллик"
+    },
+    {
+     "id": "pain",
+     "t": "yn",
+     "opts": [
+      "yes",
+      "partly",
+      "no"
+     ],
+     "uz": "Jarayon ogʻriqsiz yoki kam ogʻriqli boʻldimi?",
+     "qq": "Procedura awırıwsız yamasa az awırıwlı boldı ma?",
+     "ru": "Была ли процедура безболезненной?",
+     "oz": "Жараён оғриқсиз ёки кам оғриқли бўлдими?",
+     "qc": "Процедура аўырыўсыз ямаса аз аўырыўлы болды ма?"
+    },
+    {
+     "id": "explained",
+     "t": "yn",
+     "opts": [
+      "yes",
+      "partly",
+      "no"
+     ],
+     "uz": "Hamshira jarayonni tushuntirib, tavsiya berdimi?",
+     "qq": "Hámshire proceduranı túsindirip, usınıs berdi me?",
+     "ru": "Объяснила ли медсестра процедуру и дала рекомендации?",
+     "oz": "Ҳамшира жараённи тушунтириб, тавсия бердими?",
+     "qc": "Ҳәмшире процедураны түсиндирип, усыныс берди ме?"
+    },
+    {
+     "id": "nps",
+     "t": "nps",
+     "uz": "Ushbu xizmatni tavsiya qilasizmi?",
+     "qq": "Bul xızmetti usınıs etesiz be?",
+     "ru": "Насколько готовы рекомендовать услугу?",
+     "oz": "Ушбу хизматни тавсия қиласизми?",
+     "qc": "Бул хызметти усыныс етесиз бе?"
+    }
+   ]
+  },
+  "clinic": {
+   "label": {
+    "uz": "Ambulatoriya poliklinikasi",
+    "qq": "Ambulatoriya poliklinikası",
+    "ru": "Амбулаторная поликлиника",
+    "oz": "Амбулатория поликлиникаси",
+    "qc": "Амбулатория поликлиникасы"
+   },
+   "q": [
+    {
+     "id": "booking",
+     "t": "scale",
+     "uz": "Qabulga yozilish qulayligi",
+     "qq": "Qabıllawǵa jazılıwdıń qolaylıǵı",
+     "ru": "Удобство записи на приём",
+     "oz": "Қабулга ёзилиш қулайлиги",
+     "qc": "Қабыллаўға жазылыўдың қолайлығы"
+    },
+    {
+     "id": "wait",
+     "t": "scale",
+     "uz": "Kutish vaqti",
+     "qq": "Kútiw waqtı",
+     "ru": "Время ожидания",
+     "oz": "Кутиш вақти",
+     "qc": "Күтиў ўақты"
+    },
+    {
+     "id": "registry",
+     "t": "scale",
+     "uz": "Registratura va administratorlar ishi",
+     "qq": "Registratura hám administratorlardıń jumısı",
+     "ru": "Работа регистратуры и администраторов",
+     "oz": "Регистратура ва администраторлар иши",
+     "qc": "Регистратура ҳәм администраторлардың жумысы"
+    },
+    {
+     "id": "doctors",
+     "t": "scale",
+     "uz": "Shifokorlarning eʼtibori va professionalligi",
+     "qq": "Shıpakerlerdiń itibarı hám kásipligi",
+     "ru": "Внимательность и профессионализм врачей",
+     "oz": "Шифокорларнинг эътибори ва профессионаллиги",
+     "qc": "Шыпакерлердиң итибары ҳәм кәсиплиги"
+    },
+    {
+     "id": "clean",
+     "t": "scale",
+     "uz": "Tozalik va qulaylik",
+     "qq": "Tazalıq hám qolaylıq",
+     "ru": "Чистота и комфорт",
+     "oz": "Тозалик ва қулайлик",
+     "qc": "Тазалық ҳәм қолайлық"
+    },
+    {
+     "id": "results",
+     "t": "scale",
+     "uz": "Tahlil va tekshiruv natijalarini olish qulayligi",
+     "qq": "Analiz hám tekseriw nátiyjelerin alıwdıń qolaylıǵı",
+     "ru": "Удобство получения результатов",
+     "oz": "Таҳлил ва текширув натижаларини олиш қулайлиги",
+     "qc": "Анализ ҳәм тексериў нәтийжелерин алыўдың қолайлығы"
+    },
+    {
+     "id": "nps",
+     "t": "nps",
+     "uz": "Poliklinikani boshqalarga tavsiya qilasizmi?",
+     "qq": "Poliklinikanı basqalarǵa usınıs etesiz be?",
+     "ru": "Насколько готовы рекомендовать поликлинику?",
+     "oz": "Поликлиникани бошқаларга тавсия қиласизми?",
+     "qc": "Поликлиниканы басқаларға усыныс етесиз бе?"
+    }
+   ]
+  },
+  "cashier": {
+   "label": {
+    "uz": "Kassa",
+    "qq": "Kassa",
+    "ru": "Касса",
+    "oz": "Касса",
+    "qc": "Касса"
+   },
+   "q": [
+    {
+     "id": "polite",
+     "t": "scale",
+     "uz": "Kassirning muloyimligi va munosabati",
+     "qq": "Kassirdiń sıpayılıǵı hám múnásibeti",
+     "ru": "Вежливость и отношение кассира",
+     "oz": "Кассирнинг мулойимлиги ва муносабати",
+     "qc": "Кассирдиң сыпайылығы ҳәм мүнәсибети"
+    },
+    {
+     "id": "speed",
+     "t": "scale",
+     "uz": "Xizmat koʻrsatish tezligi",
+     "qq": "Xızmet kórsetiw tezligi",
+     "ru": "Скорость обслуживания",
+     "oz": "Хизмат кўрсатиш тезлиги",
+     "qc": "Хызмет көрсетиў тезлиги"
+    },
+    {
+     "id": "accuracy",
+     "t": "scale",
+     "uz": "Hisob-kitobning aniqligi",
+     "qq": "Esap-kitaptıń anıqlıǵı",
+     "ru": "Точность расчёта",
+     "oz": "Ҳисоб-китобнинг аниқлиги",
+     "qc": "Есап-китаптың анықлығы"
+    },
+    {
+     "id": "explain",
+     "t": "scale",
+     "uz": "Narx, qaytim va chek boʻyicha tushuntirish",
+     "qq": "Baha, qaytım hám chek boyınsha túsindiriw",
+     "ru": "Объяснение стоимости, сдачи и чека",
+     "oz": "Нарх, қайтим ва чек бўйича тушунтириш",
+     "qc": "Баҳа, қайтым ҳәм чек бойынша түсиндириў"
+    },
+    {
+     "id": "receipt",
+     "t": "yn",
+     "opts": [
+      "yes",
+      "no"
+     ],
+     "uz": "Kassir sizga kassa chekini berdimi?",
+     "qq": "Kassir sizge kassa chekin berdi me?",
+     "ru": "Выдали ли Вам кассовый чек?",
+     "bad": "no",
+     "oz": "Кассир сизга касса чекини бердими?",
+     "qc": "Кассир сизге касса чекин берди ме?"
+    },
+    {
+     "id": "upsell",
+     "t": "yn",
+     "opts": [
+      "yes",
+      "no"
+     ],
+     "uz": "Sizga ortiqcha xizmat yoki mahsulot majburan taklif qilindimi?",
+     "qq": "Sizge artıqsha xızmet yamasa ónim májbúrlep usınıldı ma?",
+     "ru": "Навязывали ли ненужные услуги или товары?",
+     "bad": "yes",
+     "oz": "Сизга ортиқча хизмат ёки маҳсулот мажбуран таклиф қилиндими?",
+     "qc": "Сизге артықша хызмет ямаса өним мәжбүрлеп усынылды ма?"
+    }
+   ]
+  },
+  "registry": {
+   "label": {
+    "uz": "Registratura",
+    "qq": "Registratura",
+    "ru": "Регистратура",
+    "oz": "Регистратура",
+    "qc": "Регистратура"
+   },
+   "q": [
+    {
+     "id": "polite",
+     "t": "scale",
+     "uz": "Xodimlarning muloyimligi va munosabati",
+     "qq": "Xızmetkerlerdiń sıpayılıǵı hám múnásibeti",
+     "ru": "Вежливость и отношение сотрудников",
+     "oz": "Ходимларнинг мулойимлиги ва муносабати",
+     "qc": "Хызметкерлердиң сыпайылығы ҳәм мүнәсибети"
+    },
+    {
+     "id": "speed",
+     "t": "scale",
+     "uz": "Xizmat koʻrsatish tezligi",
+     "qq": "Xızmet kórsetiw tezligi",
+     "ru": "Скорость обслуживания",
+     "oz": "Хизмат кўрсатиш тезлиги",
+     "qc": "Хызмет көрсетиў тезлиги"
+    },
+    {
+     "id": "booking",
+     "t": "scale",
+     "uz": "Qabulga yozilish qulayligi",
+     "qq": "Qabıllawǵa jazılıwdıń qolaylıǵı",
+     "ru": "Удобство записи на приём",
+     "oz": "Қабулга ёзилиш қулайлиги",
+     "qc": "Қабыллаўға жазылыўдың қолайлығы"
+    },
+    {
+     "id": "competence",
+     "t": "scale",
+     "uz": "Savollarga malakali javob berilishi",
+     "qq": "Sorawlarǵa bilimli juwap beriliwi",
+     "ru": "Компетентность ответов",
+     "oz": "Саволларга малакали жавоб берилиши",
+     "qc": "Сораўларға билимли жуўап берилиўи"
+    },
+    {
+     "id": "upsell",
+     "t": "yn",
+     "opts": [
+      "yes",
+      "no"
+     ],
+     "uz": "Sizga keraksiz xizmat, tahlil yoki boshqa klinika tavsiya qilindimi?",
+     "qq": "Sizge keraksiz xızmet, analiz yamasa basqa klinika usınıldı ma?",
+     "ru": "Предлагали ли ненужные услуги, анализы или другую клинику?",
+     "bad": "yes",
+     "oz": "Сизга кераксиз хизмат, таҳлил ёки бошқа клиника тавсия қилиндими?",
+     "qc": "Сизге кераксиз хызмет, анализ ямаса басқа клиника усынылды ма?"
+    }
+   ]
+  }
+ },
+ "OPT": {
+  "yes": {
+   "uz": "Ha",
+   "qq": "Awa",
+   "ru": "Да",
+   "oz": "Ҳа",
+   "qc": "Аўа"
+  },
+  "partly": {
+   "uz": "Qisman",
+   "qq": "Bólekshe",
+   "ru": "Частично",
+   "oz": "Қисман",
+   "qc": "Бөлекше"
+  },
+  "no": {
+   "uz": "Yoʻq",
+   "qq": "Yaq",
+   "ru": "Нет",
+   "oz": "Йўқ",
+   "qc": "Яқ"
+  },
+  "uzi": {
+   "uz": "UZI",
+   "qq": "UZI",
+   "ru": "УЗИ",
+   "oz": "УЗИ",
+   "qc": "УЗИ"
+  },
+  "mrt": {
+   "uz": "MRT",
+   "qq": "MRT",
+   "ru": "МРТ",
+   "oz": "МРТ",
+   "qc": "МРТ"
+  },
+  "xray": {
+   "uz": "Rentgen",
+   "qq": "Rentgen",
+   "ru": "Рентген",
+   "oz": "Рентген",
+   "qc": "Рентген"
+  }
+ },
+ "LANGS": [
+  "uz",
+  "oz",
+  "qq",
+  "qc",
+  "ru"
+ ]
+}

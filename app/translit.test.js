@@ -15,3 +15,12 @@ test('brand words and abbreviations stay Latin, suffixes still convert', () => {
   assert.strictEqual(toCyr('Excelga yuklab olish'), 'Excelга юклаб олиш');
   assert.strictEqual(toCyr('Tavsiya indeksi (NPS)'), 'Тавсия индекси (NPS)');
 });
+test('Karakalpak Latin to Cyrillic', () => {
+  const { toCyrQQ } = require('./public/translit');
+  const cases = {
+    'Shıpakerdiń shaǵımlarıńızǵa itibarı': 'Шыпакердиң шағымларыңызға итибары', 'Nókis orayı': 'Нөкис орайы',
+    'Diagnoz hám emlewdi túsindiriw dárejesi': 'Диагноз ҳәм емлеўди түсиндириў дәрежеси', 'Procedura': 'Процедура', 'Awa': 'Аўа', 'Ájayıp': 'Әжайып',
+    'QR kodtı skanerleń': 'QR кодты сканерлең', 'BAD': 'БАД',
+  };
+  for (const [lat, cyr] of Object.entries(cases)) assert.strictEqual(toCyrQQ(lat), cyr, lat);
+});

@@ -4,7 +4,13 @@
   const D = {
     '0 dan yuqori boʻlsa, yaxshi': ['Выше 0 — хорошо', '0 den joqarı bolsa, jaqsı'],
     '1–{d} {m} bilan solishtirilgan': ['по сравнению с 1–{d} {m}', '1–{d} {m} menen salıstırılǵan'],
+    '3 ta banner': ['3 баннера', '3 banner'],
+    '1 kishi, 3 variant': ['1 человек, 3 варианта', '1 adam, 3 variant'],
+    'Barcha QR kodlar (3 variant)': ['Все QR-коды (3 варианта)', 'Barlıq QR kodlar (3 variant)'],
+    'Har bir xodimga bitta A4 varaq: uning 3 xil banneri. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.': ['Каждому сотруднику один лист A4: 3 разных баннера. При печати включите «Масштаб 100%» и «Фоновая графика».', 'Hár bir xızmetkerge bir A4 bet: onıń 3 túrli banneri. Basıp shıǵarıwda “Масштаб 100%” hám “Фоновая графика” qosılǵan bolsın.'],
     'A4, har biri alohida sahifada. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.': ['A4, каждый на отдельной странице. При печати включите «Масштаб 100%» и «Фоновая графика».', 'A4, hár biri bólek betde. Basıp shıǵarıwda “Масштаб 100%” hám “Фоновая графика” qosılǵan bolsın.'],
+    'A4 varaqda 3 ta banner: chiziq boʻyicha qirqing. Chop etishda “Масштаб 100%” va “Фоновая графика / Background graphics” yoqilgan boʻlsin.': ['3 баннера на листе A4: разрежьте по пунктиру. При печати включите «Масштаб 100%» и «Фоновая графика».', 'A4 betinde 3 banner: sızıq boyınsha qırqıń. Basıp shıǵarıwda “Масштаб 100%” hám “Фоновая графика” qosılǵan bolsın.'],
+    'Bitta A4 plakat': ['Один плакат A4', 'Bir A4 plakat'],
     'Avval boʻlim nomini yozing': ['Сначала введите название отделения', 'Aldın bólim atın jazıń'],
     'Avval eskilari': ['Сначала старые', 'Aldın eskileri'],
     'Avval past baholar': ['Сначала низкие оценки', 'Aldın tómen bahalar'],
@@ -173,6 +179,23 @@
     '{n} ta xodim: {what}': ['Сотрудников: {n}, {what}', '{n} xızmetker: {what}'],
     '{n} ta yozuv': ['Записей: {n}', '{n} jazıw'],
     '{on} ta QR kod ishlayapti, {off} tasi oʻchirilgan. {nd} kishining boʻlimi hali kiritilmagan.': ['Работает QR-кодов: {on}, отключено: {off}. Без отделения: {nd}.', '{on} QR kod islep tur, {off} óshirilgen. {nd} adamnıń bólimi ele kirgizilmegen.'],
+    'Sozlamalar': ['Настройки', 'Sazlawlar'],
+    'Shifoxona nomi': ['Название больницы', 'Emlewxana atı'],
+    'Bemor sahifasining yuqorisida va kabinet sarlavhasida koʻrinadi.': ['Показывается вверху страницы пациента и в шапке кабинета.', 'Nawqas betiniń joqarısında hám kabinet atamasında kórinedi.'],
+    'Savollar': ['Вопросы', 'Sorawlar'],
+    'Soʻrovnoma nomi': ['Название анкеты', 'Sorawnama atı'],
+    'Savol {n}': ['Вопрос {n}', 'Soraw {n}'],
+    'Asl holiga qaytarish': ['Вернуть исходный текст', 'Dáslepki tekstke qaytarıw'],
+    'Shu soʻrovnoma savollari asl matnga qaytarilsinmi?': ['Вернуть исходный текст вопросов этой анкеты?', 'Bul sorawnama sorawları dáslepki tekstke qaytarılsın ba?'],
+    'Qaytarildi': ['Восстановлено', 'Qaytarıldı'],
+    'Lotin yozuvini oʻzgartirsangiz, kirill avtomatik yoziladi. Kerak boʻlsa, uni qoʻlda tuzating.': ['Кириллица заполняется автоматически из латиницы; при необходимости поправьте вручную.', 'Latın jazıwın ózgertseńiz, kirill avtomat jazıladı. Kerek bolsa, onı qolda dúzetiń.'],
+    'Savol matnini oʻzgartirish mumkin. Savol turi va javob variantlari oʻzgarmaydi, shuning uchun eski statistika saqlanadi.': ['Текст вопроса можно изменить. Тип вопроса и варианты ответа остаются прежними, поэтому статистика сохраняется.', 'Soraw tekstin ózgertiwge boladı. Soraw túri hám juwap variantları ózgermeydi, sonıń ushın burınǵı statistika saqlanadı.'],
+    'Qoraqalpoqcha (kirill)': ['Каракалпакский (кириллица)', 'Qaraqalpaqsha (kirill)'],
+    '1–5 baho': ['Оценка 1–5', '1–5 baha'],
+    'Ha / Yoʻq': ['Да / Нет', 'Awa / Yaq'],
+    'Tanlov': ['Выбор', 'Tańlaw'],
+    '0–10 tavsiya': ['Рекомендация 0–10', '0–10 usınıs'],
+    'Boʻsh qoldirilgan maydon asl matnni oladi.': ['Пустое поле получает исходный текст.', 'Bos qaldırılǵan maydan dáslepki tekstti aladı.'],
   };
 
   const MONTHS = {
@@ -182,13 +205,16 @@
     ruGen: ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'],
   };
   const cyr = (s) => (root.toCyr || ((x) => x))(s);
-  const month = (l, m) => (l === 'oz' ? cyr(MONTHS.uz[m - 1]) : (MONTHS[l] || MONTHS.uz)[m - 1]);
+  const cyrQQ = (s) => (root.toCyrQQ || ((x) => x))(s);
+  const QC_FIX = { 'Nukus endokrinologiya markazi': 'Нөкис эндокринология орайы' }; // Russian loanword keeps э
+  const month = (l, m) => (l === 'oz' ? cyr(MONTHS.uz[m - 1]) : l === 'qc' ? cyrQQ(MONTHS.qq[m - 1]) : (MONTHS[l] || MONTHS.uz)[m - 1]);
   const monthGen = (l, m) => (l === 'ru' ? MONTHS.ruGen[m - 1] : month(l, m));
   const date = (l, d, m) => (l === 'ru' ? `${d} ${MONTHS.ruGen[m - 1]}` : `${d}-${month(l, m)}`);
 
   function t(l, key, p) {
     let s = key;
     if (l === 'ru' || l === 'qq') { const e = D[key]; s = e ? e[l === 'ru' ? 0 : 1] : key; }
+    else if (l === 'qc') { const e = D[key]; s = QC_FIX[key] || (e ? cyrQQ(e[1]) : cyr(key)); }
     else if (l === 'oz') s = cyr(key);
     return p ? s.replace(/\{(\w+)\}/g, (_, k) => (p[k] ?? '')) : s;
   }
@@ -220,14 +246,18 @@
         ['growth', 'Xızmet sapası jaqsılanadı', 'Bahalarıńızdı bas shıpaker ózi kóredi.'], ['heart', 'Siz biz ushın áhmiyetlisiz!', 'Sizdiń qanaatlanıwıńız eń úlken maqsetimiz.']],
     },
   };
+  // all-caps Karakalpak can't be transliterated (capital I is both ı and i), so its titles are hand-written
+  const QC_TITLE = { doctor: ['ШЫПАКЕР', 'ЖУМЫСЫН БАҲАЛАҢ!'], podiatrist: ['ПОДИАТР', 'ЖУМЫСЫН БАҲАЛАҢ!'], imaging: ['УЗИ / МРТ / РЕНТГЕН', 'ШЫПАКЕРИН БАҲАЛАҢ!'],
+    nurse: ['ҚАН АЛЫЎ ҲӘМШИРЕСИ', 'ЖУМЫСЫН БАҲАЛАҢ!'], clinic: ['АМБУЛАТОРИЯ ПОЛИКЛИНИКАСЫН', 'БАҲАЛАҢ!'], cashier: ['КАССА', 'ЖУМЫСЫН БАҲАЛАҢ!'], registry: ['РЕГИСТРАТУРА', 'ЖУМЫСЫН БАҲАЛАҢ!'] };
   function poster(l) {
-    if (l !== 'oz') return POSTER[l] || POSTER.uz;
-    const u = POSTER.uz;
-    return { title: Object.fromEntries(Object.entries(u.title).map(([k, v]) => [k, v.map(cyr)])), sub1: cyr(u.sub1), sub2: cyr(u.sub2), scan: cyr(u.scan), badge: cyr(u.badge), thanks: cyr(u.thanks),
-      features: u.features.map(([i, h, p]) => [i, cyr(h), cyr(p)]) };
+    if (l !== 'oz' && l !== 'qc') return POSTER[l] || POSTER.uz;
+    const u = l === 'oz' ? POSTER.uz : POSTER.qq, c = l === 'oz' ? cyr : cyrQQ;
+    return { title: l === 'qc' ? QC_TITLE : Object.fromEntries(Object.entries(u.title).map(([k, v]) => [k, v.map(c)])), sub1: c(u.sub1), sub2: c(u.sub2), scan: c(u.scan), badge: c(u.badge), thanks: c(u.thanks),
+      features: u.features.map(([i, h, p]) => [i, c(h), c(p)]) };
   }
 
-  const api = { LANGS: ['uz', 'oz', 'qq', 'ru'], HTML_LANG: { uz: 'uz', oz: 'uz-Cyrl', qq: 'kaa', ru: 'ru' }, D, t, month, monthGen, date, poster };
+  const api = { LANGS: ['uz', 'oz', 'qq', 'qc', 'ru'], HTML_LANG: { uz: 'uz', oz: 'uz-Cyrl', qq: 'kaa', qc: 'kaa-Cyrl', ru: 'ru' },
+    LABEL: { uz: 'UZ', oz: 'ЎЗ', qq: 'QQ', qc: 'ҚҚ', ru: 'RU' }, D, t, month, monthGen, date, poster };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.I18N = api;
 })(typeof self !== 'undefined' ? self : this);

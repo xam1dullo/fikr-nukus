@@ -1,0 +1,12 @@
+# cPanel → Git Version Control → "Deploy HEAD Commit" runs these tasks (repo clone: /home/azama430/fikr-repo).
+# DEPLOYPATH was read from cPanel File Manager (public_html/fikr.endork.uz) and must match the
+# subdomain's Document Root shown in cPanel → Domains. Nothing in DEPLOYPATH is deleted
+# (cgi-bin, php.ini, .migrated live there); files are only added/overwritten.
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/azama430/public_html/fikr.endork.uz/
+    - /bin/mkdir -p $DEPLOYPATH/a $DEPLOYPATH/seed
+    - /bin/cp php/index.php php/surveys.php php/surveys.json php/.htaccess $DEPLOYPATH
+    - /bin/cp -R app/public/. $DEPLOYPATH/a/
+    - /bin/cp app/seed/staff.json $DEPLOYPATH/seed/
