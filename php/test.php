@@ -53,7 +53,7 @@ foreach ($SURVEYS as $k => $s) {
   }
 }
 same('every template has unique ids and text in every language', $bad, []);
-ok('surveys loaded (' . count($SURVEYS) . ' templates, ' . count($LANGS) . ' langs)', count($SURVEYS) > 0 && count($LANGS) === 4);
+ok('surveys loaded (' . count($SURVEYS) . ' templates, ' . count($LANGS) . ' langs)', count($SURVEYS) > 0 && count($LANGS) === 5);
 
 $x = "\u{00D7}";
 $chrome = 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Mobile Safari/537.36';

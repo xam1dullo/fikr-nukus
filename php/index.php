@@ -109,6 +109,7 @@ function migrate(): void {
     dev_model VARCHAR(60) NOT NULL DEFAULT '', dev_os VARCHAR(20) NOT NULL DEFAULT '', dev_screen VARCHAR(12) NOT NULL DEFAULT '', day DATE NOT NULL,
     created_at DATETIME NOT NULL, UNIQUE KEY one_per_day (staff_id, device, day), KEY by_staff (staff_id, created_at), KEY by_time (created_at)) DEFAULT CHARSET=utf8mb4");
   db()->exec('CREATE TABLE IF NOT EXISTS hits (k VARCHAR(64) PRIMARY KEY, reset_at DATETIME NOT NULL, n INT NOT NULL) DEFAULT CHARSET=utf8mb4');
+  db()->exec(SETTINGS_TABLE);
   try { db()->exec('ALTER TABLE response ADD COLUMN phone VARCHAR(13) NULL AFTER comment'); } catch (PDOException $e) { if (errno($e) !== 1060) throw $e; }
   if (!(int) q('SELECT COUNT(*) n FROM staff')->fetchColumn()) {
     $seed = json_decode(file_get_contents(__DIR__ . '/seed/staff.json'), true, 512, JSON_THROW_ON_ERROR);
@@ -133,6 +134,47 @@ function cleanStaff(array $b): ?array {
   if ($name === '' || !is_string($t) || !array_key_exists($t, surveys()['SURVEYS'])) return null;
   return ['name' => $name, 'position' => cut(orStr($b['position'] ?? null), 500), 'dept' => cut(orStr($b['dept'] ?? null), 160), 'template' => $t,
     'kind' => ($b['kind'] ?? null) === 'point' ? 'point' : 'person', 'active' => truthy($b['active'] ?? null) ? 1 : 0];
+}
+
+/* ---------- settings: hospital name and survey wording, edited in the admin ---------- */
+const SETTINGS_TABLE = 'CREATE TABLE IF NOT EXISTS settings (k VARCHAR(32) PRIMARY KEY, v MEDIUMTEXT NOT NULL) DEFAULT CHARSET=utf8mb4';
+function setting(string $k): ?array {
+  static $c = [];
+  if (array_key_exists($k, $c)) return $c[$k];
+  // servers migrated before settings existed have no table until the first save
+  try { $v = q('SELECT v FROM settings WHERE k = ?', [$k])->fetchColumn(); } catch (PDOException $e) { if (errno($e) !== 1146) throw $e; $v = false; }
+  return $c[$k] = $v === false ? null : json_decode($v, true);
+}
+function saveSetting(string $k, ?array $v): void {
+  db()->exec(SETTINGS_TABLE);
+  if ($v) q('INSERT INTO settings (k,v) VALUES (?,?) ON DUPLICATE KEY UPDATE v = VALUES(v)', [$k, jenc($v)]);
+  else q('DELETE FROM settings WHERE k = ?', [$k]);
+}
+// {lang: text} with only known languages and non-empty strings; null when nothing is left
+function langMap($m, int $max): ?array {
+  if (!is_array($m)) return null;
+  $o = [];
+  foreach (surveys()['LANGS'] as $l) { $v = cut(orStr($m[$l] ?? null), $max); if ($v !== '') $o[$l] = $v; }
+  return $o ?: null;
+}
+// surveys.json with the admin's wording on top; question ids, types and options never change, so grading and old answers stay valid
+function liveSurveys(): array {
+  static $S;
+  if ($S) return $S;
+  $S = surveys();
+  foreach (setting('surveys') ?? [] as $k => $o) {
+    if (!isset($S['SURVEYS'][$k])) continue;
+    $S['SURVEYS'][$k]['label'] = ($o['label'] ?? []) + $S['SURVEYS'][$k]['label'];
+    foreach ($S['SURVEYS'][$k]['q'] as $i => $q) $S['SURVEYS'][$k]['q'][$i] = ($o['q'][$q['id']] ?? []) + $q;
+  }
+  return $S;
+}
+function cleanSurveyText(string $k, $b): ?array {
+  $base = surveys()['SURVEYS'][$k] ?? null;
+  if (!$base || !is_array($b)) return null;
+  $o = ['label' => langMap($b['label'] ?? null, 80) ?? [], 'q' => []];
+  foreach ($base['q'] as $q) if ($m = langMap($b['q'][$q['id']] ?? null, 300)) $o['q'][$q['id']] = $m;
+  return $o['label'] || $o['q'] ? $o : null;
 }
 
 /* ---------- aggregates ---------- */
@@ -168,8 +210,8 @@ function jsonForScript($o): string { return json_encode($o, JSON_HEX_TAG | JSON_
 function patientPage(string $code) {
   $s = one('SELECT name,dept,template,kind FROM staff WHERE code = ? AND active = 1', [$code]);
   if (!$s) return page(NOT_FOUND, 404);
-  $S = surveys();
-  $data = ['code' => $code, 'name' => $s['name'], 'dept' => $s['dept'], 'kind' => $s['kind']]
+  $S = liveSurveys();
+  $data = ['code' => $code, 'name' => $s['name'], 'dept' => $s['dept'], 'kind' => $s['kind'], 'org' => setting('org')]
     + (array_key_exists($s['template'], $S['SURVEYS']) ? ['survey' => $S['SURVEYS'][$s['template']]] : []) + ['opt' => $S['OPT']];
   $headers = [];
   if ((cookies()['d'] ?? '') === '') $headers['Set-Cookie'] = 'd=' . b64url(random_bytes(12)) . '; Path=/; Max-Age=31536000; HttpOnly; SameSite=Lax' . secure();
@@ -219,15 +261,33 @@ function phoneCell(?string $p) { return $p ? preg_replace('/(\d{2})(\d{3})(\d{2}
 // Excel in ru/uz locales splits on ';' and needs the BOM to read UTF-8
 function csv(array $rows): string { return "\u{FEFF}" . implode("\r\n", array_map(fn($r) => implode(';', array_map('cell', $r)), $rows)); }
 function csvHeaders(string $name): array { return ['Content-Type' => 'text/csv; charset=utf-8', 'Content-Disposition' => "attachment; filename=\"$name\""]; }
-function tplLabel(?string $k) { $l = surveys()['SURVEYS'][$k ?? '']['label']['uz'] ?? null; return $l; }
+function tplLabel(?string $k) { $l = liveSurveys()['SURVEYS'][$k ?? '']['label']['uz'] ?? null; return $l; }
 
 function adminApi(string $method, array $parts) {
-  $m = monthOf(); $rg = mrange($m); $S = surveys();
+  $m = monthOf(); $rg = mrange($m); $S = liveSurveys();
   $what = $parts[2] ?? null; $id = $parts[3] ?? ''; // /api/<what>/<id>
 
   if ($what === 'me' && $method === 'GET') {
     return send(200, ['name' => cfg('ADMIN_NAME') ?: 'Bosh shifokor', 'today' => substr(nowLocal(), 0, 10), 'base' => cfg('PUBLIC_URL') ?: 'https://' . ($_SERVER['HTTP_HOST'] ?? 'undefined'),
-      'month' => curMonth(), 'templates' => array_map(fn($v) => $v['label'], $S['SURVEYS'])]);
+      'month' => curMonth(), 'templates' => array_map(fn($v) => $v['label'], $S['SURVEYS']), 'org' => setting('org')]);
+  }
+
+  if ($what === 'settings' && $method === 'GET') {
+    return send(200, ['org' => setting('org'), 'surveys' => $S['SURVEYS'], 'defaults' => surveys()['SURVEYS'], 'langs' => $S['LANGS']]);
+  }
+  // body: {org: {lang: name}} and/or {template: key, text: {label, q: {id: {lang: text}}}} or {template: key, reset: true}
+  if ($what === 'settings' && $method === 'PUT') {
+    $b = readJson();
+    if (array_key_exists('org', $b)) saveSetting('org', langMap($b['org'], 160));
+    if (isset($b['template'])) {
+      $k = $b['template'];
+      if (!is_string($k) || !isset(surveys()['SURVEYS'][$k])) return send(400, ['error' => 'invalid']);
+      $all = setting('surveys') ?? [];
+      $txt = empty($b['reset']) ? cleanSurveyText($k, $b['text'] ?? null) : null;
+      if ($txt) $all[$k] = $txt; else unset($all[$k]);
+      saveSetting('surveys', $all);
+    }
+    return send(200, ['ok' => true]);
   }
 
   if ($what === 'stats' && $method === 'GET') {
@@ -301,7 +361,7 @@ function adminApi(string $method, array $parts) {
 function route(string $method, string $path, array $parts) {
   if (($parts[1] ?? '') === 's' && ($parts[2] ?? '') !== '' && $method === 'GET') return patientPage($parts[2]);
   if (($parts[1] ?? '') === 'api' && ($parts[2] ?? '') === 'r' && ($parts[3] ?? '') !== '' && $method === 'POST') return submit($parts[3]);
-  if ($path === '/admin' && $method === 'GET') return page(tpl('admin.html'));
+  if ($path === '/admin' && $method === 'GET') return page(str_replace('/*ORG*/null', jsonForScript(setting('org')), tpl('admin.html')));
   if ($path === '/') { ini_set('default_mimetype', ''); http_response_code(302); header('Location: /admin'); return; }
 
   if ($path === '/api/login' && $method === 'POST') {

@@ -340,6 +340,16 @@ body.bulk-on .toast { bottom: calc(var(--sp-6) + 72px); }
 [data-theme="dark"] .seg-pill { background: #2C3936; }
 dialog { background: var(--surface); color: var(--text); }
 [data-theme="dark"] dialog::backdrop { background: rgba(0, 0, 0, .6); }
+.st { display: grid; gap: var(--sp-5); }
+.st-card h2 { margin-bottom: var(--sp-1); }
+.st-card > p { margin-bottom: var(--sp-4); max-width: 70ch; }
+.st-grid { display: grid; grid-template-columns: 2.75rem 1fr; gap: var(--sp-2) var(--sp-3); align-items: center; }
+.st-grid label { font-size: var(--fs-label); font-weight: 700; color: var(--text-2); }
+.st-sel { max-width: 360px; margin-bottom: var(--sp-4); }
+.st-items { display: grid; gap: var(--sp-4); }
+.st-item { margin: 0; padding: var(--sp-4); border: 1px solid var(--border); border-radius: var(--r-md); min-width: 0; }
+.st-item legend { display: flex; align-items: center; gap: var(--sp-2); padding: 0 var(--sp-2); font-weight: 700; }
+.st .row-actions { margin-top: var(--sp-4); }
 .theme-btn { width: var(--h-sm); height: var(--h-sm); display: grid; place-items: center; border-radius: var(--r-sm); color: var(--text-2); }
 .theme-btn:hover { background: var(--surface-sunken); color: var(--text); }
 .theme-btn .moon, [data-theme="dark"] .theme-btn .sun { display: block; }
@@ -348,18 +358,18 @@ dialog { background: var(--surface); color: var(--text); }
 </head>
 <body>
 <header class="top" id="top">
-  <div class="logo"><div class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div>Fikr<small data-t="Nukus endokrinologiya markazi"></small></div></div>
+  <div class="logo"><div class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div>Fikr<small id="orgName"></small></div></div>
   <nav class="seg" id="nav" data-t-aria-label="Boʻlimlar"><span class="seg-pill" aria-hidden="true"></span>
-    <a class="seg-item" href="#/" data-r="" data-t="Umumiy"></a><a class="seg-item" href="#/comments" data-r="comments" data-t="Izohlar"></a><a class="seg-item" href="#/people" data-r="people" data-t="Xodimlar"></a>
+    <a class="seg-item" href="#/" data-r="" data-t="Umumiy"></a><a class="seg-item" href="#/comments" data-r="comments" data-t="Izohlar"></a><a class="seg-item" href="#/people" data-r="people" data-t="Xodimlar"></a><a class="seg-item" href="#/settings" data-r="settings" data-t="Sozlamalar"></a>
   </nav>
   <div class="top-end"><div class="mon" role="group" data-t-aria-label="Oy"><button type="button" id="mPrev" data-t-aria-label="Oldingi oy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><span id="mLabel" aria-live="polite"></span><button type="button" id="mNext" data-t-aria-label="Keyingi oy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button></div><input type="hidden" id="month">
-  <select class="lang-sel" id="lang" data-t-aria-label="Til"><option value="uz" lang="uz">UZ</option><option value="oz" lang="uz-Cyrl">ЎЗ</option><option value="qq" lang="kaa">QQ</option><option value="ru" lang="ru">RU</option></select>
+  <select class="lang-sel" id="lang" data-t-aria-label="Til"><option value="uz" lang="uz">UZ</option><option value="oz" lang="uz-Cyrl">ЎЗ</option><option value="qq" lang="kaa">QQ</option><option value="qc" lang="kaa-Cyrl">ҚҚ</option><option value="ru" lang="ru">RU</option></select>
   <button class="theme-btn" id="theme" type="button"><svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
   <button class="btn btn-ghost btn-sm" id="logout" data-t="Chiqish"></button></div>
 </header>
 <script>try { if (!localStorage.getItem("fikr-auth")) document.getElementById("top").hidden = true; } catch { document.getElementById("top").hidden = true; }</script>
 <main class="wrap" id="app"><div class="skel" aria-hidden="true"></div></main>
-<script>document.getElementById("app").classList.toggle("wide", !/^#\/(comments|print)/.test(location.hash));</script>
+<script>document.getElementById("app").classList.toggle("wide", !/^#\/(comments|print|settings)/.test(location.hash));</script>
 
 <dialog id="dlg" aria-labelledby="dlgTitle"><form method="dialog" id="form">
   <h2 class="t-h3" id="dlgTitle"></h2>
@@ -412,7 +422,10 @@ function dayLabel(day) {
   return day === ME.today ? t('Bugun') : day === y ? t('Kecha') : I18N.date(L, +day.slice(8), +day.slice(5, 7));
 }
 const when = (ts, short) => (short && ts.slice(0, 10) !== ME.today ? dayLabel(ts.slice(0, 10)) : `${dayLabel(ts.slice(0, 10))}, ${ts.slice(11, 16)}`);
-const LANGN = () => ({ uz: t('Oʻzbekcha (lotin)'), oz: t('Oʻzbekcha (kirill)'), qq: t('Qoraqalpoqcha'), ru: t('Ruscha') });
+const LANGN = () => ({ uz: t('Oʻzbekcha (lotin)'), oz: t('Oʻzbekcha (kirill)'), qq: t('Qoraqalpoqcha'), qc: t('Qoraqalpoqcha (kirill)'), ru: t('Ruscha') });
+// hospital name from Settings; injected into the page so the login screen shows it too
+let ORG = /*ORG*/null;
+const orgName = () => ORG?.[L] || t('Nukus endokrinologiya markazi');
 const devText = (r) => [r.dev_model && r.dev_model !== 'Nomaʼlum' ? r.dev_model : t('Nomaʼlum qurilma'), r.dev_os, r.dev_screen && t('ekran {s}', { s: r.dev_screen })].filter(Boolean).join(', ')
   + '. ' + t('Qurilma belgisi: {id}', { id: r.dev_id });
 
@@ -429,6 +442,7 @@ function applyStatic() {
   $$('[data-t]').forEach((el) => { el.textContent = t(el.dataset.t); });
   $$('[data-t-aria-label]').forEach((el) => el.setAttribute('aria-label', t(el.dataset.tAriaLabel)));
   $('#lang').value = L;
+  $('#orgName').textContent = orgName();
   syncTheme();
   if (ME) {
     $('#f-template').innerHTML = Object.keys(ME.templates).map((k) => `<option value="${k}">${esc(tpl(k))}</option>`).join('');
@@ -451,8 +465,8 @@ async function api(p, opt = {}) {
 function login() {
   try { localStorage.removeItem('fikr-auth'); } catch {}
   $('#top').hidden = true;
-  app.innerHTML = `<div class="card login"><div class="login-lang tabs" role="group" aria-label="${esc(t('Til'))}">${['uz', 'oz', 'qq', 'ru'].map((k) => `<button type="button" class="tab" data-l="${k}" aria-pressed="${k === L}">${{ uz: 'UZ', oz: 'ЎЗ', qq: 'QQ', ru: 'RU' }[k]}</button>`).join('')}</div>
-    <h1 class="t-h2">${t('Bosh shifokor kabineti')}</h1><p class="c-3 login-sub">${t('Nukus endokrinologiya markazi')}</p>
+  app.innerHTML = `<div class="card login"><div class="login-lang tabs" role="group" aria-label="${esc(t('Til'))}">${I18N.LANGS.map((k) => `<button type="button" class="tab" data-l="${k}" aria-pressed="${k === L}">${I18N.LABEL[k]}</button>`).join('')}</div>
+    <h1 class="t-h2">${t('Bosh shifokor kabineti')}</h1><p class="c-3 login-sub">${esc(orgName())}</p>
     <form id="lf"><div class="field"><label class="field-label" for="u">${t('Login')}</label><input class="input" id="u" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
     <div class="field"><label class="field-label" for="p">${t('Parol')}</label><input class="input" id="p" name="password" type="password" autocomplete="current-password" required></div>
     <div class="err" id="lerr" role="alert"></div><button class="btn btn-primary btn-block" id="lbtn">${t('Kirish')}</button></form></div>`;
@@ -471,6 +485,7 @@ function login() {
 
 async function boot() {
   ME = await api('me');
+  ORG = ME.org || null;
   applyStatic();
   $('#top').hidden = false;
   try { localStorage.setItem('fikr-auth', '1'); } catch {}
@@ -478,17 +493,17 @@ async function boot() {
 }
 
 /* ---------- routing, scroll memory ---------- */
-const TITLES = { comments: 'Izohlar', people: 'Xodimlar', print: 'QR plakatlar', staff: 'Xodim' };
+const TITLES = { comments: 'Izohlar', people: 'Xodimlar', print: 'QR plakatlar', staff: 'Xodim', settings: 'Sozlamalar' };
 function route() {
   const [name, arg] = location.hash.slice(2).split('?')[0].split('/');
   const cur = name === 'print' ? 'people' : name === 'staff' ? '' : name || '';
   $$('#nav .seg-item').forEach((a) => { a.setAttribute('aria-selected', a.dataset.r === cur); if (a.dataset.r === cur) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   movePill();
   document.body.classList.remove('bulk-on');
-  app.classList.toggle('wide', name !== 'comments' && name !== 'print');
+  app.classList.toggle('wide', !['comments', 'print', 'settings'].includes(name));
   app.setAttribute('aria-busy', 'true');
   document.title = t(TITLES[name] || 'Umumiy') + ' — Fikr';
-  const views = { staff: () => staffView(arg), comments, people, print: () => printView(arg) };
+  const views = { staff: () => staffView(arg), comments, people, print: () => printView(arg), settings };
   const target = goTop ? 0 : scrollMemory()[location.hash.split('?')[0] || '#/'] || 0;
   goTop = false;
   (views[name] || dashboard)()
@@ -1079,6 +1094,69 @@ function fitPosters() {
   box.querySelectorAll('.poster, .sheet').forEach((p) => { p.style.zoom = z; });
 }
 addEventListener('resize', fitPosters);
+
+/* ---------- settings: hospital name and survey wording ---------- */
+const QTYPE = { scale: '1–5 baho', yn: 'Ha / Yoʻq', choice: 'Tanlov', nps: '0–10 tavsiya' };
+// one row per language; typing Latin refills its Cyrillic twin, which stays editable for the odd word translit gets wrong
+const langRows = (id, cur, def, max) => `<div class="st-grid">${I18N.LANGS.map((l) => `<label for="${id}-${l}" title="${esc(LANGN()[l])}">${I18N.LABEL[l]}</label>
+  <input class="input" id="${id}-${l}" data-l="${l}" lang="${I18N.HTML_LANG[l]}" maxlength="${max}" value="${esc(cur?.[l] ?? '')}" placeholder="${esc(def?.[l] ?? '')}" autocomplete="off">`).join('')}</div>`;
+// only what differs from the default is stored, so a later default fix still reaches untouched texts
+const readRows = (box, def) => Object.fromEntries($$('input[data-l]', box).map((i) => [i.dataset.l, i.value.trim()]).filter(([l, v]) => v && v !== def?.[l]));
+const CYR_OF = { uz: ['oz', toCyr], qq: ['qc', toCyrQQ] };
+function autoCyr(e) {
+  const [to, f] = CYR_OF[e.target.dataset?.l] || []; if (!to) return;
+  const twin = $(`input[data-l="${to}"]`, e.target.closest('.st-grid')); if (twin) twin.value = f(e.target.value);
+}
+app.addEventListener('input', autoCyr);
+
+async function settings() {
+  const S = await api('settings');
+  const ORG_DEF = Object.fromEntries(I18N.LANGS.map((l) => [l, I18N.t(l, 'Nukus endokrinologiya markazi')]));
+  const keys = Object.keys(S.surveys);
+  let cur = keys.includes(settings.k) ? settings.k : keys[0];
+  const lbl = (k) => S.surveys[k].label[L] || S.surveys[k].label.uz;
+  app.innerHTML = `<div class="pp-title"><div><h1 class="t-h1">${t('Sozlamalar')}</h1></div></div>
+    <div class="st">
+      <section class="card st-card" id="orgBox"><h2 class="t-h3">${t('Shifoxona nomi')}</h2><p class="c-3">${t('Bemor sahifasining yuqorisida va kabinet sarlavhasida koʻrinadi.')}</p>
+        ${langRows('org', { ...ORG_DEF, ...S.org }, ORG_DEF, 160)}
+        <div class="row-actions"><button class="btn btn-primary" id="orgSave">${t('Saqlash')}</button></div></section>
+      <section class="card st-card"><h2 class="t-h3">${t('Savollar')}</h2>
+        <p class="c-3">${t('Savol matnini oʻzgartirish mumkin. Savol turi va javob variantlari oʻzgarmaydi, shuning uchun eski statistika saqlanadi.')} ${t('Lotin yozuvini oʻzgartirsangiz, kirill avtomatik yoziladi. Kerak boʻlsa, uni qoʻlda tuzating.')} ${t('Boʻsh qoldirilgan maydon asl matnni oladi.')}</p>
+        <select class="input st-sel" id="stTpl" aria-label="${esc(t('Soʻrovnoma'))}">${keys.map((k) => `<option value="${k}">${esc(lbl(k))}</option>`).join('')}</select>
+        <div id="stQ"></div>
+        <div class="row-actions"><button class="btn btn-secondary" id="qReset">${t('Asl holiga qaytarish')}</button><button class="btn btn-primary" id="qSave">${t('Saqlash')}</button></div></section>
+    </div>`;
+  const drawQ = () => {
+    const sv = S.surveys[cur], df = S.defaults[cur];
+    $('#stTpl').value = cur; settings.k = cur;
+    $('#stQ').innerHTML = `<div class="st-items"><fieldset class="st-item" data-k="label"><legend>${t('Soʻrovnoma nomi')}</legend>${langRows('lbl', sv.label, df.label, 80)}</fieldset>
+      ${sv.q.map((q, i) => `<fieldset class="st-item" data-q="${q.id}"><legend>${t('Savol {n}', { n: i + 1 })}<span class="badge badge-neutral">${t(QTYPE[q.t] || q.t)}</span></legend>${langRows('q' + i, q, df.q[i], 300)}</fieldset>`).join('')}</div>`;
+  };
+  drawQ();
+  $('#stTpl').addEventListener('change', (e) => { cur = e.target.value; drawQ(); });
+  const busy = async (btn, fn) => { btn.disabled = true; try { await fn(); } catch { toast(t('Saqlab boʻlmadi. Internetni tekshiring.')); } btn.disabled = false; };
+  $('#orgSave').addEventListener('click', (e) => busy(e.currentTarget, async () => {
+    const org = readRows($('#orgBox'), ORG_DEF);
+    await api('settings', { method: 'PUT', body: { org } });
+    ORG = Object.keys(org).length ? { ...ORG_DEF, ...org } : null; applyStatic(); toast(t('Saqlandi'));
+  }));
+  async function reload() {
+    Object.assign(S, await api('settings'));
+    ME.templates[cur] = S.surveys[cur].label;
+    $(`#stTpl option[value="${cur}"]`).textContent = lbl(cur);
+    drawQ();
+  }
+  $('#qSave').addEventListener('click', (e) => busy(e.currentTarget, async () => {
+    const df = S.defaults[cur], text = { label: readRows($('[data-k="label"]'), df.label), q: {} };
+    df.q.forEach((q) => { const m = readRows($(`[data-q="${q.id}"]`), q); if (Object.keys(m).length) text.q[q.id] = m; });
+    await api('settings', { method: 'PUT', body: { template: cur, text } });
+    await reload(); toast(t('Saqlandi'));
+  }));
+  $('#qReset').addEventListener('click', (e) => {
+    if (!confirm(t('Shu soʻrovnoma savollari asl matnga qaytarilsinmi?'))) return;
+    busy(e.currentTarget, async () => { await api('settings', { method: 'PUT', body: { template: cur, reset: true } }); await reload(); toast(t('Qaytarildi')); });
+  });
+}
 
 /* ---------- header controls ---------- */
 function setMonth(m) {

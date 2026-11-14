@@ -102,6 +102,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto 0; height: 420px; z
 .done .hint { display: flex; gap: var(--sp-2); align-items: center; justify-content: center; margin-top: var(--sp-8); }
 .foot { padding: var(--sp-4) 0 calc(var(--sp-4) + env(safe-area-inset-bottom)); text-align: center; }
 .cta:not([hidden]) + .foot { display: none; }
+/* five languages don't fit beside the name on a phone: the switch takes its own full-width row */
+@media (max-width: 440px) { .bar { flex-wrap: wrap; row-gap: var(--sp-2); } .org { flex: 1 0 100%; } .lang { flex: 1 0 100%; } .lang button { flex: 1; min-width: 0; } }
 @media (max-width: 359px) { .faces, .nps { gap: var(--sp-1); } .face svg { width: 36px; height: 36px; } .face span { font-size: var(--fs-caption); } .lang button { min-width: 36px; padding: 0 var(--sp-2); } }
 @media (max-height: 640px) { .who { margin: var(--sp-3) 0; } .q-title { margin-bottom: var(--sp-4); } .face { min-height: 92px; } }
 /* dark overrides for page rules; must come after them to win */
@@ -118,7 +120,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto 0; height: 420px; z
 <div class="app">
   <div class="bar">
     <div class="org"><div class="org-mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span class="t-label" id="org"></span></div>
-    <div class="lang" role="group" aria-label="Til / Тил / Язык"><span class="lang-pill" aria-hidden="true"></span><button data-l="uz" lang="uz">UZ</button><button data-l="oz" lang="uz-Cyrl">ЎЗ</button><button data-l="qq" lang="kaa">QQ</button><button data-l="ru" lang="ru">RU</button></div>
+    <div class="lang" role="group" aria-label="Til / Тил / Язык"><span class="lang-pill" aria-hidden="true"></span><button data-l="uz" lang="uz">UZ</button><button data-l="oz" lang="uz-Cyrl">ЎЗ</button><button data-l="qq" lang="kaa">QQ</button><button data-l="qc" lang="kaa-Cyrl">ҚҚ</button><button data-l="ru" lang="ru">RU</button></div>
   </div>
 
   <section class="who" id="who">
@@ -143,26 +145,27 @@ body::before { content: ""; position: fixed; inset: 0 0 auto 0; height: 420px; z
 <script>
 const D = /*DATA*/null;
 const T = {
-  uz: { org: 'Nukus endokrinologiya markazi', q: 'Savol', cq: 'Izoh', scale: ['Juda yomon', 'Yomon', 'Oʻrtacha', 'Yaxshi', 'Aʼlo'],
+  uz: { title: 'Baholang', org: 'Nukus endokrinologiya markazi', q: 'Savol', cq: 'Izoh', scale: ['Juda yomon', 'Yomon', 'Oʻrtacha', 'Yaxshi', 'Aʼlo'],
     npsLow: 'Aslo', npsHigh: 'Albatta', cTitle: 'Yana nimani aytmoqchisiz?', cPh: 'Ixtiyoriy. Fikr, taklif yoki shikoyatingizni yozing…', send: 'Yuborish', sending: 'Yuborilmoqda…',
     pLabel: 'Telefon raqamingiz', pHint: 'Ixtiyoriy. Bosh shifokor siz bilan bogʻlanishi uchun, raqamni faqat u koʻradi. Raqamsiz fikr anonim qoladi.',
     pErr: 'Raqam toʻliq emas: 9 ta raqam kiriting yoki maydonni boʻsh qoldiring.', doneT: 'Rahmat!', doneS: 'Bahoyingiz bosh shifokorga yetkazildi. Bu xizmat sifatini yaxshilashga yordam beradi.',
     dupT: 'Bugun baholagansiz', dupS: 'Bitta xodimni kuniga bir marta baholash mumkin. Rahmat!', err: 'Internet bilan muammo. Yana bosing.',
     hint: 'Boshqa xodimni baholash uchun uning QR kodini skanerlang', foot: 'Fikringiz toʻliq maxfiy saqlanadi', back: 'Orqaga' },
-  qq: { org: 'Nókis endokrinologiya orayı', q: 'Soraw', cq: 'Pikir', scale: ['Júdá jaman', 'Jaman', 'Ortasha', 'Jaqsı', 'Ájayıp'],
+  qq: { title: 'Bahalań', org: 'Nókis endokrinologiya orayı', q: 'Soraw', cq: 'Pikir', scale: ['Júdá jaman', 'Jaman', 'Ortasha', 'Jaqsı', 'Ájayıp'],
     npsLow: 'Hesh', npsHigh: 'Álbette', cTitle: 'Jáne ne aytpaqshısız?', cPh: 'Májbúriy emes. Pikir, usınıs yamasa shaǵımıńızdı jazıń…', send: 'Jiberiw', sending: 'Jiberilmekte…',
     pLabel: 'Telefon nomerińiz', pHint: 'Májbúriy emes. Bas shıpaker siz benen baylanısıwı ushın, nomerdi tek ol kóredi. Nomersiz pikir anonim qaladı.',
     pErr: 'Nomer tolıq emes: 9 san jazıń yamasa bos qaldırıń.', doneT: 'Raxmet!', doneS: 'Bahańız bas shıpakerge jetkerildi. Bul xızmet sapasın jaqsılawǵa járdem beredi.',
     dupT: 'Búgin bahalaǵansız', dupS: 'Bir xızmetkerdi kúnine bir ret bahalawǵa boladı. Raxmet!', err: 'Internet penen mashqala. Qaytadan basıń.',
     hint: 'Basqa xızmetkerdi bahalaw ushın onıń QR kodın skanerleń', foot: 'Pikirińiz tolıq jasırın saqlanadı', back: 'Artqa' },
-  ru: { org: 'Нукусский центр эндокринологии', q: 'Вопрос', cq: 'Комментарий', scale: ['Очень плохо', 'Плохо', 'Средне', 'Хорошо', 'Отлично'],
+  ru: { title: 'Оцените', org: 'Нукусский центр эндокринологии', q: 'Вопрос', cq: 'Комментарий', scale: ['Очень плохо', 'Плохо', 'Средне', 'Хорошо', 'Отлично'],
     npsLow: 'Нет', npsHigh: 'Обязательно', cTitle: 'Хотите что-то добавить?', cPh: 'Необязательно. Напишите отзыв, предложение или жалобу…', send: 'Отправить', sending: 'Отправка…',
     pLabel: 'Ваш номер телефона', pHint: 'Необязательно. Чтобы главный врач мог с вами связаться; номер видит только он. Без номера отзыв останется анонимным.',
     pErr: 'Номер неполный: введите 9 цифр или оставьте поле пустым.', doneT: 'Спасибо!', doneS: 'Ваша оценка передана главному врачу и поможет улучшить качество услуг.',
     dupT: 'Вы уже оценили сегодня', dupS: 'Одного сотрудника можно оценить раз в день. Спасибо!', err: 'Проблема с интернетом. Нажмите ещё раз.',
     hint: 'Чтобы оценить другого сотрудника, отсканируйте его QR-код', foot: 'Ваш отзыв полностью конфиденциален', back: 'Назад' },
 };
-T.oz = Object.fromEntries(Object.entries(T.uz).map(([k, v]) => [k, Array.isArray(v) ? v.map(toCyr) : toCyr(v)]));
+const cyrAll = (o, f) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? v.map(f) : f(v)]));
+T.oz = cyrAll(T.uz, toCyr); T.qc = { ...cyrAll(T.qq, toCyrQQ), org: 'Нөкис эндокринология орайы' };
 const Q = D.survey.q, N = Q.length, KEY = 'fikr:' + D.code;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -185,12 +188,14 @@ const store = {
   clear() { try { sessionStorage.removeItem(KEY); } catch {} },
 };
 const saved = store.load();
-const S = { lang: saved?.lang || ((navigator.language || '').startsWith('ru') ? 'ru' : 'uz'), step: Math.min(saved?.step || 0, N), a: saved?.a || {}, c: saved?.c || '', p: saved?.p || '', pErr: false, busy: false, done: null };
+const S = { lang: (saved?.lang in T && saved.lang) || ((navigator.language || '').startsWith('ru') ? 'ru' : 'uz'), step: Math.min(saved?.step || 0, N), a: saved?.a || {}, c: saved?.c || '', p: saved?.p || '', pErr: false, busy: false, done: null };
 
 function header() {
   const t = T[S.lang];
-  document.documentElement.lang = { qq: 'kaa', oz: 'uz-Cyrl' }[S.lang] || S.lang;
-  $('#org').textContent = t.org;
+  document.documentElement.lang = { qq: 'kaa', qc: 'kaa-Cyrl', oz: 'uz-Cyrl' }[S.lang] || S.lang;
+  const org = D.org?.[S.lang] || t.org; // the hospital name set in the admin's Settings
+  $('#org').textContent = org;
+  document.title = `${t.title} · ${org}`;
   $('#name').textContent = D.name;
   $('#role').textContent = D.survey.label[S.lang];
   $('#role').hidden = D.kind === 'point';
